@@ -13,12 +13,17 @@
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  data () {
+    return {
+      height: '100px'
+    }
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style scoped lang="scss" vars="{height}">
   .header-section{
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.12);
     background: #e1e1e1;
@@ -36,6 +41,7 @@ export default {
           display: flex;
           font-size: 24px;
           color: #3f3f3f;
+           height: var(--height);
         }
       }
       .menu-container{
