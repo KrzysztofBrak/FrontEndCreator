@@ -1,0 +1,59 @@
+<template>
+  <section :class="['header-section']">
+    <div :class="['header-container']">
+      <div :class="['title-container']">
+        <p>Frontend Creator</p>
+      </div>
+      <div :class="['menu-container']">
+        <p>Nowy projekt +</p>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+export default {
+  name: 'Header'
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+  .header-section{
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.12);
+    background: #e1e1e1;
+    height: 50px;
+    .header-container{
+      max-width: 1280px;
+      margin: auto;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      .title-container{
+        margin: auto 0;
+        p{
+          margin: 0;
+          display: flex;
+          font-size: 24px;
+          color: #3f3f3f;
+        }
+      }
+      .menu-container{
+        margin: auto 0;
+        p{
+          margin: 0;
+          padding: 5px 20px;
+          display: flex;
+          font-size: 16px;
+          color: #3f3f3f;
+          cursor: pointer;
+          border-radius: 7px;
+          transition: 0.3s;
+          &:hover{
+            background: #dadada;
+          }
+        }
+      }
+    }
+  }
+</style>
