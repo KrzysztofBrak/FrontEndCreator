@@ -16,7 +16,8 @@ export default {
   name: 'Header',
   data () {
     return {
-      color: 'red'
+      color: 'red',
+      pixels: '1200px'
     }
   }
 }
@@ -25,8 +26,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .header-section{
-    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.12);
-    background: #e1e1e1;
+    position: fixed;
+    width: 100%;
+    box-shadow: $mainShadow;
+    background: $containerBackground;
     height: 50px;
     .header-container{
       max-width: 1280px;
@@ -40,8 +43,7 @@ export default {
           margin: 0;
           display: flex;
           font-size: 24px;
-          color: #3f3f3f;
-           color: v-bind(color);
+          color: $mainFontColor;
         }
       }
       .menu-container{
@@ -51,12 +53,12 @@ export default {
           padding: 5px 20px;
           display: flex;
           font-size: 16px;
-          color: #3f3f3f;
+          color: $mainFontColor;
           cursor: pointer;
           border-radius: 7px;
           transition: 0.3s;
           &:hover{
-            background: #dadada;
+            background: $hoverColor;
           }
         }
       }
