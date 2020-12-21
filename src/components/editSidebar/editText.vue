@@ -13,17 +13,17 @@
             <p>Czcionka</p>
             <v-overflow-btn
               editable
-              value="Arial"
               :items="items"
               no-data-text="Nie znaleziono czcionki"
               dense
+              v-model="selectedFont"
             ></v-overflow-btn>
           </div>
           <div :class="['size']">
             <p>Rozmiar (px)</p>
             <v-text-field
-              value="16"
               solo
+              v-model="selectedSize"
             ></v-text-field>
           </div>
           <ColorPickerModal />
@@ -47,6 +47,8 @@ export default {
   data: () => ({
     textbuttons,
     items: ['Arial', 'Calibri', 'Courier', 'Verdana'],
+    selectedSize:'16',
+    selectedFont:'Arial'
   })
 }
 </script>
@@ -90,8 +92,5 @@ export default {
           box-shadow: none!important;
         }
       }
-    }
-    .color-picker{
-
     }
 </style>

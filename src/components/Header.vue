@@ -2,22 +2,49 @@
   <section :class="['header-section']">
     <div :class="['header-container']">
       <div :class="['title-container']">
-        <p>Frontend Creator</p>
+        <p>Frontend <span>Creator</span></p>
       </div>
       <div :class="['menu-container']">
-        <p>Nowy projekt +</p>
+        <p v-show="isProjectActive">{{getProjectName}}</p>
+        <p @click="openModal">Nowy projekt +</p>
       </div>
+    </div>
+    <div v-show="getNewProjectModal">
+      <newProjectModal/>
     </div>
   </section>
 </template>
 
 <script>
+import newProjectModal from '@/components/newProjectModal.vue'
+import{mapMutations, mapGetters} from 'vuex'
+
 export default {
   name: 'Header',
-  data () {
-    return {
-      color: 'red',
-      pixels: '1200px'
+  components:{
+    newProjectModal
+  },
+
+  computed:{
+    ...mapGetters(['getNewProjectModal', 'getProjectName']),
+  },
+
+  watch:{
+    getProjectName(){
+      this.isProjectActive = true
+    }
+  },
+
+  data: () => ({
+    modalIsOpened: false,
+    isProjectActive: false,
+  }),
+
+  methods:{
+    ...mapMutations(['setNewProjectModal']),
+
+    openModal(){
+      this.setNewProjectModal(true)
     }
   }
 }
@@ -31,9 +58,9 @@ export default {
     box-shadow: $mainShadow;
     background: $containerBackground;
     height: 50px;
+    z-index: 21;
     .header-container{
-      max-width: 1280px;
-      margin: auto;
+      padding: 0 20px;
       height: 100%;
       display: flex;
       justify-content: space-between;
@@ -44,9 +71,22 @@ export default {
           display: flex;
           font-size: 24px;
           color: $mainFontColor;
+          font-weight: 700;
+          position: relative;
+          bottom: 5px;
+          span{
+            font-size: 16px;
+            -webkit-text-fill-color: transparent;
+            background: -webkit-linear-gradient(180deg, rgba(29,26,219,1), rgba(253,29,29,1) 53%);
+            position: relative;
+            top: 21px;
+            right: 25px;
+            -webkit-background-clip: text;
+          }
         }
       }
       .menu-container{
+        display: flex;
         margin: auto 0;
         p{
           margin: 0;
@@ -65,3 +105,5 @@ export default {
     }
   }
 </style>
+
+

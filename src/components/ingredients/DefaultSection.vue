@@ -1,27 +1,25 @@
 <template>
   <section :class="['editSidebar-section']">
-    <slot name="in-sidebar"></slot>
+    <slot name="in-section"></slot>
   </section>
 </template>
 
 <script>
 export default {
-  name: 'editSidebar',
-  data () {
-    return {
+  name: 'DefaultSection',
+  data: () => ({
 
-    }
-  }
+  }),
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .editSidebar-section{
-    z-index: 1;
-    height: 100%;
-    width: 300px;
-    background: $containerBackground;
+    z-index: -1;
+    height: 300px;
+    width: 100%;
+    background: white;
     box-shadow: $mainShadow;
     position: fixed;
     top: 50px;
