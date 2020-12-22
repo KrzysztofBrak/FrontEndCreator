@@ -8,7 +8,7 @@
           <img :src="button.img" :alt="button.alt"/>
         </div>
       </div>
-        <v-app :class="['dropdown']">
+        <v-app>
           <div :class="['font']">
             <p>Czcionka</p>
             <v-overflow-btn
@@ -92,5 +92,8 @@ export default {
           box-shadow: none!important;
         }
       }
+    }
+    ::v-deep #app{
+      height: 200px;
     }
 </style>

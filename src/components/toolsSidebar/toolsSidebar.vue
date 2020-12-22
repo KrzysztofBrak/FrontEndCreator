@@ -1,9 +1,15 @@
 <template>
   <section :class="['tools-section']">
-    <div :class="['button-container']"
-      v-for="button in buttons"
-      :key="button.alt">
-      <img :src="button.img" :alt="button.alt"/>
+    <div :class="['top-tools-section']">
+      <div :class="['button-container']"
+        v-for="button in buttons"
+        :key="button.alt">
+        <img :src="button.img" :alt="button.alt"/>
+      </div>
+    </div>
+    <div :class="['bottom-tools-section']">
+
+
     </div>
   </section>
 </template>
@@ -14,11 +20,8 @@ import {buttons} from './content.js'
 export default {
   name: 'toolsSidebar',
   data: () => ({
-    buttons
+    buttons,
   }),
-    mounted(){
-    console.log(this.buttons)
-  }
 }
 </script>
 
@@ -49,4 +52,15 @@ export default {
       }
     }
   }
+        ::v-deep .v-input{
+        max-width: 150px;
+        .v-input__slot{
+          background: $containerBackground!important;
+          border-width: 0 0 2px 0;
+          border-style: solid;
+          border-radius: 0;
+          border-color: rgba(0, 0, 0, 0.12);
+          box-shadow: none!important;
+        }
+      }
 </style>

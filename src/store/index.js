@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     newProjectModalOpened: false,
-    projectName:''
+    projectName:'',
+    actualZoom: 0.75
   },
   getters:{
     getNewProjectModal(state){
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     getProjectName(state){
       return state.projectName
+    },
+    getActualZoom(state){
+      return state.actualZoom
     }
   },
 
@@ -23,6 +27,9 @@ export default new Vuex.Store({
     },
     setProjectName(state, value){
       state.projectName = value
+    },
+    setActualZoom(state, value){
+      state.actualZoom = value
     }
   },
   actions: {

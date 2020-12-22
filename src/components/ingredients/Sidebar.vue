@@ -1,18 +1,36 @@
 <template>
   <section :class="['editSidebar-section']">
-    <slot name="in-sidebar"></slot>
+    <div>
+      <slot name="in-sidebar"></slot>
+    </div>
+      <div :class="['zoom-section']">
+        <p>Powiekszenie:</p>
+        <v-overflow-btn
+          :items="items"
+          dense
+          v-model="getActualZoom"
+        ></v-overflow-btn>
+      </div>
+
   </section>
 </template>
 
 <script>
+import{mapGetters, mapMutations} from 'vuex'
+
 export default {
   name: 'editSidebar',
-  data () {
-    return {
-
-    }
+  data: () => ({
+    items: [0.5, 0.75, 1, 1.5, 2, 2.5, 3],
+  }),
+  computed:{
+    ...mapGetters(['getActualZoom']),
+  },
+  methods:{
+    ...mapMutations(['setActualZoom'])
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -28,5 +46,27 @@ export default {
     bottom: 0;
     right: 0;
     padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    .zoom-section{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      p{
+        margin-top: 23px;
+      }
+      ::v-deep .v-input{
+        max-width: 150px;
+        .v-input__slot{
+          background: $containerBackground!important;
+          border-width: 0 0 2px 0;
+          border-style: solid;
+          border-radius: 0;
+          border-color: rgba(0, 0, 0, 0.12);
+          box-shadow: none!important;
+        }
+      }
+    }
   }
 </style>
