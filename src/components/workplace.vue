@@ -7,7 +7,7 @@
     <div v-for="(component, index) in getSectionsArray"
       :key="index"
       :id="component.id"
-      @click="disactivateSection(component)"
+      @dblclick="disactivateSection(component)"
     >
       <component :is="'DefaultSection'"
         :section="component"

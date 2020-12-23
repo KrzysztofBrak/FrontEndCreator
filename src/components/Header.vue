@@ -9,9 +9,11 @@
         <p @click="openModal">Nowy projekt +</p>
       </div>
     </div>
+    <v-fade-transition>
     <div v-show="getNewProjectModal">
       <newProjectModal/>
     </div>
+    </v-fade-transition>
   </section>
 </template>
 

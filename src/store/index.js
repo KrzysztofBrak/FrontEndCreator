@@ -5,10 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    isTextSelected: false,
     newProjectModalOpened: false,
     projectName:'',
     actualZoom: 0.75,
-    sectionsArray: [],
+    sectionsArray: [{
+      id: 'section_0',
+      isActive: true
+    }],
   },
   getters:{
     getNewProjectModal(state){
@@ -22,6 +26,9 @@ export default new Vuex.Store({
     },
     getSectionsArray(state){
       return state.sectionsArray
+    },
+    getTextSelected(state){
+      return state.isTextSelected
     },
   },
 
@@ -37,6 +44,9 @@ export default new Vuex.Store({
     },
     addSectionsArray(state, value){
       state.sectionsArray.push(value)
-    }
+    },
+    setTextSelected(state, value){
+      state.isTextSelected = value
+    },
   }
 })

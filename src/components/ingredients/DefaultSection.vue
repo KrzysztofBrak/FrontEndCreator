@@ -1,7 +1,21 @@
 <template>
   <section :class="['default-section', {'activeSection': section.isActive}]"
-  @click="activateSection"
+    @dblclick="activateSection"
+    style=" position: relative"
   >
+    <v-fab-transition>
+      <v-btn
+        v-show="section.isActive"
+        color="rgb(71, 135, 230)"
+        dark
+        absolute
+        top
+        right
+        fab
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-fab-transition>
     <slot name="in-section"></slot>
     <p>fsdfsd</p>
   </section>
@@ -21,13 +35,9 @@ export default {
   }),
   methods:{
     activateSection(){
-      console.log("ACTIVATEEEE")
       this.section.isActive = true
     }
   },
-  mounted(){
-    console.log(this.section);
-  }
 }
 </script>
 
@@ -36,12 +46,14 @@ export default {
   .default-section{
     height: 300px;
     width: 100%;
-
+    background: white;
     padding: 15px;
-
+    transition: 0.3s;
+    position: relative;
     &.activeSection{
-      border: 1px solid rgba(71,98,230,1);
-      box-shadow: 0px 0px 10px 0px rgba(71,98,230,1);
+      box-shadow: 0px 0px 10px 0px rgb(71, 135, 230);
+      transition: 0.3s;
+      z-index: 1;
     }
   }
 </style>

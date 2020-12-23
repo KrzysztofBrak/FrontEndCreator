@@ -28,19 +28,36 @@ export default {
     buttons,
   }),
   methods:{
-    ...mapMutations(['addSectionsArray']),
+    ...mapMutations(['addSectionsArray', 'setTextSelected']),
 
     btnClick(btnCategory){
       switch(btnCategory){
         case 'nowa sekcja':
-          this.addSectionsArray({
-            id: `section_${this.getSectionsArray.length}`,
-            isActive: false
-          })
+          this.addSection()
+          break;
+
+        case 'tekst':
+          this.setTextSelected(true)
           break;
 
         default:
       }
+    },
+
+
+    addSection(){
+      this.getSectionsArray.forEach((element, index) => {
+        if(this.getSectionsArray.length !== index){
+          element.isActive = false;
+        }
+      });
+
+      this.addSectionsArray({
+        id: `section_${this.getSectionsArray.length}`,
+        isActive: true
+      })
+
+      this.setTextSelected(false)
     }
   }
 }

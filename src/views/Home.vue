@@ -14,7 +14,7 @@
       </workplace>
 
 
-      <editText  v-show="isProjectActive"/>
+      <Sidebar  v-show="isProjectActive"/>
 
     </div>
   </div>
@@ -24,8 +24,10 @@
 // @ is an alias to /src
 import Header from '@/components/Header.vue'
 import toolsSidebar from '@/components/toolsSidebar/toolsSidebar.vue'
-import editText from '@/components/editSidebar/editText.vue'
+// import editText from '@/components/sidebarContent/editText.vue'
 import workplace from '@/components/workplace.vue'
+import Sidebar from '@/components/ingredients/Sidebar.vue'
+
 
 import{mapGetters, mapMutations} from 'vuex'
 import panzoom from 'panzoom'
@@ -34,7 +36,7 @@ export default {
   components: {
     Header,
     toolsSidebar,
-    editText,
+    Sidebar,
     workplace
   },
   computed:{

@@ -11,12 +11,14 @@
         </v-btn>
       </div>
     </div>
-    <v-color-picker v-show="modalIsOpened"
-      :class="['color-picker']"
-      show-swatches
-      mode="hexa"
-      swatches-max-height="200px"
-    ></v-color-picker>
+    <v-fade-transition>
+      <v-color-picker v-show="modalIsOpened"
+        :class="['color-picker']"
+        show-swatches
+        mode="hexa"
+        swatches-max-height="200px"
+      ></v-color-picker>
+    </v-fade-transition>
   </div>
 </template>
 

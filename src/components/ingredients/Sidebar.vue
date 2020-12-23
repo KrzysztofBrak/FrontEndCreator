@@ -1,45 +1,46 @@
 <template>
   <section :class="['editSidebar-section']">
-    <div>
-      <slot name="in-sidebar"></slot>
-    </div>
-      <!-- <div :class="['zoom-section']">
-        <p>Powiekszenie:</p>
-        <v-overflow-btn
-          :items="items"
-          dense
-          v-model="selectedZoom"
-        ></v-overflow-btn>
-      </div> -->
-
+    <ItemPosition/>
+    <v-fade-transition>
+      <EditText transition="fade-transition" v-show="getTextSelected"/>
+    </v-fade-transition>
   </section>
 </template>
 
 <script>
-import{mapGetters, mapMutations} from 'vuex'
+import{mapGetters} from 'vuex'
+
+import ItemPosition from '@/components/sidebarContent/itemPosition.vue'
+import EditText from '@/components/sidebarContent/editText.vue'
 
 export default {
   name: 'editSidebar',
-  data: () => ({
-    items: [0.5, 0.75, 1, 1.5, 2, 2.5, 3],
-    selectedZoom:''
-  }),
+  components:{
+    ItemPosition,
+    EditText
+  },
   computed:{
-    ...mapGetters(['getActualZoom']),
+    ...mapGetters(['getTextSelected']),
   },
-  watch:{
-    selectedZoom(){
-      this.setActualZoom(this.selectedZoom)
-    }
-  },
-  mounted(){
-    this.selectedZoom = this.getActualZoom
-  },
-  methods:{
-    ...mapMutations(['setActualZoom'])
-  }
+  // data: () => ({
+  //  items: [0.5, 0.75, 1, 1.5, 2, 2.5, 3],
+  //  selectedZoom:''
+  // }),
+  // computed:{
+  //   ...mapGetters(['getActualZoom']),
+  // },
+  // watch:{
+  //   selectedZoom(){
+  //     this.setActualZoom(this.selectedZoom)
+  //   }
+  // },
+  // mounted(){
+  //   this.selectedZoom = this.getActualZoom
+  // },
+  // methods:{
+  //   ...mapMutations(['setActualZoom'])
+  // }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -58,24 +59,5 @@ export default {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    .zoom-section{
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 40px;
-      p{
-        margin-top: 23px;
-      }
-      ::v-deep .v-input{
-        max-width: 150px;
-        .v-input__slot{
-          background: $containerBackground!important;
-          border-width: 0 0 2px 0;
-          border-style: solid;
-          border-radius: 0;
-          border-color: rgba(0, 0, 0, 0.12);
-          box-shadow: none!important;
-        }
-      }
-    }
   }
 </style>
