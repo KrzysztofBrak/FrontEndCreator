@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     newProjectModalOpened: false,
     projectName:'',
-    actualZoom: 0.75
+    actualZoom: 0.75,
+    sectionsArray: [],
   },
   getters:{
     getNewProjectModal(state){
@@ -18,7 +19,10 @@ export default new Vuex.Store({
     },
     getActualZoom(state){
       return state.actualZoom
-    }
+    },
+    getSectionsArray(state){
+      return state.sectionsArray
+    },
   },
 
   mutations: {
@@ -30,11 +34,9 @@ export default new Vuex.Store({
     },
     setActualZoom(state, value){
       state.actualZoom = value
+    },
+    addSectionsArray(state, value){
+      state.sectionsArray.push(value)
     }
-  },
-  actions: {
-  },
-  modules: {
-
   }
 })

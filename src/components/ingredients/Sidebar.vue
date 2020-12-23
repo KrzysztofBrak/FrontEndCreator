@@ -3,14 +3,14 @@
     <div>
       <slot name="in-sidebar"></slot>
     </div>
-      <div :class="['zoom-section']">
+      <!-- <div :class="['zoom-section']">
         <p>Powiekszenie:</p>
         <v-overflow-btn
           :items="items"
           dense
-          v-model="getActualZoom"
+          v-model="selectedZoom"
         ></v-overflow-btn>
-      </div>
+      </div> -->
 
   </section>
 </template>
@@ -22,9 +22,18 @@ export default {
   name: 'editSidebar',
   data: () => ({
     items: [0.5, 0.75, 1, 1.5, 2, 2.5, 3],
+    selectedZoom:''
   }),
   computed:{
     ...mapGetters(['getActualZoom']),
+  },
+  watch:{
+    selectedZoom(){
+      this.setActualZoom(this.selectedZoom)
+    }
+  },
+  mounted(){
+    this.selectedZoom = this.getActualZoom
   },
   methods:{
     ...mapMutations(['setActualZoom'])

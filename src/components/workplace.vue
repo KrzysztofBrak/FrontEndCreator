@@ -4,21 +4,47 @@
     id="workplace"
     :style="workplaceStyle"
   >
-    <p>workplace</p>
+    <div v-for="(component, index) in getSectionsArray"
+      :key="index"
+      :id="component.id"
+      @click="disactivateSection(component)"
+    >
+      <component :is="'DefaultSection'"
+        :section="component"
+        :ref="'sections'"
+      ></component>
+    </div>
   </section>
 </template>
 
 <script>
+import DefaultSection from '@/components/ingredients/DefaultSection.vue'
+
+import{mapGetters} from 'vuex'
 
 export default {
   name: 'Workplace',
+  components:{
+    DefaultSection
+  },
+  computed:{
+    ...mapGetters(['getSectionsArray']),
+  },
   data: () => ({
     workplaceStyle:{
       width: '1920px',
       height: '1080px'
     }
   }),
-
+  methods:{
+    disactivateSection(section){
+      this.getSectionsArray.forEach((element, index) => {
+        if(Number(section.id.split('_')[1]) !== index){
+          element.isActive = false;
+        }
+      });
+    }
+  }
 }
 </script>
 
@@ -27,7 +53,6 @@ export default {
 .workplace-container{
   background: white;
   box-shadow: $mainShadow;
-  height: 500px;
   margin: 60px;
   p{
     font-size: 16px;

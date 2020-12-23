@@ -2,17 +2,19 @@
   <div :class="['home']">
     <Header/>
     <div :class="['main-container']">
-      <toolsSidebar/>
+      <toolsSidebar  v-show="isProjectActive"/>
 
 
       <div v-show="!isProjectActive"
         :class="['icon-container']">
         <img :src="require('@/assets/img/new_file.svg')"/>
       </div>
-      <workplace  v-show="isProjectActive"/>
+      <workplace v-show="isProjectActive">
+
+      </workplace>
 
 
-      <editText/>
+      <editText  v-show="isProjectActive"/>
 
     </div>
   </div>
@@ -25,7 +27,7 @@ import toolsSidebar from '@/components/toolsSidebar/toolsSidebar.vue'
 import editText from '@/components/editSidebar/editText.vue'
 import workplace from '@/components/workplace.vue'
 
-import{mapGetters} from 'vuex'
+import{mapGetters, mapMutations} from 'vuex'
 import panzoom from 'panzoom'
 export default {
   name: 'Home',
@@ -54,7 +56,7 @@ export default {
     const element = document.querySelector('#workplace')
 
     // And pass it to panzoom
-    let instance = panzoom(element, {
+    panzoom(element, {
 
       // allow wheel-zoom only if altKey is down. Otherwise - ignore
       beforeWheel: function(e) {
@@ -72,12 +74,18 @@ export default {
       initialZoom: this.getActualZoom,
       zoomSpeed: 0.99,
       zoomDoubleClickSpeed: 1,
+      // bounds: true,
+      // boundsPadding: 0.1
     });
 
-    instance.on('zoom', function() {
-      console.log(instance.getTransform().scale);
-    });
+    // instance.on('zoom', function() {
+    //   this.setActualZoom(instance.getTransform().scale)
+    //   console.log(instance.getTransform().scale);
+    // });
 
+  },
+  methods:{
+    ...mapMutations(['setActualZoom'])
   }
 }
 </script>

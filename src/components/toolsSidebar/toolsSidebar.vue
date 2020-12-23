@@ -4,24 +4,45 @@
       <div :class="['button-container']"
         v-for="button in buttons"
         :key="button.alt">
-        <img :src="button.img" :alt="button.alt"/>
+        <img :src="button.img"
+          :alt="button.alt"
+          @click="btnClick(button.alt)"
+        />
       </div>
     </div>
     <div :class="['bottom-tools-section']">
-
-
     </div>
   </section>
 </template>
 
 <script>
 import {buttons} from './content.js'
+import{mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'toolsSidebar',
+    computed:{
+    ...mapGetters(['getSectionsArray']),
+  },
   data: () => ({
     buttons,
   }),
+  methods:{
+    ...mapMutations(['addSectionsArray']),
+
+    btnClick(btnCategory){
+      switch(btnCategory){
+        case 'nowa sekcja':
+          this.addSectionsArray({
+            id: `section_${this.getSectionsArray.length}`,
+            isActive: false
+          })
+          break;
+
+        default:
+      }
+    }
+  }
 }
 </script>
 
