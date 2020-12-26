@@ -1,7 +1,7 @@
 <template>
   <div :class="['home']">
     <Header/>
-    <div :class="['main-container']">
+    <div :class="['main-container']" @dblclick.self="disactivateAllElements">
       <toolsSidebar  v-show="isProjectActive"/>
 
 
@@ -41,7 +41,8 @@ export default {
   },
   computed:{
     ...mapGetters(['getProjectName',
-      'getActualZoom'
+      'getActualZoom',
+      'getWorkplaceData'
     ]),
   },
 
@@ -87,12 +88,20 @@ export default {
 
   },
   methods:{
-    ...mapMutations(['setActualZoom'])
+    ...mapMutations(['setActualZoom', 'setWorkplaceActive']),
+
+    disactivateAllElements(){
+      this.getWorkplaceData.sections.forEach(element => {
+          element.isActive = false;
+      });
+       this.setWorkplaceActive(true);
+    }
   }
 }
 </script>
 <style scoped lang="scss">
 .main-container{
+  outline: none;
   display: flex;
   height: 100vh;
   .icon-container{

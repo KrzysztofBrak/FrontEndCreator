@@ -1,21 +1,18 @@
 <template>
   <v-app>
-    <div :class="['font']">
+    <div :class="['font ']">
       <p>Czcionka</p>
       <v-overflow-btn
         editable
         :items="items"
         no-data-text="Nie znaleziono czcionki"
-        dense
+        solo
         v-model="selectedFont"
       ></v-overflow-btn>
     </div>
-    <div :class="['size']">
+    <div :class="['size input-container']">
       <p>Rozmiar (px)</p>
-      <v-text-field
-        solo
-        v-model="selectedSize"
-      ></v-text-field>
+      <input v-model="selectedSize" type="text"/>
     </div>
     <ColorPickerModal />
   </v-app>
@@ -42,30 +39,47 @@ export default {
       display: flex;
       justify-content: space-between;
       p{
+        font-size: 14px;
         margin: auto 0;
-        &:last-of-type{
-          margin-top: 20px;
-        }
       }
     }
     .theme--light.v-application{
       background: $containerBackground;
-      ::v-deep .v-icon{
-        margin-top: -5px!important;
-      }
       ::v-deep .v-input{
-        max-width: 150px;
-        .v-input__slot{
-          background: $containerBackground!important;
-          border-width: 0 0 2px 0;
-          border-style: solid;
-          border-radius: 0;
-          border-color: rgba(0, 0, 0, 0.12);
-          box-shadow: none!important;
+        max-width: 120px;
+        .v-input__control{
+          min-height: 25px;
+          .v-input__slot{
+            background: #f2f2f2;
+            height: 20px;
+            box-shadow: none;
+            input {
+              min-width: 82px;
+              padding: 0;
+            }
+            .v-input__append-inner{
+              width: 20px;
+            }
+          }
+          .v-text-field__details{
+            display: none;
+          }
         }
       }
     }
     ::v-deep #app{
       height: 200px;
+    }
+    ::v-deep .v-application--wrap{
+      min-height: auto;
+    }
+    .input-container{
+      margin: 10px 0;
+      input[type="text"]{
+        outline: none;
+        height: 20px;
+        max-width: 120px;
+        background: #f2f2f2;
+      }
     }
 </style>

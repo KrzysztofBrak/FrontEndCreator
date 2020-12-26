@@ -2,6 +2,7 @@
   <section :class="['default-section', {'activeSection': section.isActive}]"
     @dblclick="activateSection"
     style=" position: relative"
+
   >
     <v-fab-transition>
       <v-btn
@@ -12,6 +13,7 @@
         top
         right
         fab
+        @click="deleteSection"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
@@ -22,6 +24,7 @@
 </template>
 
 <script>
+import{mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'DefaultSection',
@@ -31,11 +34,27 @@ export default {
       required: true
     }
   },
+  computed:{
+    ...mapGetters(['getWorkplaceData']),
+  },
   data: () => ({
   }),
   methods:{
+    ...mapMutations(['setUpdatedArray', 'setWorkplaceActive']),
+
     activateSection(){
-      this.section.isActive = true
+      console.log(this.section, "WTF")
+      this.section.isActive = true;
+      console.log(this.section, "WTF222")
+      this.setWorkplaceActive(false)
+    },
+    deleteSection(){
+      let x = this.getWorkplaceData.sections
+      let sectionToDelete = x.findIndex(x => x.isActive === true);
+      //x.splice(sectionToDelete, 1);
+     console.log(x);
+    this.setUpdatedArray(sectionToDelete)
+    this.setWorkplaceActive(true);
     }
   },
 }
@@ -45,7 +64,7 @@ export default {
 <style scoped lang="scss">
   .default-section{
     height: 300px;
-    width: 100%;
+    width: 1920px;
     background: white;
     padding: 15px;
     transition: 0.3s;

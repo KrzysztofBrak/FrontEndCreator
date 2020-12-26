@@ -4,12 +4,16 @@
       <div :class="['project-modal']">
         <v-text-field
           label="Nazwa projektu"
+          :rules="[() => !!projectName || 'Pole jestwymagane']"
           solo
+          required
+          autofocus
           v-model="projectName"
         ></v-text-field>
           <v-btn
             block
             @click="createProject"
+            v-on:keyup.enter="createProject"
           >UTWÓRZ
           </v-btn>
       </div>
@@ -25,11 +29,19 @@ export default {
   data: () => ({
     projectName:''
   }),
+  mounted(){
+    window.addEventListener('keyup', event => {
+      if (event.keyCode === 13) {
+        this.createProject();
+      }
+    });
+  },
   methods:{
     ...mapMutations(['setNewProjectModal', 'setProjectName']),
 
     closeModal(){
       this.setNewProjectModal(false);
+      this.projectName = ''
     },
     createProject(){
       this.setProjectName(this.projectName)

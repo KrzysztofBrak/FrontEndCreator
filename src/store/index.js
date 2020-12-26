@@ -8,11 +8,21 @@ export default new Vuex.Store({
     isTextSelected: false,
     newProjectModalOpened: false,
     projectName:'',
-    actualZoom: 0.75,
-    sectionsArray: [{
-      id: 'section_0',
-      isActive: true
-    }],
+    actualZoom: 0.5,
+    // sectionsArray: [{
+    //   id: 'section_0',
+    //   isActive: true
+    // }],
+    workplaceData:{
+      isWorkplaceActive: false,
+      sectionsLength: 0,
+      sections:[{
+        id: 'section_0',
+        isActive: true,
+        style:{},
+        childs:[]
+      }]
+    }
   },
   getters:{
     getNewProjectModal(state){
@@ -30,6 +40,13 @@ export default new Vuex.Store({
     getTextSelected(state){
       return state.isTextSelected
     },
+
+    getWorkplaceData(state){
+      return state.workplaceData
+    },
+    getSectionsLength(state){
+      return state.workplaceData.sectionsLength
+    },
   },
 
   mutations: {
@@ -42,11 +59,25 @@ export default new Vuex.Store({
     setActualZoom(state, value){
       state.actualZoom = value
     },
-    addSectionsArray(state, value){
-      state.sectionsArray.push(value)
-    },
     setTextSelected(state, value){
       state.isTextSelected = value
+    },
+
+
+    setWorkplaceData(state, value){
+      state.workplaceData = value
+    },
+    setSectionsData(state, value){
+      state.workplaceData.sections.push(value)
+    },
+    setSectionsLength(state, value){
+      state.workplaceData.sectionsLength = value
+    },
+    setUpdatedArray(state, value){
+      state.workplaceData.sections.splice(value, 1)
+    },
+    setWorkplaceActive(state, value){
+      state.workplaceData.isWorkplaceActive = value
     },
   }
 })

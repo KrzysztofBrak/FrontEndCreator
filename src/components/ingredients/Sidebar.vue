@@ -4,6 +4,9 @@
     <v-fade-transition>
       <EditText transition="fade-transition" v-show="getTextSelected"/>
     </v-fade-transition>
+    <v-fade-transition>
+      <shapeEdit transition="fade-transition" />
+    </v-fade-transition>
   </section>
 </template>
 
@@ -12,12 +15,14 @@ import{mapGetters} from 'vuex'
 
 import ItemPosition from '@/components/sidebarContent/itemPosition.vue'
 import EditText from '@/components/sidebarContent/editText.vue'
+import shapeEdit from '@/components/sidebarContent/shapeEdit.vue'
 
 export default {
   name: 'editSidebar',
   components:{
     ItemPosition,
-    EditText
+    EditText,
+    shapeEdit
   },
   computed:{
     ...mapGetters(['getTextSelected']),
@@ -57,7 +62,6 @@ export default {
     right: 0;
     padding: 15px;
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
   }
 </style>

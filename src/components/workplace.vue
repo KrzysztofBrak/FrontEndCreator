@@ -3,8 +3,9 @@
     :class="['workplace-container']"
     id="workplace"
     :style="workplaceStyle"
+    @dblclick.self="disactivateAllElements"
   >
-    <div v-for="(component, index) in getSectionsArray"
+    <div v-for="(component, index) in getWorkplaceData.sections"
       :key="index"
       :id="component.id"
       @dblclick="disactivateSection(component)"
@@ -20,7 +21,7 @@
 <script>
 import DefaultSection from '@/components/ingredients/DefaultSection.vue'
 
-import{mapGetters} from 'vuex'
+import{mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'Workplace',
@@ -28,7 +29,7 @@ export default {
     DefaultSection
   },
   computed:{
-    ...mapGetters(['getSectionsArray']),
+    ...mapGetters(['getWorkplaceData','getSectionsLength']),
   },
   data: () => ({
     workplaceStyle:{
@@ -37,12 +38,20 @@ export default {
     }
   }),
   methods:{
+    ...mapMutations(['setWorkplaceActive']),
     disactivateSection(section){
-      this.getSectionsArray.forEach((element, index) => {
-        if(Number(section.id.split('_')[1]) !== index){
+      this.getWorkplaceData.sections.forEach((element) => {
           element.isActive = false;
-        }
       });
+      let y = this.getWorkplaceData.sections.findIndex(x => x.id === section.id);
+      this.getWorkplaceData.sections[y].isActive = true
+    },
+
+    disactivateAllElements(){
+      this.getWorkplaceData.sections.forEach(element => {
+          element.isActive = false;
+      });
+       this.setWorkplaceActive(true);
     }
   }
 }
@@ -51,9 +60,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .workplace-container{
+
   background: white;
   box-shadow: $mainShadow;
-  margin: 60px;
+  margin: 80px 60px;
+
   p{
     font-size: 16px;
   }
