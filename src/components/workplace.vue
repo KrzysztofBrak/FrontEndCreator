@@ -8,6 +8,7 @@
     <div v-for="(component, index) in getWorkplaceData.sections"
       :key="index"
       :id="component.id"
+      :ref="component.id"
       @dblclick="disactivateSection(component)"
     >
       <component :is="'DefaultSection'"
@@ -40,7 +41,7 @@ export default {
   methods:{
     ...mapMutations(['setWorkplaceActive']),
     disactivateSection(section){
-      this.getWorkplaceData.sections.forEach((element) => {
+      this.getWorkplaceData.sections.forEach(element => {
           element.isActive = false;
       });
       let y = this.getWorkplaceData.sections.findIndex(x => x.id === section.id);

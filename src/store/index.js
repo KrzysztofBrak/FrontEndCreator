@@ -13,6 +13,17 @@ export default new Vuex.Store({
     //   id: 'section_0',
     //   isActive: true
     // }],
+    activeElement:{
+      id: 'section_0',
+      isActive: true,
+      style:{},
+      childs:[{
+        id: 'section_0_col_0',
+        isActive: false,
+        style:{},
+        childs:[]
+      }]
+    },
     workplaceData:{
       isWorkplaceActive: false,
       sectionsLength: 0,
@@ -20,7 +31,13 @@ export default new Vuex.Store({
         id: 'section_0',
         isActive: true,
         style:{},
-        childs:[]
+        childs:[{
+          id: 'section_0_col_0',
+          isActive: false,
+          style:{},
+          childs:[]
+        }
+        ]
       }]
     }
   },
@@ -41,13 +58,34 @@ export default new Vuex.Store({
       return state.isTextSelected
     },
 
+
+
     getWorkplaceData(state){
       return state.workplaceData
     },
     getSectionsLength(state){
       return state.workplaceData.sectionsLength
     },
+    getActiveElement(state){
+      if(state.workplaceData.isWorkplaceActive){
+        return state.workplaceData.sections
+
+      }else{
+        let isActiveSection = state.workplaceData.sections.find(x => x.isActive === true)
+        if(isActiveSection){
+          return isActiveSection
+
+        }else{
+          for(let section in state.workplaceData.sections){
+            let isActiveChild = section.childs.find(x => x.isActive === true)
+            return isActiveChild
+          }
+        }
+      }
+    }
   },
+
+
 
   mutations: {
     setNewProjectModal(state, value){
@@ -64,11 +102,17 @@ export default new Vuex.Store({
     },
 
 
+//workplace store
     setWorkplaceData(state, value){
       state.workplaceData = value
     },
     setSectionsData(state, value){
       state.workplaceData.sections.push(value)
+    },
+    addSectionChilds(state, value){
+      let index = value.id.split('_')[1]
+      console.log(index)
+      state.workplaceData.sections[index].childs.push(value)
     },
     setSectionsLength(state, value){
       state.workplaceData.sectionsLength = value

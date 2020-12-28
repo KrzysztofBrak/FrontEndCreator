@@ -22,13 +22,20 @@ import{mapGetters, mapMutations} from 'vuex'
 export default {
   name: 'toolsSidebar',
     computed:{
-    ...mapGetters(['getWorkplaceData', 'getSectionsLength']),
+    ...mapGetters([
+      'getWorkplaceData',
+      'getSectionsLength'
+    ]),
   },
   data: () => ({
     buttons,
   }),
   methods:{
-    ...mapMutations(['setSectionsData', 'setTextSelected', 'setSectionsLength']),
+    ...mapMutations([
+      'setSectionsData',
+      'setTextSelected',
+      'setSectionsLength'
+    ]),
 
     btnClick(btnCategory){
       switch(btnCategory){
@@ -46,21 +53,24 @@ export default {
 
 
     addSection(){
-      this.getWorkplaceData.sections
       //set active section
-        this.getWorkplaceData.sections.forEach((element, index) => {
-          if(this.getWorkplaceData.sections.length !== index){
-            element.isActive = false;
-          }
-        });
+      this.getWorkplaceData.sections.forEach(element => {
+          element.isActive = false;
+      });
 
       let sectionNumber = this.getSectionsLength
       this.setSectionsLength(++sectionNumber);
+
       this.setSectionsData({
         id: `section_${this.getSectionsLength}`,
         isActive: true,
         style:{},
-        childs:[]
+        childs:[{
+          id: `section_${this.getSectionsLength}_col_0`,
+          isActive: false,
+          style:{},
+          childs:[]
+        }]
       })
       this.setTextSelected(false)
     }

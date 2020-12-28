@@ -1,5 +1,8 @@
 <template>
   <section :class="['editSidebar-section']">
+    <v-fade-transition>
+      <selectedItemInfo transition="fade-transition"/>
+    </v-fade-transition>
     <ItemPosition/>
     <v-fade-transition>
       <EditText transition="fade-transition" v-show="getTextSelected"/>
@@ -16,13 +19,15 @@ import{mapGetters} from 'vuex'
 import ItemPosition from '@/components/sidebarContent/itemPosition.vue'
 import EditText from '@/components/sidebarContent/editText.vue'
 import shapeEdit from '@/components/sidebarContent/shapeEdit.vue'
+import selectedItemInfo from '@/components/sidebarContent/selectedItemInfo.vue'
 
 export default {
   name: 'editSidebar',
   components:{
     ItemPosition,
     EditText,
-    shapeEdit
+    shapeEdit,
+    selectedItemInfo
   },
   computed:{
     ...mapGetters(['getTextSelected']),
