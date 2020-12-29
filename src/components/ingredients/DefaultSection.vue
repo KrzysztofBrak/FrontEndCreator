@@ -20,19 +20,28 @@
       <div :class="['column']"
         v-for="(column, index) in getWorkplaceData.sections[currentSection].childs"
         :key="index"
+        :id="column.id"
+        @dblclick="disactivateColumn(column)"
       >
-      <p>dfsdfsdf</p>
-        <!-- <slot :name="column.id"></slot> -->
+      <component :is="'DefaultColumn'"
+        :column="column"
+        :ref="'columns'"
+      ></component>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import DefaultColumn from '@/components/ingredients/DefaultColumn.vue'
+
 import{mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'DefaultSection',
+  components:{
+    DefaultColumn
+  },
   props:{
     section:{
       type: Object,
@@ -46,7 +55,7 @@ export default {
     currentSection: 0
   }),
   mounted(){
-    this.currentSection = this.section.id.split('_')[1]
+    this.currentSection = this.getWorkplaceData.sections.findIndex(x => x.id == this.section.id)
   },
   methods:{
     ...mapMutations([
@@ -55,7 +64,7 @@ export default {
     ]),
 
     activateSection(){
-      this.section.isActive = true;
+   //   this.section.isActive = true;
       this.setWorkplaceActive(false)
     },
     deleteSection(){
@@ -64,7 +73,23 @@ export default {
 
       this.setUpdatedArray(sectionToDelete)
       this.setWorkplaceActive(true);
-    }
+    },
+
+    disactivateColumn(column){
+      // this.getWorkplaceData.sections[this.currentSection].childs.forEach(element => {
+      //     element.isActive = false;
+      // });
+      this.getWorkplaceData.sections.forEach(section => {
+          section.childs.forEach(column => {
+            column.isActive = false;
+            //w prztyszłości trzeba bedzie jeszcze dezaktywować dzieci kolumn
+          })
+      });
+
+      let childIndex = this.getWorkplaceData.sections[this.currentSection].childs
+        .findIndex(x => x.id === column.id);
+      this.getWorkplaceData.sections[this.currentSection].childs[childIndex].isActive = true
+    },
   },
 }
 </script>
@@ -87,6 +112,8 @@ export default {
         display: flex;
       .column{
         height: 100%;
+        width: 100%;
+        position: relative;
       }
     }
   }

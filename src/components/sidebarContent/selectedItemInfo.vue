@@ -12,30 +12,38 @@ export default {
   name: 'selectedItemInfo',
 
   computed:{
-    ...mapGetters(['getActiveElement']),
+    ...mapGetters(['getActiveElement', 'getWorkplaceData']),
   },
   data: () => ({
-    columnsAmount: 1,
   }),
   methods:{
     ...mapMutations(['addSectionChilds']),
 
     addColumn(){
       //get index of last column (it won't work when switching columns places will be active)
-      let columnIndex = this.getActiveElement.childs[this.getActiveElement.childs.length-1].id.split("col_")[1]
+      this.getWorkplaceData.sections.forEach(section => {
+       //   section.isActive = false;
+          section.childs.forEach(column => {
+            column.isActive = false;
+            //w prztyszłości trzeba bedzie jeszcze dezaktywować dzieci kolumn
+          })
+      });
+
+      let columnIndex = this.getActiveElement.childs[this.getActiveElement.childs.length-1].id.split("col_")[1];
       this.addSectionChilds({
-          id: `${this.getActiveElement.id}_col_${++columnIndex}`,
-          isActive: false,
+          id: `${this.getActiveElement.id}-col_${++columnIndex}`,
+          isActive: true,
           style:{},
           childs:[]
         })
+
+
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-
       .button-add-column{
         margin: 10px 0;
         outline: none;
@@ -43,5 +51,4 @@ export default {
         width: 100%;
         background: #f2f2f2;
       }
-
 </style>

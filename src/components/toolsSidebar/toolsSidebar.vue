@@ -34,7 +34,8 @@ export default {
     ...mapMutations([
       'setSectionsData',
       'setTextSelected',
-      'setSectionsLength'
+      'setSectionsLength',
+      'setWorkplaceActive'
     ]),
 
     btnClick(btnCategory){
@@ -54,8 +55,12 @@ export default {
 
     addSection(){
       //set active section
-      this.getWorkplaceData.sections.forEach(element => {
-          element.isActive = false;
+      this.getWorkplaceData.sections.forEach(section => {
+         section.isActive = false;
+          section.childs.forEach(column => {
+            column.isActive = false;
+            //w prztyszłości trzeba bedzie jeszcze dezaktywować dzieci kolumn
+          })
       });
 
       let sectionNumber = this.getSectionsLength
@@ -66,12 +71,13 @@ export default {
         isActive: true,
         style:{},
         childs:[{
-          id: `section_${this.getSectionsLength}_col_0`,
+          id: `section_${this.getSectionsLength}-col_0`,
           isActive: false,
           style:{},
           childs:[]
         }]
       })
+      this.setWorkplaceActive(false);
       this.setTextSelected(false)
     }
   }

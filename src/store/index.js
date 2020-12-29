@@ -8,7 +8,7 @@ export default new Vuex.Store({
     isTextSelected: false,
     newProjectModalOpened: false,
     projectName:'',
-    actualZoom: 0.5,
+    actualZoom: 0.4,
     // sectionsArray: [{
     //   id: 'section_0',
     //   isActive: true
@@ -18,7 +18,7 @@ export default new Vuex.Store({
       isActive: true,
       style:{},
       childs:[{
-        id: 'section_0_col_0',
+        id: 'section_0-col_0',
         isActive: false,
         style:{},
         childs:[]
@@ -32,7 +32,7 @@ export default new Vuex.Store({
         isActive: true,
         style:{},
         childs:[{
-          id: 'section_0_col_0',
+          id: 'section_0-col_0',
           isActive: false,
           style:{},
           childs:[]
@@ -74,7 +74,7 @@ export default new Vuex.Store({
         let isActiveSection = state.workplaceData.sections.find(x => x.isActive === true)
         if(isActiveSection){
           return isActiveSection
-
+//zawsze zwraca sekcję bo póki co sekcja jest aktywne też wtedy gdy aktywne jest jej dziecko
         }else{
           for(let section in state.workplaceData.sections){
             let isActiveChild = section.childs.find(x => x.isActive === true)
@@ -110,15 +110,23 @@ export default new Vuex.Store({
       state.workplaceData.sections.push(value)
     },
     addSectionChilds(state, value){
-      let index = value.id.split('_')[1]
-      console.log(index)
-      state.workplaceData.sections[index].childs.push(value)
+      let index = value.id.split('-')[0]
+      let findSection = state.workplaceData.sections.findIndex(x => x.id === index)
+      state.workplaceData.sections[findSection].childs.push(value)
     },
     setSectionsLength(state, value){
       state.workplaceData.sectionsLength = value
     },
     setUpdatedArray(state, value){
       state.workplaceData.sections.splice(value, 1)
+    },
+    setDeleteColumn(state, value){
+      //find section where column is
+      let index = value.id.split('-')[0]
+      let findSection = state.workplaceData.sections.findIndex(x => x.id === index)
+      //find column to delete
+      let findColumn = state.workplaceData.sections[findSection].childs.findIndex(x => x.id === value.id)
+      state.workplaceData.sections[findSection].childs.splice(findColumn, 1)
     },
     setWorkplaceActive(state, value){
       state.workplaceData.isWorkplaceActive = value

@@ -83,7 +83,6 @@ export default {
 
     // instance.on('zoom', function() {
     //   this.setActualZoom(instance.getTransform().scale)
-    //   console.log(instance.getTransform().scale);
     // });
 
   },
