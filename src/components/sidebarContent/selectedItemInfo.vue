@@ -23,21 +23,25 @@ export default {
       //get index of last column (it won't work when switching columns places will be active)
       this.getWorkplaceData.sections.forEach(section => {
        //   section.isActive = false;
-          section.childs.forEach(column => {
+          section.columns.forEach(column => {
             column.isActive = false;
             //w prztyszłości trzeba bedzie jeszcze dezaktywować dzieci kolumn
           })
       });
 
-      let columnIndex = this.getActiveElement.childs[this.getActiveElement.childs.length-1].id.split("col_")[1];
+      let columnIndex = this.getActiveElement.columns[this.getActiveElement.columns.length-1].id.split("col_")[1];
       this.addSectionChilds({
           id: `${this.getActiveElement.id}-col_${++columnIndex}`,
           isActive: true,
           style:{},
-          childs:[]
-        })
-
-
+          childs:[{
+            id: `${this.getActiveElement.id}-col_${columnIndex}-item_0`,
+            type: 'text',
+            content:`${this.getActiveElement.id}-col_${columnIndex}-item_0`,
+            isActive: false,
+            style:{},
+          }]
+      })
     }
   }
 }

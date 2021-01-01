@@ -18,7 +18,7 @@
     </v-fab-transition>
     <div :class="['columns-container']">
       <div :class="['column']"
-        v-for="(column, index) in getWorkplaceData.sections[currentSection].childs"
+        v-for="(column, index) in getWorkplaceData.sections[currentSection].columns"
         :key="index"
         :id="column.id"
         @dblclick="disactivateColumn(column)"
@@ -49,7 +49,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['getWorkplaceData']),
+    ...mapGetters(['getWorkplaceData', 'getActiveElement']),
   },
   data: () => ({
     currentSection: 0
@@ -76,21 +76,21 @@ export default {
     },
 
     disactivateColumn(column){
-      // this.getWorkplaceData.sections[this.currentSection].childs.forEach(element => {
-      //     element.isActive = false;
-      // });
       this.getWorkplaceData.sections.forEach(section => {
-          section.childs.forEach(column => {
-            column.isActive = false;
-            //w prztyszłości trzeba bedzie jeszcze dezaktywować dzieci kolumn
-          })
+        section.columns.forEach(column => {
+          column.isActive = false;
+        })
       });
 
-      let childIndex = this.getWorkplaceData.sections[this.currentSection].childs
-        .findIndex(x => x.id === column.id);
-      this.getWorkplaceData.sections[this.currentSection].childs[childIndex].isActive = true
-    },
-  },
+
+      if(this.getWorkplaceData.sections[this.currentSection].isActive === true){
+        let childIndex = this.getWorkplaceData.sections[this.currentSection].columns
+          .findIndex(x => x.id === column.id);
+
+        this.getWorkplaceData.sections[this.currentSection].columns[childIndex].isActive = true
+      }
+    }
+  }
 }
 </script>
 

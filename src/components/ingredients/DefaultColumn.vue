@@ -17,26 +17,65 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
-      <p>{{column.id}}</p>
+
+    <!-- display items in current column -->
+    <div :class="['item-container']">
+      <div :class="['item']"
+        v-for="(item, index) in getWorkplaceData.sections[currentSection].columns[currentColumn].childs"
+        :key="index"
+        :id="item.id"
+        @dblclick="disactivateItems(item)"
+      >
+      <component :is="'DefaultChildItem'"
+        :id="item.id"
+        :item="item"
+        :ref="'items'"
+      ></component>
+      </div>
+    </div>
+
   </section>
 </template>
 
 <script>
 import{mapGetters, mapMutations} from 'vuex'
 
+import DefaultChildItem from '@/components/ingredients/DefaultChildItem.vue'
+
 export default {
   name: 'DefaultColumn',
+  components:{
+    DefaultChildItem
+  },
   props:{
     column:{
       type: Object,
       required: true
     }
   },
+
   computed:{
     ...mapGetters(['getWorkplaceData']),
   },
+
   data: () => ({
+    currentSection:0,
+    currentColumn:0
   }),
+
+  mounted(){
+		this.$nextTick(() => {
+      //find current column:
+      //to do that, first find section...
+      this.currentSection = this.getWorkplaceData.sections
+        .findIndex(x => x.id == this.column.id.split('-')[0])
+
+      //then find there current column
+      this.currentColumn = this.getWorkplaceData.sections[this.currentSection]
+        .columns.findIndex(x => x.id == this.column.id)
+		});
+  },
+
   methods:{
     ...mapMutations([
       'setUpdatedArray',
@@ -50,7 +89,33 @@ export default {
     deleteColumn(){
       this.setDeleteColumn(this.column)
       // this.setWorkplaceActive(true);
-    }
+    },
+
+
+    disactivateItems(selectedItem){
+
+
+      this.getWorkplaceData.sections.forEach(section => {
+        section.columns.forEach(column => {
+          column.childs.forEach(item => {
+            item.isActive = false;
+          })
+        })
+      });
+
+
+
+      if(this.getWorkplaceData.sections[this.currentSection].columns[this.currentColumn].isActive === true){
+        //get index of active item...
+        let childIndex = this.getWorkplaceData.sections[this.currentSection]
+          .columns[this.currentColumn].childs.findIndex(x => x.id === selectedItem.id);
+        //...and set it to true
+        this.getWorkplaceData.sections[this.currentSection]
+          .columns[this.currentColumn].childs[childIndex].isActive = true
+      }
+
+      this.setWorkplaceActive(false);
+    },
   },
 }
 </script>

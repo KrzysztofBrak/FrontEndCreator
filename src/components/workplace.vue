@@ -41,16 +41,22 @@ export default {
   methods:{
     ...mapMutations(['setWorkplaceActive']),
     disactivateSection(section){
-      this.getWorkplaceData.sections.forEach(element => {
-          element.isActive = false;
+      this.getWorkplaceData.sections.forEach(section => {
+          section.isActive = false;
       });
-      let y = this.getWorkplaceData.sections.findIndex(x => x.id === section.id);
-      this.getWorkplaceData.sections[y].isActive = true
+      let sectionIndex = this.getWorkplaceData.sections.findIndex(x => x.id === section.id);
+      this.getWorkplaceData.sections[sectionIndex].isActive = true
     },
 
     disactivateAllElements(){
-      this.getWorkplaceData.sections.forEach(element => {
-          element.isActive = false;
+      this.getWorkplaceData.sections.forEach(section => {
+          section.isActive = false;
+          section.columns.forEach(column => {
+            column.isActive = false;
+            column.childs.forEach(item =>{
+              item.isActive = false
+            })
+          })
       });
        this.setWorkplaceActive(true);
     }

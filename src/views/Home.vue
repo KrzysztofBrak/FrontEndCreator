@@ -73,7 +73,7 @@ export default {
         return shouldIgnore;
       },
       maxZoom: 3,
-      minZoom: 0.5,
+      minZoom: 0.2,
       initialZoom: this.getActualZoom,
       zoomSpeed: 0.99,
       zoomDoubleClickSpeed: 1,
@@ -90,8 +90,14 @@ export default {
     ...mapMutations(['setActualZoom', 'setWorkplaceActive']),
 
     disactivateAllElements(){
-      this.getWorkplaceData.sections.forEach(element => {
-          element.isActive = false;
+      this.getWorkplaceData.sections.forEach(section => {
+          section.isActive = false;
+          section.columns.forEach(column => {
+            column.isActive = false;
+            column.childs.forEach(item =>{
+              item.isActive = false
+            })
+          })
       });
        this.setWorkplaceActive(true);
     }
@@ -108,6 +114,7 @@ export default {
     width: 50%;
     height: 100%;
     margin-top: 100px;
+    max-width: 500px;
     svg{
       margin: auto;
       display: flex;

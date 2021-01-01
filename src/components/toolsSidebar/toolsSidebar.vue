@@ -24,7 +24,8 @@ export default {
     computed:{
     ...mapGetters([
       'getWorkplaceData',
-      'getSectionsLength'
+      'getSectionsLength',
+      'getActiveElement'
     ]),
   },
   data: () => ({
@@ -35,7 +36,8 @@ export default {
       'setSectionsData',
       'setTextSelected',
       'setSectionsLength',
-      'setWorkplaceActive'
+      'setWorkplaceActive',
+      'addItemToColumn'
     ]),
 
     btnClick(btnCategory){
@@ -45,7 +47,8 @@ export default {
           break;
 
         case 'tekst':
-          this.setTextSelected(true)
+          this.setTextSelected(true);
+          this.addItem('text')
           break;
 
         default:
@@ -56,29 +59,58 @@ export default {
     addSection(){
       //set active section
       this.getWorkplaceData.sections.forEach(section => {
-         section.isActive = false;
-          section.childs.forEach(column => {
+          section.isActive = false;
+          section.columns.forEach(column => {
             column.isActive = false;
-            //w prztyszłości trzeba bedzie jeszcze dezaktywować dzieci kolumn
+            column.childs.forEach(item =>{
+              item.isActive = false
+            })
           })
       });
 
       let sectionNumber = this.getSectionsLength
       this.setSectionsLength(++sectionNumber);
-
       this.setSectionsData({
         id: `section_${this.getSectionsLength}`,
         isActive: true,
         style:{},
-        childs:[{
+        columns:[{
           id: `section_${this.getSectionsLength}-col_0`,
           isActive: false,
           style:{},
-          childs:[]
+          childs:[{
+            id: `section_${this.getSectionsLength}-col_0-item_0`,
+            type: 'text',
+            content:`section_${this.getSectionsLength}-col_0-item_0`,
+            isActive: false,
+            style:{},
+          }]
         }]
       })
       this.setWorkplaceActive(false);
       this.setTextSelected(false)
+    },
+//================================
+    addItem(type){
+      //active section were taken from ACTIVEELEMENT in store. Now find active column in this section
+      //if there is active column...
+      let currentColumn = this.getActiveElement.columns.findIndex(x => x.isActive === true)
+      //if there is no active column, check active sections
+      if(currentColumn === -1){
+        currentColumn = 0
+      }
+
+      const activeColumn = this.getActiveElement.columns[currentColumn]
+      let itemIndex = activeColumn.childs[activeColumn.childs.length - 1].id.split("item_")[1];
+
+      const itemText = `${this.getActiveElement.columns[currentColumn].id}-item_${++itemIndex}`
+      this.addItemToColumn({
+          id: itemText,
+          type: type,
+          content: itemText,
+          isActive: true,
+          style:{},
+      })
     }
   }
 }
