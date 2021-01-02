@@ -129,9 +129,6 @@ export default {
       transition: 0.3s;
       z-index: 1;
     }
-    .column{
-      height: 100%;
-    }
   }
   .column-btn{
     right: 85px;

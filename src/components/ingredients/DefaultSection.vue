@@ -75,17 +75,27 @@ export default {
       this.setWorkplaceActive(true);
     },
 
-    disactivateColumn(column){
+    disactivateColumn(selectedColumn){
+      // this.getWorkplaceData.sections.forEach(section => {
+      //   section.columns.forEach(column => {
+      //     column.isActive = false;
+      //   })
+      // });
+
       this.getWorkplaceData.sections.forEach(section => {
         section.columns.forEach(column => {
           column.isActive = false;
+          if(selectedColumn.id !== column.id){
+            column.childs.forEach(item => {
+              item.isActive = false;
+            })
+          }
         })
       });
 
-
       if(this.getWorkplaceData.sections[this.currentSection].isActive === true){
         let childIndex = this.getWorkplaceData.sections[this.currentSection].columns
-          .findIndex(x => x.id === column.id);
+          .findIndex(x => x.id === selectedColumn.id);
 
         this.getWorkplaceData.sections[this.currentSection].columns[childIndex].isActive = true
       }

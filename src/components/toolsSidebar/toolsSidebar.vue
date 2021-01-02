@@ -92,6 +92,15 @@ export default {
     },
 //================================
     addItem(type){
+      this.getWorkplaceData.sections.forEach(section => {
+          section.columns.forEach(column => {
+            column.childs.forEach(item =>{
+              item.isActive = false
+            })
+          })
+      });
+      //set active section
+
       //active section were taken from ACTIVEELEMENT in store. Now find active column in this section
       //if there is active column...
       let currentColumn = this.getActiveElement.columns.findIndex(x => x.isActive === true)
@@ -101,6 +110,7 @@ export default {
       }
 
       const activeColumn = this.getActiveElement.columns[currentColumn]
+
       let itemIndex = activeColumn.childs[activeColumn.childs.length - 1].id.split("item_")[1];
 
       const itemText = `${this.getActiveElement.columns[currentColumn].id}-item_${++itemIndex}`

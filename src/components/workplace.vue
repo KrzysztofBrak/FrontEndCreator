@@ -40,11 +40,26 @@ export default {
   }),
   methods:{
     ...mapMutations(['setWorkplaceActive']),
-    disactivateSection(section){
+    disactivateSection(selectedSection){
+      // this.getWorkplaceData.sections.forEach(section => {
+      //     section.isActive = false;
+      // });
       this.getWorkplaceData.sections.forEach(section => {
-          section.isActive = false;
+        console.log(selectedSection.id, section.id);
+      if(selectedSection.id !== section.id){
+
+        section.isActive = false;
+        section.columns.forEach(column => {
+          column.isActive = false
+          column.childs.forEach(item => {
+            item.isActive = false;
+          })
+        })
+      }
       });
-      let sectionIndex = this.getWorkplaceData.sections.findIndex(x => x.id === section.id);
+
+
+      let sectionIndex = this.getWorkplaceData.sections.findIndex(x => x.id === selectedSection.id);
       this.getWorkplaceData.sections[sectionIndex].isActive = true
     },
 
