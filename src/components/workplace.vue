@@ -2,7 +2,7 @@
   <section
     :class="['workplace-container']"
     id="workplace"
-    :style="workplaceStyle"
+    :style="{width: this.getWorkplaceData.workplaceWidth}"
     @dblclick.self="disactivateAllElements"
   >
     <div v-for="(component, index) in getWorkplaceData.sections"
@@ -32,12 +32,11 @@ export default {
   computed:{
     ...mapGetters(['getWorkplaceData','getSectionsLength']),
   },
+
   data: () => ({
-    workplaceStyle:{
-      width: '1920px',
-      height: '1080px'
-    }
+
   }),
+
   methods:{
     ...mapMutations(['setWorkplaceActive']),
     disactivateSection(selectedSection){
@@ -45,19 +44,18 @@ export default {
       //     section.isActive = false;
       // });
       this.getWorkplaceData.sections.forEach(section => {
-        console.log(selectedSection.id, section.id);
-      if(selectedSection.id !== section.id){
+        if(selectedSection.id !== section.id){
+          section.isActive = false;
 
-        section.isActive = false;
-        section.columns.forEach(column => {
-          column.isActive = false
-          column.childs.forEach(item => {
-            item.isActive = false;
+          section.columns.forEach(column => {
+            column.isActive = false
+
+            column.childs.forEach(item => {
+              item.isActive = false;
+            })
           })
-        })
-      }
+        }
       });
-
 
       let sectionIndex = this.getWorkplaceData.sections.findIndex(x => x.id === selectedSection.id);
       this.getWorkplaceData.sections[sectionIndex].isActive = true
@@ -82,7 +80,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .workplace-container{
-
+  height: 1080px;
   background: white;
   box-shadow: $mainShadow;
   margin: 80px 60px;

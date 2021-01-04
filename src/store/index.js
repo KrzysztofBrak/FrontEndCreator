@@ -7,7 +7,6 @@ export default new Vuex.Store({
   state: {
     isTextSelected: false,
     newProjectModalOpened: false,
-    projectName:'',
     actualZoom: 0.4,
 
     activeElement:{
@@ -30,8 +29,10 @@ export default new Vuex.Store({
 
 
     workplaceData:{
+      projectName:'',
       isWorkplaceActive: false,
       sectionsLength: 0,
+      workplaceWidth: '1920px',
       sections:[{
         id: 'section_0',
         isActive: true,
@@ -56,9 +57,6 @@ export default new Vuex.Store({
   getters:{
     getNewProjectModal(state){
       return state.newProjectModalOpened
-    },
-    getProjectName(state){
-      return state.projectName
     },
     getActualZoom(state){
       return state.actualZoom
@@ -106,7 +104,7 @@ export default new Vuex.Store({
       state.newProjectModalOpened = value
     },
     setProjectName(state, value){
-      state.projectName = value
+      state.workplaceData.projectName = value
     },
     setActualZoom(state, value){
       state.actualZoom = value

@@ -5,7 +5,7 @@
         <p>Frontend <span>Creator</span></p>
       </div>
       <div :class="['menu-container']">
-        <p v-show="isProjectActive">{{getProjectName}}</p>
+        <p>{{getWorkplaceData.projectName}}</p>
         <p @click="openModal">Nowy projekt +</p>
       </div>
     </div>
@@ -28,13 +28,7 @@ export default {
   },
 
   computed:{
-    ...mapGetters(['getNewProjectModal', 'getProjectName']),
-  },
-
-  watch:{
-    getProjectName(){
-      this.isProjectActive = true
-    }
+    ...mapGetters(['getNewProjectModal', 'getWorkplaceData']),
   },
 
   data: () => ({

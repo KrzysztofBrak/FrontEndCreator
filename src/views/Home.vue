@@ -40,14 +40,13 @@ export default {
     workplace
   },
   computed:{
-    ...mapGetters(['getProjectName',
-      'getActualZoom',
+    ...mapGetters(['getActualZoom',
       'getWorkplaceData'
     ]),
   },
 
   watch:{
-    getProjectName(){
+    getWorkplaceData(){
       this.isProjectActive = true
     }
   },
@@ -112,7 +111,6 @@ export default {
   .icon-container{
     margin: auto;
     width: 50%;
-    height: 100%;
     margin-top: 100px;
     max-width: 500px;
     svg{

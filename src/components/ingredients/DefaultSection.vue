@@ -1,6 +1,7 @@
 <template>
   <section :class="['default-section', {'activeSection': section.isActive}]"
     @dblclick="activateSection"
+    :style="{width: this.getWorkplaceData.workplaceWidth}"
   >
     <v-fab-transition>
       <v-btn
@@ -107,7 +108,7 @@ export default {
 <style scoped lang="scss">
   .default-section{
     height: 300px;
-    width: 1920px;
+    width: 100%;
     background: white;
     padding: 0px;
     transition: 0.3s;

@@ -4,12 +4,28 @@
       <div :class="['project-modal']">
         <v-text-field
           label="Nazwa projektu"
-          :rules="[() => !!projectName || 'Pole jestwymagane']"
+          :rules="[() => !!projectName || 'Pole jest wymagane']"
           solo
           required
           autofocus
           v-model="projectName"
         ></v-text-field>
+        <div :class="['buttons-container']">
+          <v-btn
+            v-for="btn in buttons"
+            :key="btn.icon"
+            :class="['button', { 'isActive': btn.isActive}]"
+            block
+            @click="setWorkplaceWidth(btn)"
+          >
+            <v-icon large>{{btn.icon}}</v-icon>
+            <div :class="['btn-content-container']">
+              <p>{{btn.textFirstPart}}<br>{{btn.textSecondPart}}</p>
+              <input v-if="btn.input" type="text" placeholder="WPISZ WARTOŚĆ" v-model="btn.value"/>{{btn.value}}
+            </div>
+          </v-btn>
+        </div>
+
           <v-btn
             block
             @click="createProject"
@@ -22,13 +38,68 @@
 </template>
 
 <script>
-import{mapMutations} from 'vuex'
+import{mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'newProjectModal',
+  computed:{
+    ...mapGetters(['getWorkplaceData','getSectionsLength']),
+  },
   data: () => ({
-    projectName:''
+    projectName:'',
+    customWidth:'',
+    workplaceWidth: '1920px',
+    isButtonDisabled: true,
+    buttons:[{
+      icon: 'mdi-desktop-mac',
+      textFirstPart: 'Desktop',
+      textSecondPart: '(1920px)',
+      input: false,
+      isActive: false,
+      value: '1920'
+    },
+    {
+      icon: 'mdi-cellphone',
+      textFirstPart: 'Telefon',
+      textSecondPart: '(360px)',
+      input: false,
+      isActive: false,
+      value: '360'
+    },
+    {
+      icon: 'mdi-checkbox-blank-outline',
+      textFirstPart: 'Niestandardowy',
+      textSecondPart: 'rozmiar:(px)',
+      input: true,
+      isActive: false,
+      value: ''
+    }],
+    workplaceTemplate:{
+      isWorkplaceActive: false,
+      sectionsLength: 0,
+      workplaceWidth: '1920px',
+      sections:[{
+        id: 'section_0',
+        isActive: true,
+        style:{},
+        columns:[{
+          id: 'section_0-col_0',
+          isActive: false,
+          style:{},
+          childs:[{
+            id: 'section_0-col_0-item_0',
+            type: 'text',
+            content:'section_0-col_0-item_0',
+            isActive: false,
+            style:{},
+          }]
+        }]
+      }]
+    }
+
   }),
+
+
   mounted(){
     window.addEventListener('keyup', event => {
       if (event.keyCode === 13) {
@@ -36,17 +107,44 @@ export default {
       }
     });
   },
+
+
   methods:{
-    ...mapMutations(['setNewProjectModal', 'setProjectName']),
+    ...mapMutations(['setNewProjectModal', 'setProjectName', 'setWorkplaceData']),
+
 
     closeModal(){
       this.setNewProjectModal(false);
       this.projectName = ''
     },
+
+
     createProject(){
-      this.setProjectName(this.projectName)
-      this.projectName = ''
-      this.setNewProjectModal(false);
+      if(this.projectName !== ''){
+
+        this.setNewProjectModal(false);
+        this.setWorkplaceData(this.workplaceTemplate);
+        this.setProjectName(this.projectName);
+
+        setTimeout(() => {
+          this.projectName = ''
+
+          this.buttons.forEach(button => {
+            if(button.isActive){
+              this.getWorkplaceData.workplaceWidth = `${button.value}px`;
+              button.isActive = false;
+            }
+          })
+        }, 500);
+      }
+    },
+
+
+    setWorkplaceWidth(btn){
+      this.buttons.forEach(button => {
+          button.isActive = false;
+      })
+      btn.isActive = true
     }
   }
 }
@@ -80,7 +178,7 @@ export default {
       .project-modal{
         position: relative;
         z-index: 2;
-        height: 250px;
+        height: fit-content;
         max-width: 450px;
         background: $containerBackground;
         box-shadow: $mainShadow;
@@ -88,5 +186,38 @@ export default {
         padding: 30px;
       }
     }
+    .buttons-container{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 20px 0;
+      .button{
+        margin: 10px 0;
+        height: 100px;
+        ::v-deep .v-btn__content{
+        justify-content: space-between;
+        display: flex;
+        .v-icon{
+          margin-left: 30px;
+        }
+        .btn-content-container{
+          width: 50%;
+        }
+          input{
+            font-size: 14px;
+            max-width: 122px;
+          }
+        }
+      }
+      .button.isActive{
+        background-color: #bebebe!important;
+      }
+    }
+  }
+  input{
+    outline: none;
+  }
+  ::v-deep .v-messages__message{
+    color: red;
   }
 </style>
