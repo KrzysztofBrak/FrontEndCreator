@@ -86,7 +86,7 @@ export default {
 
   },
   methods:{
-    ...mapMutations(['setActualZoom', 'setWorkplaceActive']),
+    ...mapMutations(['setActualZoom', 'setWorkplaceActive', 'setElementToEdit']),
 
     disactivateAllElements(){
       this.getWorkplaceData.sections.forEach(section => {
@@ -99,6 +99,7 @@ export default {
           })
       });
        this.setWorkplaceActive(true);
+       this.setElementToEdit('workplace')
     }
   }
 }

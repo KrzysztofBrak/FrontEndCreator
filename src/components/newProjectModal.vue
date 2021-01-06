@@ -74,6 +74,7 @@ export default {
       isActive: false,
       value: ''
     }],
+
     workplaceTemplate:{
       isWorkplaceActive: false,
       sectionsLength: 0,
@@ -182,7 +183,7 @@ export default {
         max-width: 450px;
         background: $containerBackground;
         box-shadow: $mainShadow;
-        margin: 100px auto;
+        margin: 0px auto;
         padding: 30px;
       }
     }

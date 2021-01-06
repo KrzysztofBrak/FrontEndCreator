@@ -9,7 +9,7 @@
       :key="index"
       :id="component.id"
       :ref="component.id"
-      @dblclick="disactivateSection(component)"
+      @dblclick="disactivateSection(component), setSection(component)"
     >
       <component :is="'DefaultSection'"
         :section="component"
@@ -30,7 +30,7 @@ export default {
     DefaultSection
   },
   computed:{
-    ...mapGetters(['getWorkplaceData','getSectionsLength']),
+    ...mapGetters(['getWorkplaceData','getSectionsLength', 'getActiveElement', 'getElementToEdit', 'getTtemClicked']),
   },
 
   data: () => ({
@@ -38,11 +38,9 @@ export default {
   }),
 
   methods:{
-    ...mapMutations(['setWorkplaceActive']),
+    ...mapMutations(['setWorkplaceActive', 'setElementToEdit', 'setItemClicked']),
+
     disactivateSection(selectedSection){
-      // this.getWorkplaceData.sections.forEach(section => {
-      //     section.isActive = false;
-      // });
       this.getWorkplaceData.sections.forEach(section => {
         if(selectedSection.id !== section.id){
           section.isActive = false;
@@ -56,9 +54,20 @@ export default {
           })
         }
       });
-
+    },
+    setSection(selectedSection){
       let sectionIndex = this.getWorkplaceData.sections.findIndex(x => x.id === selectedSection.id);
       this.getWorkplaceData.sections[sectionIndex].isActive = true
+
+      //zapobiega event bubblingowi
+      if(!this.getTtemClicked.includes("col")){
+        console.log('CLICK section');
+        //save ID of item to edit
+        this.setElementToEdit(this.getWorkplaceData.sections[sectionIndex].id)
+        this.setItemClicked(this.getWorkplaceData.sections[sectionIndex].id)
+      }
+      this.setItemClicked('')
+
     },
 
     disactivateAllElements(){
@@ -71,7 +80,8 @@ export default {
             })
           })
       });
-       this.setWorkplaceActive(true);
+      this.setElementToEdit('workplace')
+      this.setWorkplaceActive(true);
     }
   }
 }

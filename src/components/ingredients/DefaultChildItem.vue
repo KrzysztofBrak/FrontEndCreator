@@ -14,7 +14,7 @@
         fab
         @click="deleteItem"
       >
-        <v-icon>mdi-plus</v-icon>
+        <v-icon large>mdi-trash-can</v-icon>
       </v-btn>
     </v-fab-transition>
     <p v-if="item.type === 'text'">{{item.content}}</p>
@@ -47,15 +47,16 @@ export default {
     ...mapMutations([
       'setUpdatedArray',
       'setWorkplaceActive',
-      'setDeleteItem'
+      'setDeleteItem',
+      'setElementToEdit'
     ]),
 
     activateItem(){
       this.setWorkplaceActive(false);
     },
     deleteItem(){
-      this.setDeleteItem(this.item)
-      // this.setWorkplaceActive(true);
+      this.setDeleteItem(this.item);
+      this.setElementToEdit(true);
     }
   },
 }

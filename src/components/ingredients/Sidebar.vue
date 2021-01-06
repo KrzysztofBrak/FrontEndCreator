@@ -4,12 +4,16 @@
       <selectedItemInfo transition="fade-transition"/>
     </v-fade-transition>
     <ItemPosition/>
+    <v-divider :class="['divider']"></v-divider>
     <v-fade-transition>
       <EditText transition="fade-transition" v-show="getTextSelected"/>
     </v-fade-transition>
+      <v-divider :class="['divider']"></v-divider>
+
     <v-fade-transition>
       <shapeEdit transition="fade-transition" />
     </v-fade-transition>
+      <v-divider :class="['divider']"></v-divider>
   </section>
 </template>
 
@@ -22,7 +26,7 @@ import shapeEdit from '@/components/sidebarContent/shapeEdit.vue'
 import selectedItemInfo from '@/components/sidebarContent/selectedItemInfo.vue'
 
 export default {
-  name: 'editSidebar',
+  name: 'Sidebar',
   components:{
     ItemPosition,
     EditText,
@@ -68,5 +72,8 @@ export default {
     padding: 15px;
     display: flex;
     flex-direction: column;
+    .divider{
+      margin: 10px 0;
+    }
   }
 </style>

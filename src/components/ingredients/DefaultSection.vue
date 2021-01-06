@@ -14,7 +14,7 @@
         fab
         @click="deleteSection"
       >
-        <v-icon>mdi-plus</v-icon>
+        <v-icon large>mdi-trash-can</v-icon>
       </v-btn>
     </v-fab-transition>
     <div :class="['columns-container']">
@@ -22,6 +22,7 @@
         v-for="(column, index) in getWorkplaceData.sections[currentSection].columns"
         :key="index"
         :id="column.id"
+        :style="column.style"
         @dblclick="disactivateColumn(column)"
       >
       <component :is="'DefaultColumn'"
@@ -50,7 +51,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['getWorkplaceData', 'getActiveElement']),
+    ...mapGetters(['getWorkplaceData', 'getActiveElement', 'getElementToEdit', 'getTtemClicked']),
   },
   data: () => ({
     currentSection: 0
@@ -61,7 +62,9 @@ export default {
   methods:{
     ...mapMutations([
       'setUpdatedArray',
-      'setWorkplaceActive'
+      'setWorkplaceActive',
+      'setElementToEdit',
+      'setItemClicked'
     ]),
 
     activateSection(){
@@ -72,18 +75,14 @@ export default {
       let x = this.getWorkplaceData.sections
       let sectionToDelete = x.findIndex(x => x.isActive === true);
 
-      this.setUpdatedArray(sectionToDelete)
+      this.setUpdatedArray(sectionToDelete);
+      this.setElementToEdit(true);
       this.setWorkplaceActive(true);
     },
 
     disactivateColumn(selectedColumn){
-      // this.getWorkplaceData.sections.forEach(section => {
-      //   section.columns.forEach(column => {
-      //     column.isActive = false;
-      //   })
-      // });
 
-      this.getWorkplaceData.sections.forEach(section => {
+       this.getWorkplaceData.sections.forEach(section => {
         section.columns.forEach(column => {
           column.isActive = false;
           if(selectedColumn.id !== column.id){
@@ -99,15 +98,23 @@ export default {
           .findIndex(x => x.id === selectedColumn.id);
 
         this.getWorkplaceData.sections[this.currentSection].columns[childIndex].isActive = true
+
+        //ID of item to edit
+        if(!this.getTtemClicked.includes("item")){
+          console.log('CLICK column');
+          this.setElementToEdit(this.getWorkplaceData.sections[this.currentSection].columns[childIndex].id)
+          this.setItemClicked(this.getWorkplaceData.sections[this.currentSection].columns[childIndex].id)
+        }
       }
-    }
+    },
+
   }
 }
 </script>
 
 <style scoped lang="scss">
   .default-section{
-    height: 300px;
+    min-height: 300px;
     width: 100%;
     background: white;
     padding: 0px;

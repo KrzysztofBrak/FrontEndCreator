@@ -8,6 +8,9 @@ export default new Vuex.Store({
     isTextSelected: false,
     newProjectModalOpened: false,
     actualZoom: 0.4,
+    //That helps to avoid bubbling effect
+    itemClicked:'section',
+    elementToEdit: 'section_0',
 
     activeElement:{
       id: 'section_0',
@@ -16,7 +19,10 @@ export default new Vuex.Store({
       columns:[{
         id: 'section_0-col_0',
         isActive: false,
-        style:{},
+        style:{
+          height: '300px',
+          width: '100%',
+        },
         childs:[{
           id: 'section_0-col_0-item_0',
           type: 'text',
@@ -40,7 +46,10 @@ export default new Vuex.Store({
         columns:[{
           id: 'section_0-col_0',
           isActive: false,
-          style:{},
+          style:{
+            height: '300px',
+            width: '100%',
+          },
           childs:[{
             id: 'section_0-col_0-item_0',
             type: 'text',
@@ -67,6 +76,9 @@ export default new Vuex.Store({
     getTextSelected(state){
       return state.isTextSelected
     },
+    getTtemClicked(state){
+      return state.itemClicked
+    },
 
 
 
@@ -81,19 +93,14 @@ export default new Vuex.Store({
         return state.workplaceData.sections
 
       }
-        let isActiveSection = state.workplaceData.sections.find(x => x.isActive === true)
-        console.log(isActiveSection, 'fdsdf');
-        return isActiveSection
-//         if(isActiveSection){
-//           return isActiveSection
-// //zawsze zwraca sekcję bo póki co sekcja jest aktywne też wtedy gdy aktywne jest jej dziecko
-//         }else{
-//           for(let section in state.workplaceData.sections){
-//             let isActiveChild = section.columns.find(x => x.isActive === true)
-//             return isActiveChild
-//           }
-//         }
+      let isActiveSection = state.workplaceData.sections.find(x => x.isActive === true)
+      console.log(isActiveSection, 'fdsdf');
+      return isActiveSection
 
+    },
+
+    getElementToEdit(state){
+      return state.elementToEdit
     }
   },
 
@@ -111,6 +118,9 @@ export default new Vuex.Store({
     },
     setTextSelected(state, value){
       state.isTextSelected = value
+    },
+    setItemClicked(state, value){
+      state.itemClicked = value
     },
 
 
@@ -171,6 +181,17 @@ export default new Vuex.Store({
 
       state.workplaceData.sections[findSection].columns[findColumn]
         .childs.splice(findItem, 1)
+    },
+
+    setElementToEdit(state, value){
+      if(value === true){
+        let IDArray = state.elementToEdit.split('-');
+        IDArray.splice(IDArray.length-1, 1)
+        state.elementToEdit = IDArray.join('-');
+      }else{
+        state.elementToEdit = value
+      }
     }
+
   }
 })

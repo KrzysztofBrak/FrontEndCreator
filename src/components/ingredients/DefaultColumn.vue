@@ -14,7 +14,7 @@
         fab
         @click="deleteColumn"
       >
-        <v-icon>mdi-plus</v-icon>
+        <v-icon large>mdi-trash-can</v-icon>
       </v-btn>
     </v-fab-transition>
 
@@ -24,7 +24,7 @@
         v-for="(item, index) in getWorkplaceData.sections[currentSection].columns[currentColumn].childs"
         :key="index"
         :id="item.id"
-        @dblclick="disactivateItems(item)"
+        @dblclick="disactivateItems(), setItems(item)"
       >
       <component :is="'DefaultChildItem'"
         :id="item.id"
@@ -55,7 +55,7 @@ export default {
   },
 
   computed:{
-    ...mapGetters(['getWorkplaceData']),
+    ...mapGetters(['getWorkplaceData','getActiveElement']),
   },
 
   data: () => ({
@@ -80,21 +80,21 @@ export default {
     ...mapMutations([
       'setUpdatedArray',
       'setWorkplaceActive',
-      'setDeleteColumn'
+      'setDeleteColumn',
+      'setElementToEdit',
+      'setItemClicked'
     ]),
 
     activateColumn(){
       this.setWorkplaceActive(false);
     },
     deleteColumn(){
-      this.setDeleteColumn(this.column)
-      // this.setWorkplaceActive(true);
+      this.setDeleteColumn(this.column);
+      this.setElementToEdit(true);
     },
 
 
-    disactivateItems(selectedItem){
-
-
+    disactivateItems(){
       this.getWorkplaceData.sections.forEach(section => {
         section.columns.forEach(column => {
           column.childs.forEach(item => {
@@ -102,9 +102,9 @@ export default {
           })
         })
       });
+    },
 
-
-
+    setItems(selectedItem){
       if(this.getWorkplaceData.sections[this.currentSection].columns[this.currentColumn].isActive === true){
         //get index of active item...
         let childIndex = this.getWorkplaceData.sections[this.currentSection]
@@ -112,8 +112,18 @@ export default {
         //...and set it to true
         this.getWorkplaceData.sections[this.currentSection]
           .columns[this.currentColumn].childs[childIndex].isActive = true
-      }
 
+
+          //ID of element to edit:
+          this.setElementToEdit(this.getWorkplaceData.sections[this.currentSection]
+          .columns[this.currentColumn].childs[childIndex].id)
+          console.log('CLICK text');
+
+
+          this.setItemClicked(this.getWorkplaceData.sections[this.currentSection]
+          .columns[this.currentColumn].childs[childIndex].id)
+
+      }
       this.setWorkplaceActive(false);
     },
   },
@@ -122,7 +132,7 @@ export default {
 
 <style scoped lang="scss">
   .column-section{
-    height: 100%;
+    height: 300px;
     display: flex;
     &.activeSection{
       box-shadow: 0px 0px 10px 0px rgb(135, 230, 71);

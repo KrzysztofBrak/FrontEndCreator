@@ -1,6 +1,6 @@
 <template>
     <div :class="['selectedItemInfo-container']">
-    <div>wybrany element: {{getActiveElement.id}}</div>
+    <div>wybrany element:<br> {{getElementToEdit}}</div>
       <button :class="['button-add-column']" @click="addColumn">Dodaj kolumnę</button>
     </div>
 </template>
@@ -12,12 +12,12 @@ export default {
   name: 'selectedItemInfo',
 
   computed:{
-    ...mapGetters(['getActiveElement', 'getWorkplaceData']),
+    ...mapGetters(['getActiveElement', 'getWorkplaceData', 'getElementToEdit']),
   },
   data: () => ({
   }),
   methods:{
-    ...mapMutations(['addSectionChilds']),
+    ...mapMutations(['addSectionChilds', 'setElementToEdit']),
 
     addColumn(){
       //get index of last column (it won't work when switching columns places will be active)
@@ -33,7 +33,10 @@ export default {
       this.addSectionChilds({
           id: `${this.getActiveElement.id}-col_${++columnIndex}`,
           isActive: true,
-          style:{},
+          style:{
+            height: '300px',
+            width: '100%',
+          },
           childs:[{
             id: `${this.getActiveElement.id}-col_${columnIndex}-item_0`,
             type: 'text',
@@ -42,6 +45,8 @@ export default {
             style:{},
           }]
       })
+
+      this.setElementToEdit(`${this.getActiveElement.id}-col_${columnIndex}`)
     }
   }
 }

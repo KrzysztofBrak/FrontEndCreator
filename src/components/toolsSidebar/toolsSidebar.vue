@@ -3,11 +3,10 @@
     <div :class="['top-tools-section']">
       <div :class="['button-container']"
         v-for="button in buttons"
-        :key="button.alt">
-        <img :src="button.img"
-          :alt="button.alt"
-          @click="btnClick(button.alt)"
-        />
+        :key="button.alt"
+        @click="btnClick(button.alt)">
+        <v-icon medium
+        >{{button.img}}</v-icon>
       </div>
     </div>
     <div :class="['bottom-tools-section']">
@@ -37,7 +36,8 @@ export default {
       'setTextSelected',
       'setSectionsLength',
       'setWorkplaceActive',
-      'addItemToColumn'
+      'addItemToColumn',
+      'setElementToEdit'
     ]),
 
     btnClick(btnCategory){
@@ -88,8 +88,10 @@ export default {
         }]
       })
       this.setWorkplaceActive(false);
-      this.setTextSelected(false)
+      this.setTextSelected(false);
+      this.setElementToEdit(`section_${this.getSectionsLength}`)
     },
+
 //================================
     addItem(type){
       this.getWorkplaceData.sections.forEach(section => {
@@ -110,7 +112,6 @@ export default {
       }
 
       const activeColumn = this.getActiveElement.columns[currentColumn]
-
       let itemIndex = activeColumn.childs[activeColumn.childs.length - 1].id.split("item_")[1];
 
       const itemText = `${this.getActiveElement.columns[currentColumn].id}-item_${++itemIndex}`
@@ -121,6 +122,7 @@ export default {
           isActive: true,
           style:{},
       })
+      this.setElementToEdit(itemText);
     }
   }
 }
@@ -140,13 +142,8 @@ export default {
     .button-container{
       padding: 10px;
       cursor: pointer;
-      img{
+      i{
         width: 100%;
-      }
-      img[alt="tabela"]{
-        width: 130%;
-        position: relative;
-        right: 5px;
       }
       &:hover{
         background: $hoverColor;

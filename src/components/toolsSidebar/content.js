@@ -1,18 +1,18 @@
 const buttons = [
     {
-        img: require('@/assets/img/add_section_icon.svg'),
+        img: 'mdi-card-plus-outline',
         alt: 'nowa sekcja'
     },
     {
-        img: require('@/assets/img/text_icon.svg'),
+        img: 'mdi-format-color-text',
         alt: 'tekst'
     },
     {
-        img: require('@/assets/img/table_icon.svg'),
+        img: 'mdi-table-plus',
         alt: 'tabela'
     },
     {
-        img: require('@/assets/img/add_image_icon.svg'),
+        img: 'mdi-image-plus',
         alt: 'dodaj zdjecie'
     }
 ]
