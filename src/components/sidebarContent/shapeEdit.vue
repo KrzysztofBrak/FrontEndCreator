@@ -2,49 +2,64 @@
     <div :class="['shapeEdit-container']">
       <h1>PRZEKSZTAŁĆ</h1>
       <div :class="['input-container']">
-        <p>Szerokość (px):</p>
-        <input type="number" :class="['itemWidth']">
+        <p>Szerokość:</p>
+        <input type="text" :class="['itemWidth']" v-model="style.width" v-on:change="updateStyle">
       </div>
       <div :class="['input-container']">
-        <p>Wysokość (px):</p>
-        <input type="number" :class="['itemHeight']">
+        <p>Wysokość:</p>
+        <input type="text" :class="['itemHeight']" v-model="style.height" v-on:change="updateStyle">
       </div>
-      <!-- <v-text-field
-        :v-model="isLocked ? lockedValue : unlockedValue"
-        :append-icon="isLocked ? 'mdi-lock' : 'mdi-lock-open-variant'"
-        solo
-        hint="Margines"
-        type="number"
-        @click:append="conectInputs"
-      ></v-text-field>
-      <v-text-field
-        :v-model="isLocked ? lockedValue : unlockedValue"
-        :append-icon="isLocked ? 'mdi-lock' : 'mdi-lock-open-variant'"
-        solo
-        hint="Margines"
-        type="number"
-        @click:append="conectInputs"
-      ></v-text-field> -->
+      <div :class="['input-container']">
+        <p>Wypełnienie:</p>
+        <ColorPickerModal />
+      </div>
+      <div :class="['input-container']">
+        <p>Krawędź:</p>
+        <ColorPickerModal />
+      </div>
+
 
     </div>
 </template>
 
 <script>
-// import ColorPickerModal from '@/components/ingredients/ColorPickerModal.vue'
+import{mapGetters} from 'vuex'
+import ColorPickerModal from '@/components/ingredients/ColorPickerModal.vue'
 
 export default {
   name: 'shapeEdit',
-  components:{
 
+  components:{
+    ColorPickerModal
+  },
+
+  computed:{
+    ...mapGetters([
+      'getElementToEdit',
+      'getWorkplaceData'
+    ]),
   },
   data: () => ({
-    isLocked: true,
-    lockedValue: 0,
-    unlockedValue: 0
+    sectionIndex: -1,
+    style:{
+      width: 0,
+      height:0
+    }
   }),
+
+  mounted(){
+      this.sectionIndex = this.getWorkplaceData.sections.findIndex(x => x.id === this.getElementToEdit);
+
+      this.style.height = this.getWorkplaceData.sections[this.sectionIndex].style.height;
+      this.style.width = this.getWorkplaceData.sections[this.sectionIndex].style.width;
+  },
+
   methods:{
-    conectInputs(){
-      this.isLocked = !this.isLocked
+    updateStyle(){
+      //merge old object with the new one
+      this.getWorkplaceData.sections[this.sectionIndex].style = {
+        ...this.getWorkplaceData.sections[this.sectionIndex].style,
+        ...this.style}
     }
   }
 }
@@ -72,7 +87,6 @@ export default {
       ::v-deep .v-input{
         max-width: 150px;
         .v-input__slot{
-          background: $containerBackground!important;
           border-width: 0 0 2px 0;
           border-style: solid;
           border-radius: 0;

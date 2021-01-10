@@ -73,7 +73,10 @@ export default {
       this.setSectionsData({
         id: `section_${this.getSectionsLength}`,
         isActive: true,
-        style:{},
+        style:{
+          height: '300px',
+          width: '100%',
+        },
         columns:[{
           id: `section_${this.getSectionsLength}-col_0`,
           isActive: false,

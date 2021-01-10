@@ -82,7 +82,10 @@ export default {
       sections:[{
         id: 'section_0',
         isActive: true,
-        style:{},
+        style:{
+          height: '300px',
+          width: '100%',
+        },
         columns:[{
           id: 'section_0-col_0',
           isActive: false,

@@ -71,6 +71,12 @@ export default {
         const shouldIgnore = !e.altKey;
         return shouldIgnore;
       },
+
+      //disable moving workplace with arrows
+      filterKey: function() {
+        return true;
+      },
+
       maxZoom: 3,
       minZoom: 0.2,
       initialZoom: this.getActualZoom,

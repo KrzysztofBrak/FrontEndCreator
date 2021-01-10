@@ -2,7 +2,6 @@
   <div :class="['main-container']">
     <div :class="['color-container']">
       <div :class="['color-button']">
-        <p>Kolor:</p>
         <v-btn
           :class="['button']"
           color="secondary"
@@ -11,6 +10,7 @@
         </v-btn>
       </div>
     </div>
+    <v-app>
     <v-fade-transition>
       <v-color-picker v-show="modalIsOpened"
         :class="['color-picker']"
@@ -19,6 +19,10 @@
         swatches-max-height="200px"
       ></v-color-picker>
     </v-fade-transition>
+
+    </v-app>
+<div v-show="modalIsOpened===true" :class="['overlay']" @click.self="closeModal">
+  </div>
   </div>
 </template>
 
@@ -27,33 +31,52 @@ export default {
   name: 'editSidebar',
   data: () => ({
     modalIsOpened: false
-  })
+  }),
+  methods:{
+    closeModal(){
+      this.modalIsOpened = false;
+    },
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.main-container{
-  display: block;
-  .color-container{
-    .color-button{
-      display: flex;
-      justify-content: space-between;
-      .button{
-        max-width: 150px;
-        width: 100%;
-        height: 26px;
-      }
+    .overlay{
+      position: fixed;
+      z-index: 22;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
     }
-  }
-  .color-picker{
-    position: relative;
-    right: 193px;
-    bottom: 40px;
-    width: 316px;
-    max-width: 310px!important;
-    padding: 5px;
-    box-shadow: $mainShadow;
-  }
-}
+      .main-container{
+        display: block;
+        .color-container{
+          .color-button{
+            display: flex;
+            justify-content: space-between;
+            .button{
+              max-width: 150px;
+              width: 100%;
+              height: 26px;
+            }
+          }
+        }
+        .color-picker{
+          z-index: 23;
+          position: absolute;
+          left: -120px;
+          top: 58px;
+          width: 316px;
+          max-width: 310px!important;
+          padding: 5px;
+          box-shadow: $mainShadow;
+        }
+      }
+      ::v-deep .v-application--wrap{
+        min-height: fit-content!important;
+      }
 </style>

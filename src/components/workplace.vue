@@ -9,9 +9,11 @@
       :key="index"
       :id="component.id"
       :ref="component.id"
+
       @dblclick="disactivateSection(component), setSection(component)"
     >
       <component :is="'DefaultSection'"
+      :style="component.style"
         :section="component"
         :ref="'sections'"
       ></component>
@@ -94,7 +96,7 @@ export default {
   background: white;
   box-shadow: $mainShadow;
   margin: 80px 60px;
-
+  position: fixed;
   p{
     font-size: 16px;
   }

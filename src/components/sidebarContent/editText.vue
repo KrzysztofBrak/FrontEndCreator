@@ -50,7 +50,6 @@ export default {
         .v-input__control{
           min-height: 25px;
           .v-input__slot{
-            background: #f2f2f2;
             height: 20px;
             box-shadow: none;
             input {
@@ -66,12 +65,6 @@ export default {
           }
         }
       }
-    }
-    ::v-deep #app{
-      height: 200px;
-    }
-    ::v-deep .v-application--wrap{
-      min-height: auto;
     }
     .input-container{
       margin: 10px 0;
