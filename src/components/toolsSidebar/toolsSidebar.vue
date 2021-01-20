@@ -80,7 +80,10 @@ export default {
         columns:[{
           id: `section_${this.getSectionsLength}-col_0`,
           isActive: false,
-          style:{},
+          style:{
+            height: '100%',
+            width: '100%',
+          },
           childs:[{
             id: `section_${this.getSectionsLength}-col_0-item_0`,
             type: 'text',

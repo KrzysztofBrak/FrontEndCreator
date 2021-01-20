@@ -132,7 +132,7 @@ export default {
 
 <style scoped lang="scss">
   .column-section{
-    height: 300px;
+    height: 100%;
     display: flex;
     &.activeSection{
       box-shadow: 0px 0px 10px 0px rgb(135, 230, 71);

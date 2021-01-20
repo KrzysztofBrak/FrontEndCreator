@@ -1,24 +1,55 @@
 <template>
     <div :class="['shapeEdit-container']">
-      <h1>PRZEKSZTAŁĆ</h1>
-      <div :class="['input-container']">
-        <p>Szerokość:</p>
-        <input type="text" :class="['itemWidth']" v-model="style.width" v-on:change="updateStyle">
-      </div>
-      <div :class="['input-container']">
-        <p>Wysokość:</p>
-        <input type="text" :class="['itemHeight']" v-model="style.height" v-on:change="updateStyle">
-      </div>
-      <div :class="['input-container']">
-        <p>Wypełnienie:</p>
-        <ColorPickerModal />
-      </div>
-      <div :class="['input-container']">
-        <p>Krawędź:</p>
-        <ColorPickerModal />
-      </div>
+      <v-row justify="center">
+        <v-expansion-panels accordion>
+          <v-expansion-panel
+            v-for="item in styleInputs"
+            :key="item.name"
+          >
+            <v-expansion-panel-header>{{item.name}}</v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <div v-for="input in item.inputs"
+                :key="input.inputName"
+                :class="['input-container']"
+              >
+                <div :class="['inputFather-container']">
+                  <p>{{input.inputName}}:</p>
 
+                  <div v-if="input.childs" @click="input.showSeparately = !input.showSeparately">
+                    <v-icon v-if="input.showSeparately === true"
+                    >mdi-lock-open-variant-outline
+                    </v-icon>
 
+                    <v-icon v-else>mdi-lock-outline</v-icon>
+                  </div>
+                  <ColorPickerModal v-if="input.type === 'ColorPicker'"/>
+                  <input v-else :type="input.type"
+                    v-show="!input.childs || input.showSeparately === false"
+                    :class="[input.class]"
+                    v-model="style[input.vModel]"
+                    v-on:change="updateStyle(kindOfSelectedItem)"
+                  >
+                </div>
+                <div :class="['inputChilds-container']"
+                  v-show="input.childs && input.showSeparately === true"
+                >
+                  <div v-for="childInput in input.childs"
+                    :key="childInput.inputName"
+                    :class="['container']"
+                  >
+                    <p>{{childInput.inputName}}:</p>
+                    <input :type="childInput.type"
+                      :class="[childInput.class]"
+                      v-model="style[childInput.vModel]"
+                      v-on:change="updateStyle(kindOfSelectedItem)"
+                    >
+                  </div>
+                </div>
+              </div>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-row>
     </div>
 </template>
 
@@ -26,6 +57,7 @@
 import{mapGetters} from 'vuex'
 import ColorPickerModal from '@/components/ingredients/ColorPickerModal.vue'
 
+import{styleInputs} from './content'
 export default {
   name: 'shapeEdit',
 
@@ -39,27 +71,131 @@ export default {
       'getWorkplaceData'
     ]),
   },
+  watch:{
+
+    getElementToEdit: {
+      immediate: true,
+      handler(){
+        //first find section
+        let selectedElement = this.getElementToEdit.split('-')[0]
+        this.findSection(selectedElement);
+        this.kindOfSelectedItem = 1;
+        //find column if it is selected
+        if(this.getElementToEdit.includes("col")){
+          selectedElement = this.getElementToEdit.split('-item_0')[0]
+          this.findColumn(selectedElement);
+          this.kindOfSelectedItem = 2;
+        }
+        //find item if it is selected
+        if(this.getElementToEdit.includes("item")){
+          this.findItem(this.getElementToEdit);
+          this.kindOfSelectedItem = 3;
+        }
+
+        switch (this.kindOfSelectedItem) {
+          case 1:
+            console.log('CASEEEE1');
+            this.style.height = this.getWorkplaceData.sections[this.sectionIndex].style.height;
+            this.style.width = this.getWorkplaceData.sections[this.sectionIndex].style.width;
+            break;
+
+          case 2:
+            console.log('CASEEEE2');
+            this.style.height = this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].style.height;
+            this.style.width = this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].style.width;
+            console.log(this.columnIndex,  this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].style.height);
+            break;
+
+          case 3:
+            console.log('CASEEEE3');
+            this.style.height = this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].childs[this.itemIndex].style.height;
+            this.style.width = this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].childs[this.itemIndex].style.width;
+            break;
+
+          default:
+            break;
+        }
+      }
+    },
+  },
   data: () => ({
+    styleInputs,
     sectionIndex: -1,
+    columnIndex: -1,
+    itemIndex: -1,
+    kindOfSelectedItem: 0,
     style:{
       width: 0,
-      height:0
+      height:0,
+      background: '',
+      border: '',
+      fontSize: '',
     }
   }),
 
   mounted(){
-      this.sectionIndex = this.getWorkplaceData.sections.findIndex(x => x.id === this.getElementToEdit);
 
-      this.style.height = this.getWorkplaceData.sections[this.sectionIndex].style.height;
-      this.style.width = this.getWorkplaceData.sections[this.sectionIndex].style.width;
   },
 
   methods:{
-    updateStyle(){
-      //merge old object with the new one
-      this.getWorkplaceData.sections[this.sectionIndex].style = {
-        ...this.getWorkplaceData.sections[this.sectionIndex].style,
-        ...this.style}
+    updateStyle(kindOfSelectedItem){
+      console.log('UPDATE', kindOfSelectedItem);
+      switch (kindOfSelectedItem) {
+        case 1:
+          //merge old object with the new one
+          this.getWorkplaceData.sections[this.sectionIndex].style = {
+            ...this.getWorkplaceData.sections[this.sectionIndex].style,
+            ...this.style
+          }
+          break;
+        case 2:
+          //merge old object with the new one
+          this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].style = {
+                ...this.getWorkplaceData.sections[this.sectionIndex]
+                  .columns[this.columnIndex].style,
+                ...this.style
+          }
+          break;
+        case 3:
+          //merge old object with the new one
+          this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].childs[this.itemIndex].style = {
+                ...this.getWorkplaceData.sections[this.sectionIndex]
+                  .columns[this.columnIndex].childs[this.itemIndex].style,
+                ...this.style
+          }
+          break;
+
+        default:
+          break;
+      }
+      // //merge old object with the new one
+      // this.getWorkplaceData.sections[this.sectionIndex].style = {
+      //   ...this.getWorkplaceData.sections[this.sectionIndex].style,
+      //   ...this.style}
+    },
+
+
+    findSection(selectedElement){
+      this.sectionIndex = this.getWorkplaceData.sections
+        .findIndex(x => x.id === selectedElement);
+    },
+
+    findColumn(selectedElement){
+      this.columnIndex = this.getWorkplaceData.sections[this.sectionIndex]
+        .columns.findIndex(x => x.id === selectedElement);
+    },
+
+    findItem(selectedElement){
+      this.itemIndex = this.getWorkplaceData.sections[this.sectionIndex]
+        .columns[this.columnIndex].childs.findIndex(x => x.id === selectedElement);
+      console.log(333, this.itemIndex)
     }
   }
 }
@@ -74,8 +210,18 @@ export default {
     }
     .input-container{
       font-size: 14px;
-      display:flex;
+      display:block;
       margin: 15px 0 ;
+      .inputFather-container{
+        display:flex;
+      }
+      .inputChilds-container{
+        display:block;
+        transition: 0.3s;
+        .container{
+          display: flex;
+        }
+      }
       input{
         margin-left: 10px;
         background:#e9e9e9;
@@ -84,14 +230,31 @@ export default {
       }
     }
   }
-      ::v-deep .v-input{
-        max-width: 150px;
-        .v-input__slot{
-          border-width: 0 0 2px 0;
-          border-style: solid;
-          border-radius: 0;
-          border-color: rgba(0, 0, 0, 0.12);
-          box-shadow: none!important;
+  ::v-deep .v-input{
+    max-width: 150px;
+    .v-input__slot{
+      border-width: 0 0 2px 0;
+      border-style: solid;
+      border-radius: 0;
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: none!important;
+    }
+  }
+  ::v-deep .row{
+    width: 300px;
+    border-bottom: 1px solid #c7c7c7;
+    margin-left: -15px;
+    .v-expansion-panels{
+      border-radius: 0px;
+      .v-expansion-panel{
+        &::before{
+          box-shadow: none;
+        }
+        .v-expansion-panel-header,
+        .v-expansion-panel-content{
+          background: $containerBackground;
         }
       }
+    }
+  }
 </style>

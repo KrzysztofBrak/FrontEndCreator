@@ -4,16 +4,13 @@
       <selectedItemInfo transition="fade-transition"/>
     </v-fade-transition>
     <ItemPosition/>
-    <v-divider :class="['divider']"></v-divider>
     <v-fade-transition>
       <EditText transition="fade-transition" v-show="getTextSelected"/>
     </v-fade-transition>
-      <v-divider :class="['divider']"></v-divider>
 
     <v-fade-transition>
       <shapeEdit transition="fade-transition" />
     </v-fade-transition>
-      <v-divider :class="['divider']"></v-divider>
   </section>
 </template>
 

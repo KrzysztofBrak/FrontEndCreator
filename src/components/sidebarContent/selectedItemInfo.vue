@@ -34,7 +34,7 @@ export default {
           id: `${this.getActiveElement.id}-col_${++columnIndex}`,
           isActive: true,
           style:{
-            height: '300px',
+            height: '100%',
             width: '100%',
           },
           childs:[{

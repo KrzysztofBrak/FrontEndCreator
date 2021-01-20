@@ -89,7 +89,10 @@ export default {
         columns:[{
           id: 'section_0-col_0',
           isActive: false,
-          style:{},
+          style:{
+            height: '100%',
+            width: '100%',
+          },
           childs:[{
             id: 'section_0-col_0-item_0',
             type: 'text',

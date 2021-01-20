@@ -114,7 +114,6 @@ export default {
 
 <style scoped lang="scss">
   .default-section{
-    min-height: 300px;
     width: 100%;
     background: white;
     padding: 0px;

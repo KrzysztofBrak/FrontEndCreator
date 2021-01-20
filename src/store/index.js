@@ -23,7 +23,7 @@ export default new Vuex.Store({
         id: 'section_0-col_0',
         isActive: false,
         style:{
-          height: '300px',
+          height: '100%',
           width: '100%',
         },
         childs:[{
@@ -53,7 +53,7 @@ export default new Vuex.Store({
           id: 'section_0-col_0',
           isActive: false,
           style:{
-            height: '300px',
+            height: '100%',
             width: '100%',
           },
           childs:[{
