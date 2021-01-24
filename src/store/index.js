@@ -18,6 +18,12 @@ export default new Vuex.Store({
       style:{
         height: '300px',
         width: '100%',
+        background:'#FFFFFFFF',
+        boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);',
+        borderWidth: '0px',
+        borderStyle: 'none',
+        borderColor: '#FFFFFFFF',
+        borderRadius: '0px',
       },
       columns:[{
         id: 'section_0-col_0',
@@ -48,6 +54,13 @@ export default new Vuex.Store({
         style:{
           height: '300px',
           width: '100%',
+          background:'#FFFFFFFF',
+          boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);',
+          borderWidth: '0px',
+          borderStyle: 'none',
+          borderColor: '#FFFFFFFF',
+          borderRadius: '0px',
+
         },
         columns:[{
           id: 'section_0-col_0',

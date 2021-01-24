@@ -22,13 +22,14 @@
 
                     <v-icon v-else>mdi-lock-outline</v-icon>
                   </div>
-                  <ColorPickerModal v-if="input.type === 'ColorPicker'"/>
+
+                  <ColorPickerModal v-if="input.type === 'ColorPicker'" :selectedColor="style[input.vModel]" :inputName="input.vModel" @selected="selectedColor"/>
                   <input v-else :type="input.type"
                     v-show="!input.childs || input.showSeparately === false"
                     :class="[input.class]"
                     v-model="style[input.vModel]"
                     v-on:change="updateStyle(kindOfSelectedItem)"
-                  >
+                  >{{style[input.vModel]}}
                 </div>
                 <div :class="['inputChilds-container']"
                   v-show="input.childs && input.showSeparately === true"
@@ -44,6 +45,7 @@
                       v-on:change="updateStyle(kindOfSelectedItem)"
                     >
                   </div>
+
                 </div>
               </div>
             </v-expansion-panel-content>
@@ -70,9 +72,9 @@ export default {
       'getElementToEdit',
       'getWorkplaceData'
     ]),
+
   },
   watch:{
-
     getElementToEdit: {
       immediate: true,
       handler(){
@@ -92,29 +94,21 @@ export default {
           this.kindOfSelectedItem = 3;
         }
 
+
+          console.log(Object.keys(this.getWorkplaceData.sections[this.sectionIndex].style).length);
         switch (this.kindOfSelectedItem) {
           case 1:
-            console.log('CASEEEE1');
-            this.style.height = this.getWorkplaceData.sections[this.sectionIndex].style.height;
-            this.style.width = this.getWorkplaceData.sections[this.sectionIndex].style.width;
+            this.style = this.getWorkplaceData.sections[this.sectionIndex].style
             break;
 
           case 2:
-            console.log('CASEEEE2');
-            this.style.height = this.getWorkplaceData.sections[this.sectionIndex]
-              .columns[this.columnIndex].style.height;
-            this.style.width = this.getWorkplaceData.sections[this.sectionIndex]
-              .columns[this.columnIndex].style.width;
-            console.log(this.columnIndex,  this.getWorkplaceData.sections[this.sectionIndex]
-              .columns[this.columnIndex].style.height);
+            this.style = this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].style;
             break;
 
           case 3:
-            console.log('CASEEEE3');
-            this.style.height = this.getWorkplaceData.sections[this.sectionIndex]
-              .columns[this.columnIndex].childs[this.itemIndex].style.height;
-            this.style.width = this.getWorkplaceData.sections[this.sectionIndex]
-              .columns[this.columnIndex].childs[this.itemIndex].style.width;
+            this.style = this.getWorkplaceData.sections[this.sectionIndex]
+              .columns[this.columnIndex].childs[this.itemIndex].style;
             break;
 
           default:
@@ -129,13 +123,7 @@ export default {
     columnIndex: -1,
     itemIndex: -1,
     kindOfSelectedItem: 0,
-    style:{
-      width: 0,
-      height:0,
-      background: '',
-      border: '',
-      fontSize: '',
-    }
+    style:{}
   }),
 
   mounted(){
@@ -149,7 +137,9 @@ export default {
         case 1:
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex].style = {
+
             ...this.getWorkplaceData.sections[this.sectionIndex].style,
+
             ...this.style
           }
           break;
@@ -157,8 +147,10 @@ export default {
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex]
               .columns[this.columnIndex].style = {
+
                 ...this.getWorkplaceData.sections[this.sectionIndex]
                   .columns[this.columnIndex].style,
+
                 ...this.style
           }
           break;
@@ -166,8 +158,10 @@ export default {
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex]
               .columns[this.columnIndex].childs[this.itemIndex].style = {
+
                 ...this.getWorkplaceData.sections[this.sectionIndex]
                   .columns[this.columnIndex].childs[this.itemIndex].style,
+
                 ...this.style
           }
           break;
@@ -175,10 +169,6 @@ export default {
         default:
           break;
       }
-      // //merge old object with the new one
-      // this.getWorkplaceData.sections[this.sectionIndex].style = {
-      //   ...this.getWorkplaceData.sections[this.sectionIndex].style,
-      //   ...this.style}
     },
 
 
@@ -196,6 +186,12 @@ export default {
       this.itemIndex = this.getWorkplaceData.sections[this.sectionIndex]
         .columns[this.columnIndex].childs.findIndex(x => x.id === selectedElement);
       console.log(333, this.itemIndex)
+    },
+
+    selectedColor(colorValue){
+      this.style[colorValue.label] = colorValue.color;
+      this.updateStyle(this.kindOfSelectedItem)
+      console.log(colorValue);
     }
   }
 }

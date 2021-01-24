@@ -85,6 +85,12 @@ export default {
         style:{
           height: '300px',
           width: '100%',
+          background:'#00FFFFFF',
+          boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);',
+          borderWidth: '0px',
+          borderStyle: 'none',
+          borderColor: '#FFFFFFFF',
+          borderRadius: '0px',
         },
         columns:[{
           id: 'section_0-col_0',

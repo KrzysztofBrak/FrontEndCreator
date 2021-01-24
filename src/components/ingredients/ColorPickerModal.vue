@@ -6,6 +6,7 @@
           :class="['button']"
           color="secondary"
           @click="modalIsOpened = !modalIsOpened"
+          :style="{background: color}"
         >
         </v-btn>
       </div>
@@ -16,6 +17,7 @@
         :class="['color-picker']"
         show-swatches
         mode="hexa"
+        v-model="color"
         swatches-max-height="200px"
       ></v-color-picker>
     </v-fade-transition>
@@ -29,9 +31,38 @@
 <script>
 export default {
   name: 'editSidebar',
+  props:{
+    inputName:{
+      type: String,
+      default: ''
+    },
+    selectedColor:{
+      type: String,
+      default: '#FFFFFFFF'
+    }
+  },
+  computed:{
+    color: {
+      get () {
+        return this.selectedColor
+      },
+      set (v) {
+        const colorInfo = {
+          color: v,
+          label: this.inputName
+        }
+        this.$emit('selected', colorInfo)
+        this.hexa = v
+      },
+    },
+  },
   data: () => ({
-    modalIsOpened: false
+    modalIsOpened: false,
+    hexa: '',
   }),
+  mounted(){
+    this.hexa = this.selectedColor
+  },
   methods:{
     closeModal(){
       this.modalIsOpened = false;

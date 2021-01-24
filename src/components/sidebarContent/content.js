@@ -52,7 +52,7 @@ const styleInputs = {
                 inputName: 'Cień',
                 type: 'ColorPicker',
                 class: '',
-                vModel: 'box-shadow',
+                vModel: 'boxShadow',
             },
         ]
     },
@@ -70,20 +70,20 @@ const styleInputs = {
                 inputName: 'styl:',
                 type: 'dropdown',
                 class: '',
-                vModel: 'border',
+                vModel: 'borderStyle',
             },
             {
                 inputName: 'grubość',
                 type: 'text',
                 class: '',
-                vModel: 'weight',
+                vModel: 'borderWidth',
             },
             {
                 inputName: 'zaokrąglenie krawędzi',
                 showSeparately: 'false',
                 type: 'text',
                 class: '',
-                vModel: 'border-radius',
+                vModel: 'borderRadius',
                 childs:[
                     {
                         inputName: 'top-left',

@@ -4,12 +4,24 @@ const buttons = [
         alt: 'nowa sekcja'
     },
     {
+        img: 'mdi-table-column-plus-after',
+        alt: 'nowa kolumna'
+    },
+    {
         img: 'mdi-format-color-text',
-        alt: 'tekst'
+        alt: 'dodaj tekst'
+    },
+    {
+        img: 'mdi-form-textbox',
+        alt: 'dodaj pole tekstowe'
+    },
+    {
+        img: 'mdi-gesture-tap-button',
+        alt: 'dodaj przycisk'
     },
     {
         img: 'mdi-table-plus',
-        alt: 'tabela'
+        alt: 'dodaj tabelę'
     },
     {
         img: 'mdi-image-plus',

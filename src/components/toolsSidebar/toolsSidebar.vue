@@ -37,13 +37,18 @@ export default {
       'setSectionsLength',
       'setWorkplaceActive',
       'addItemToColumn',
-      'setElementToEdit'
+      'setElementToEdit',
+      'addSectionChilds'
     ]),
 
     btnClick(btnCategory){
       switch(btnCategory){
         case 'nowa sekcja':
           this.addSection()
+          break;
+
+        case 'nowa kolumna':
+          this.addColumn()
           break;
 
         case 'tekst':
@@ -76,6 +81,12 @@ export default {
         style:{
           height: '300px',
           width: '100%',
+          background:'#00FFFFFF',
+          boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);',
+          borderWidth: '0px',
+          borderStyle: 'none',
+          borderColor: '#FFFFFFFF',
+          borderRadius: '0px',
         },
         columns:[{
           id: `section_${this.getSectionsLength}-col_0`,
@@ -99,6 +110,39 @@ export default {
     },
 
 //================================
+    addColumn(){
+      //get index of last column (it won't work when switching columns places will be active)
+      this.getWorkplaceData.sections.forEach(section => {
+       //   section.isActive = false;
+          section.columns.forEach(column => {
+            column.isActive = false;
+            //w prztyszłości trzeba bedzie jeszcze dezaktywować dzieci kolumn
+          })
+      });
+
+      let columnIndex = this.getActiveElement.columns[this.getActiveElement.columns.length-1].id.split("col_")[1];
+      this.addSectionChilds({
+          id: `${this.getActiveElement.id}-col_${++columnIndex}`,
+          isActive: true,
+          style:{
+            height: '100%',
+            width: '100%',
+          },
+          childs:[{
+            id: `${this.getActiveElement.id}-col_${columnIndex}-item_0`,
+            type: 'text',
+            content:`${this.getActiveElement.id}-col_${columnIndex}-item_0`,
+            isActive: false,
+            style:{},
+          }]
+      })
+
+      this.setElementToEdit(`${this.getActiveElement.id}-col_${columnIndex}`)
+    }
+  },
+
+//================================
+
     addItem(type){
       this.getWorkplaceData.sections.forEach(section => {
           section.columns.forEach(column => {
@@ -131,7 +175,7 @@ export default {
       this.setElementToEdit(itemText);
     }
   }
-}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

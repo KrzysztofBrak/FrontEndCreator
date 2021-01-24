@@ -24,6 +24,7 @@
         v-for="(item, index) in getWorkplaceData.sections[currentSection].columns[currentColumn].childs"
         :key="index"
         :id="item.id"
+        :style="item.style"
         @dblclick="disactivateItems(), setItems(item)"
       >
       <component :is="'DefaultChildItem'"
@@ -117,7 +118,6 @@ export default {
           //ID of element to edit:
           this.setElementToEdit(this.getWorkplaceData.sections[this.currentSection]
           .columns[this.currentColumn].childs[childIndex].id)
-          console.log('CLICK text');
 
 
           this.setItemClicked(this.getWorkplaceData.sections[this.currentSection]
