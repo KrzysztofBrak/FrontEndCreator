@@ -15,7 +15,7 @@
                 <div :class="['inputFather-container']">
                   <p>{{input.inputName}}:</p>
 
-                  <div v-if="input.childs" @click="input.showSeparately = !input.showSeparately">
+                  <div v-if="input.childs" @click="changSeparately(input)">
                     <v-icon v-if="input.showSeparately === true"
                     >mdi-lock-open-variant-outline
                     </v-icon>
@@ -23,7 +23,11 @@
                     <v-icon v-else>mdi-lock-outline</v-icon>
                   </div>
 
-                  <ColorPickerModal v-if="input.type === 'ColorPicker'" :selectedColor="style[input.vModel]" :inputName="input.vModel" @selected="selectedColor"/>
+                  <ColorPickerModal v-if="input.type === 'ColorPicker'"
+                    :selectedColor="style[input.vModel]"
+                    :inputName="input.vModel"
+                    @selected="selectedColor"
+                  />
                   <input v-else :type="input.type"
                     v-show="!input.childs || input.showSeparately === false"
                     :class="[input.class]"
@@ -45,8 +49,8 @@
                       v-on:change="updateStyle(kindOfSelectedItem)"
                     >
                   </div>
-
                 </div>
+
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -58,6 +62,7 @@
 <script>
 import{mapGetters} from 'vuex'
 import ColorPickerModal from '@/components/ingredients/ColorPickerModal.vue'
+import {findSelectedItem} from '@/components/findSelectedItem.js'
 
 import{styleInputs} from './content'
 export default {
@@ -72,67 +77,33 @@ export default {
       'getElementToEdit',
       'getWorkplaceData'
     ]),
-
   },
+
   watch:{
     getElementToEdit: {
       immediate: true,
       handler(){
-        //first find section
-        let selectedElement = this.getElementToEdit.split('-')[0]
-        this.findSection(selectedElement);
-        this.kindOfSelectedItem = 1;
-        //find column if it is selected
-        if(this.getElementToEdit.includes("col")){
-          selectedElement = this.getElementToEdit.split('-item_0')[0]
-          this.findColumn(selectedElement);
-          this.kindOfSelectedItem = 2;
-        }
-        //find item if it is selected
-        if(this.getElementToEdit.includes("item")){
-          this.findItem(this.getElementToEdit);
-          this.kindOfSelectedItem = 3;
-        }
+        this.selectedItem = findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
 
-
-          console.log(Object.keys(this.getWorkplaceData.sections[this.sectionIndex].style).length);
-        switch (this.kindOfSelectedItem) {
-          case 1:
-            this.style = this.getWorkplaceData.sections[this.sectionIndex].style
-            break;
-
-          case 2:
-            this.style = this.getWorkplaceData.sections[this.sectionIndex]
-              .columns[this.columnIndex].style;
-            break;
-
-          case 3:
-            this.style = this.getWorkplaceData.sections[this.sectionIndex]
-              .columns[this.columnIndex].childs[this.itemIndex].style;
-            break;
-
-          default:
-            break;
-        }
+        this.kindOfSelectedItem = this.selectedItem.kindOfSelectedItem;
+        this.sectionIndex = this.selectedItem.sectionIndex;
+        this.columnIndex = this.selectedItem.columnIndex;
+        this.itemIndex = this.selectedItem.itemIndex;
+        this.style = this.selectedItem.style;
       }
     },
   },
   data: () => ({
     styleInputs,
+    selectedItem: {},
     sectionIndex: -1,
     columnIndex: -1,
     itemIndex: -1,
-    kindOfSelectedItem: 0,
     style:{}
   }),
 
-  mounted(){
-
-  },
-
   methods:{
     updateStyle(kindOfSelectedItem){
-      console.log('UPDATE', kindOfSelectedItem);
       switch (kindOfSelectedItem) {
         case 1:
           //merge old object with the new one
@@ -143,6 +114,7 @@ export default {
             ...this.style
           }
           break;
+
         case 2:
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex]
@@ -154,6 +126,7 @@ export default {
                 ...this.style
           }
           break;
+
         case 3:
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex]
@@ -172,26 +145,13 @@ export default {
     },
 
 
-    findSection(selectedElement){
-      this.sectionIndex = this.getWorkplaceData.sections
-        .findIndex(x => x.id === selectedElement);
-    },
-
-    findColumn(selectedElement){
-      this.columnIndex = this.getWorkplaceData.sections[this.sectionIndex]
-        .columns.findIndex(x => x.id === selectedElement);
-    },
-
-    findItem(selectedElement){
-      this.itemIndex = this.getWorkplaceData.sections[this.sectionIndex]
-        .columns[this.columnIndex].childs.findIndex(x => x.id === selectedElement);
-      console.log(333, this.itemIndex)
-    },
-
     selectedColor(colorValue){
       this.style[colorValue.label] = colorValue.color;
       this.updateStyle(this.kindOfSelectedItem)
-      console.log(colorValue);
+    },
+
+    changeSeparately(input){
+      input.showSeparately = !input.showSeparately
     }
   }
 }

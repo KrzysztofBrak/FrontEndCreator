@@ -85,13 +85,14 @@ export default {
         style:{
           height: '300px',
           width: '100%',
-          background:'#00FFFFFF',
-          boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);',
+          background:'#FFFFFF00',
+          boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
           borderWidth: '0px',
           borderStyle: 'none',
-          borderColor: '#FFFFFFFF',
+          borderColor: '#FFFFFF00',
           borderRadius: '0px',
         },
+        childStyle:{},
         columns:[{
           id: 'section_0-col_0',
           isActive: false,

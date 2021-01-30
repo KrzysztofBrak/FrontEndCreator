@@ -21,10 +21,11 @@
         swatches-max-height="200px"
       ></v-color-picker>
     </v-fade-transition>
-
     </v-app>
-<div v-show="modalIsOpened===true" :class="['overlay']" @click.self="closeModal">
-  </div>
+    <div v-show="modalIsOpened===true"
+      :class="['overlay']" @click.self="closeModal"
+    >
+    </div>
   </div>
 </template>
 
@@ -38,7 +39,7 @@ export default {
     },
     selectedColor:{
       type: String,
-      default: '#FFFFFFFF'
+      default: '#FFFFFF00'
     }
   },
   computed:{

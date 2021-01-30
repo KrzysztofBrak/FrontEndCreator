@@ -1,27 +1,58 @@
 const textbuttons = [
     {
         img: require('@/assets/img/textEditButtons/align_horizontal_left.svg'),
-        alt: 'left'
+        alt: 'left',
+        isActive: false,
+        positionStyle:{
+            justifyContent: 'flex-start',
+            flexDirection: 'row'
+        }
+
     },
     {
         img: require('@/assets/img/textEditButtons/align_horizontal_center.svg'),
-        alt: 'center'
+        alt: 'center',
+        isActive: false,
+        positionStyle:{
+            justifyContent: 'center',
+            flexDirection: 'row'
+        }
     },
     {
         img: require('@/assets/img/textEditButtons/align_horizontal_right.svg'),
-        alt: 'right'
+        alt: 'right',
+        isActive: false,
+        positionStyle:{
+            justifyContent: 'flex-end',
+            flexDirection: 'row'
+        }
     },
     {
         img: require('@/assets/img/textEditButtons/align_vertical_top.svg'),
-        alt: 'top'
+        alt: 'top',
+        isActive: false,
+        positionStyle:{
+            justifyContent: 'flex-end',
+            flexDirection: 'column'
+        }
     },
     {
         img: require('@/assets/img/textEditButtons/align_vertical_center.svg'),
-        alt: 'middle'
+        alt: 'middle',
+        isActive: false,
+        positionStyle:{
+            justifyContent: 'flex-end',
+            flexDirection: 'column'
+        }
     },
     {
         img: require('@/assets/img/textEditButtons/align_vertical_bottom.svg'),
-        alt: 'bottom'
+        alt: 'bottom',
+        isActive: false,
+        positionStyle:{
+            justifyContent: 'flex-end',
+            flexDirection: 'column'
+        }
     }
 ]
 
@@ -80,7 +111,7 @@ const styleInputs = {
             },
             {
                 inputName: 'zaokrąglenie krawędzi',
-                showSeparately: 'false',
+                showSeparately: false,
                 type: 'text',
                 class: '',
                 vModel: 'borderRadius',

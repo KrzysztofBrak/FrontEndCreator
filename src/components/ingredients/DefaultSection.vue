@@ -17,7 +17,9 @@
         <v-icon large>mdi-trash-can</v-icon>
       </v-btn>
     </v-fab-transition>
-    <div :class="['columns-container']">
+    <div :class="['columns-container']"
+      :style="section.childStyle"
+    >
       <div :class="['column']"
         v-for="(column, index) in getWorkplaceData.sections[currentSection].columns"
         :key="index"
