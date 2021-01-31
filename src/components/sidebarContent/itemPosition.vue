@@ -1,25 +1,40 @@
 <template>
   <div  :class="['align-text-container']">
-    <div v-for="button in textbuttons"
-      :class="['align-text-button', {'active': button.isActive}]"
-      :key="button.alt"
-      @click="activateButton(button)"
-    >
-      <img :src="button.img" :alt="button.alt"/>
+
+    <div :class="['icon-section']">
+      <div v-for="button in textbuttons"
+        :class="['align-text-button', {'active': button.isActive}]"
+        :key="button.alt"
+        @click="activateButton(button, true)"
+      >
+        <v-icon>{{button.img}}</v-icon>
+      </div>
     </div>
+
+    <div :class="['icon-section']">
+      <div v-for="button in sortbuttons"
+        :class="['horizontal-positioning', {'active': button.isActive}]"
+        :key="button.alt"
+        @click="activateButton(button, false)"
+      >
+        <v-icon>{{button.img}}</v-icon>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 import{mapGetters} from 'vuex'
 
-import {textbuttons} from './content.js'
+import {textbuttons, sortbuttons} from './content.js'
 import {findSelectedItem} from '@/components/findSelectedItem.js'
 
 export default {
   name: 'itemPosition',
   data: () => ({
     textbuttons,
+    sortbuttons,
     selectedItem: {},
     sectionIndex: -1,
     columnIndex: -1,
@@ -46,22 +61,49 @@ export default {
         this.columnIndex = this.selectedItem.columnIndex;
         this.itemIndex = this.selectedItem.itemIndex;
         this.style = this.selectedItem.style;
+
+        this.clearActiveButtons()
       }
     },
   },
 
   methods:{
-    activateButton(button){
+    activateButton(button, isFirstSectionButton){
       let btnIndex = this.textbuttons.findIndex(x => x === button)
-      if(btnIndex <= 2){
-        this.textbuttons[0].isActive = false;
-        this.textbuttons[1].isActive = false;
-        this.textbuttons[2].isActive = false;
+
+  //jestem w sekcji
+      if(!this.getElementToEdit.includes('col')){
+          if((isFirstSectionButton && btnIndex <= 2) || !isFirstSectionButton){
+                this.textbuttons[0].isActive = false;
+                this.textbuttons[1].isActive = false;
+                this.textbuttons[2].isActive = false;
+
+                this.sortbuttons[0].isActive = false;
+                this.sortbuttons[1].isActive = false;
+          }else{
+                this.textbuttons[3].isActive = false;
+                this.textbuttons[4].isActive = false;
+                this.textbuttons[5].isActive = false;
+          }
+
+  //nie jestem w sekcji
       }else{
-        this.textbuttons[3].isActive = false;
-        this.textbuttons[4].isActive = false;
-        this.textbuttons[5].isActive = false;
+          if((isFirstSectionButton && btnIndex > 2) || !isFirstSectionButton){
+                this.textbuttons[3].isActive = false;
+                this.textbuttons[4].isActive = false;
+                this.textbuttons[5].isActive = false;
+
+                this.sortbuttons[0].isActive = false;
+                this.sortbuttons[1].isActive = false;
+
+          }else{
+                this.textbuttons[0].isActive = false;
+                this.textbuttons[1].isActive = false;
+                this.textbuttons[2].isActive = false;
+          }
       }
+
+
       button.isActive = !button.isActive
 
       this.selectedItem = findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
@@ -86,7 +128,7 @@ export default {
                 ...this.getWorkplaceData.sections[this.sectionIndex]
                   .columns[this.columnIndex].childStyle,
 
-                ...button.positionStyle
+                ...button.positionStyleForItems
           }
           break;
 
@@ -97,13 +139,21 @@ export default {
 
                 ...this.getWorkplaceData.sections[this.sectionIndex]
                   .columns[this.columnIndex].childs[this.itemIndex].childStyle,
-                ...button.positionStyle
+                ...button.positionStyleForItems
           }
           break;
 
         default:
           break;
       }
+    },
+    clearActiveButtons(){
+      this.textbuttons.forEach(element => {
+        element.isActive = false;
+      });
+      this.sortbuttons.forEach(element => {
+        element.isActive = false;
+      });
     }
   }
 }
@@ -112,16 +162,20 @@ export default {
 <style scoped lang="scss">
     .align-text-container{
       margin: 10px;
-      display: flex;
+      display: block;
       justify-content: space-between;
-      .align-text-button{
-        padding: 5px;
-        cursor: pointer;
-        &:hover{
-          background: $hoverColor;
-        }
-        &.active{
-          background: rgb(158, 158, 158);
+      .icon-section{
+        display: flex;
+        .align-text-button,
+        .horizontal-positioning{
+          padding: 9px;
+          cursor: pointer;
+          &:hover{
+            background: $hoverColor;
+          }
+          &.active{
+            background: rgb(158, 158, 158);
+          }
         }
       }
     }

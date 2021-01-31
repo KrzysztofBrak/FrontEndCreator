@@ -19,7 +19,9 @@
     </v-fab-transition>
 
     <!-- display items in current column -->
-    <div :class="['item-container']">
+    <div :class="['item-container']"
+      :style="column.childStyle"
+      >
       <div :class="['item']"
         v-for="(item, index) in getWorkplaceData.sections[currentSection].columns[currentColumn].childs"
         :key="index"
@@ -142,6 +144,11 @@ export default {
   }
   .column-btn{
     right: 85px;
+  }
+  .item-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
 </style>

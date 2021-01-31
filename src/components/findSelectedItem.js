@@ -17,7 +17,8 @@ var findSelectedItem = function(getElementToEdit, getWorkplaceData) {
 
   //find column if it is selected
   if(getElementToEdit.includes("col")){
-    selectedElement = getElementToEdit.split('-item_0')[0]
+    selectedElement = getElementToEdit.split('-item')[0]
+
     parameters.columnIndex = getWorkplaceData
       .sections[parameters.sectionIndex]
       .columns.findIndex(x => x.id === selectedElement);
@@ -26,6 +27,7 @@ var findSelectedItem = function(getElementToEdit, getWorkplaceData) {
   }
   //find item if it is selected
   if(getElementToEdit.includes("item")){
+
     parameters.itemIndex = getWorkplaceData
       .sections[parameters.sectionIndex]
       .columns[parameters.columnIndex]

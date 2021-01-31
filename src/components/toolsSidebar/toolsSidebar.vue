@@ -51,7 +51,7 @@ export default {
           this.addColumn()
           break;
 
-        case 'tekst':
+        case 'dodaj tekst':
           this.setTextSelected(true);
           this.addItem('text')
           break;
@@ -100,6 +100,7 @@ export default {
             height: '100%',
             width: '100%',
           },
+          childStyle:{},
           childs:[{
             id: `section_${this.getSectionsLength}-col_0-item_0`,
             type: 'text',
@@ -114,7 +115,7 @@ export default {
       this.setElementToEdit(`section_${this.getSectionsLength}`)
     },
 
-//================================
+    //================================
     addColumn(){
       //get index of last column (it won't work when switching columns places will be active)
       this.getWorkplaceData.sections.forEach(section => {
@@ -143,10 +144,10 @@ export default {
       })
 
       this.setElementToEdit(`${this.getActiveElement.id}-col_${columnIndex}`)
-    }
-  },
+    },
 
-//================================
+
+    //================================
 
     addItem(type){
       this.getWorkplaceData.sections.forEach(section => {
@@ -180,7 +181,7 @@ export default {
       this.setElementToEdit(itemText);
     }
   }
-
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

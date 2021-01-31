@@ -1,57 +1,99 @@
 const textbuttons = [
     {
-        img: require('@/assets/img/textEditButtons/align_horizontal_left.svg'),
+        img: 'mdi-align-horizontal-left',
         alt: 'left',
         isActive: false,
         positionStyle:{
             justifyContent: 'flex-start',
             flexDirection: 'row'
+        },
+        positionStyleForItems:{
+            alignItems: 'flex-start'
         }
-
     },
     {
-        img: require('@/assets/img/textEditButtons/align_horizontal_center.svg'),
+        img: 'mdi-align-horizontal-center',
         alt: 'center',
         isActive: false,
         positionStyle:{
             justifyContent: 'center',
             flexDirection: 'row'
+        },
+        positionStyleForItems:{
+            alignItems: 'center'
         }
     },
     {
-        img: require('@/assets/img/textEditButtons/align_horizontal_right.svg'),
+        img: 'mdi-align-horizontal-right',
         alt: 'right',
         isActive: false,
         positionStyle:{
             justifyContent: 'flex-end',
             flexDirection: 'row'
+        },
+        positionStyleForItems:{
+            alignItems: 'flex-end'
         }
     },
     {
-        img: require('@/assets/img/textEditButtons/align_vertical_top.svg'),
+        img: 'mdi-align-vertical-top',
         alt: 'top',
         isActive: false,
         positionStyle:{
-            justifyContent: 'flex-end',
+            alignItems: 'flex-start'
+        },
+        positionStyleForItems:{
+            justifyContent: 'flex-start',
             flexDirection: 'column'
         }
     },
     {
-        img: require('@/assets/img/textEditButtons/align_vertical_center.svg'),
+        img: 'mdi-align-vertical-center',
         alt: 'middle',
         isActive: false,
         positionStyle:{
-            justifyContent: 'flex-end',
+            alignItems: 'center'
+        },
+        positionStyleForItems:{
+            justifyContent: 'center',
             flexDirection: 'column'
         }
     },
     {
-        img: require('@/assets/img/textEditButtons/align_vertical_bottom.svg'),
+        img: 'mdi-align-vertical-bottom',
         alt: 'bottom',
         isActive: false,
         positionStyle:{
+            alignItems: 'flex-end'
+        },
+        positionStyleForItems:{
             justifyContent: 'flex-end',
             flexDirection: 'column'
+        }
+    }
+]
+const sortbuttons = [
+    {
+        img: 'mdi-arrow-collapse-horizontal',
+        alt: 'collapse-horizontal',
+        isActive: false,
+        positionStyle:{
+            justifyContent: 'space-around',
+        },
+        positionStyleForItems:{
+            justifyContent: 'space-around',
+        }
+
+    },
+    {
+        img: 'mdi-arrow-expand-horizontal',
+        alt: 'expand-horizontal',
+        isActive: false,
+        positionStyle:{
+            justifyContent: 'space-between',
+        },
+        positionStyleForItems:{
+            justifyContent: 'space-between',
         }
     }
 ]
@@ -181,4 +223,4 @@ const styleInputs = {
         ]
     },
 }
-export {textbuttons, styleInputs}
+export {textbuttons, sortbuttons, styleInputs}

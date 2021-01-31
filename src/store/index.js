@@ -33,6 +33,7 @@ export default new Vuex.Store({
           height: '100%',
           width: '100%',
         },
+        childStyle:{},
         childs:[{
           id: 'section_0-col_0-item_0',
           type: 'text',
@@ -74,6 +75,7 @@ export default new Vuex.Store({
             height: '100%',
             width: '100%',
           },
+          childStyle:{},
           childs:[{
             id: 'section_0-col_0-item_0',
             type: 'text',
