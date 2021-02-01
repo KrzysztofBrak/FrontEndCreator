@@ -17,7 +17,7 @@
         :key="button.alt"
         @click="activateButton(button, false)"
       >
-        <v-icon>{{button.img}}</v-icon>
+        <v-icon :class="[{'rotate': settingItemsInColumns}]">{{button.img}}</v-icon>
       </div>
     </div>
 
@@ -40,7 +40,8 @@ export default {
     columnIndex: -1,
     itemIndex: -1,
     kindOfSelectedItem: 0,
-    style:{}
+    style:{},
+    settingItemsInColumns: false
   }),
 
   computed:{
@@ -62,7 +63,11 @@ export default {
         this.itemIndex = this.selectedItem.itemIndex;
         this.style = this.selectedItem.style;
 
-        this.clearActiveButtons()
+        this.clearActiveButtons();
+
+
+        this.settingItemsInColumns = (this.kindOfSelectedItem === 2) ? true : false;
+
       }
     },
   },
@@ -175,6 +180,11 @@ export default {
           }
           &.active{
             background: rgb(158, 158, 158);
+          }
+        }
+        .horizontal-positioning{
+          .v-icon.rotate{
+            transform: rotate(90deg);
           }
         }
       }

@@ -19,7 +19,7 @@ export default new Vuex.Store({
         height: '300px',
         width: '100%',
         background:'#FFFFFF00',
-        boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
+      //  boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
         borderWidth: '0px',
         borderStyle: 'none',
         borderColor: '#FFFFFF00',
@@ -57,7 +57,7 @@ export default new Vuex.Store({
           height: '300px',
           width: '100%',
           background:'#FFFFFF00',
-          boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
+      //    boxShadow: '0px 0px 10px 1px rgba(0,0,0,0)',
           borderWidth: '0px',
           borderStyle: 'none',
           borderColor: '#FFFFFF00',
@@ -213,7 +213,11 @@ export default new Vuex.Store({
       if(value === true){
         let IDArray = state.elementToEdit.split('-');
         IDArray.splice(IDArray.length-1, 1)
-        state.elementToEdit = IDArray.join('-');
+        if(IDArray.join('-') === ''){
+          state.elementToEdit = "workplace";
+        }else{
+          state.elementToEdit = IDArray.join('-');
+        }
       }else{
         state.elementToEdit = value
       }

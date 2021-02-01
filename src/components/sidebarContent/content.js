@@ -116,6 +116,18 @@ const styleInputs = {
                 vModel: 'height',
             },
             {
+                inputName: 'Odstęp\u00A0wew.',
+                type: 'text',
+                class: '',
+                vModel: 'padding',
+            },
+            {
+                inputName: 'Odstęp\u00A0zew.',
+                type: 'text',
+                class: '',
+                vModel: 'margin',
+            },
+            {
                 inputName: 'Wypełnienie',
                 type: 'ColorPicker',
                 class: '',
@@ -152,7 +164,7 @@ const styleInputs = {
                 vModel: 'borderWidth',
             },
             {
-                inputName: 'zaokrąglenie krawędzi',
+                inputName: `zaokrąglenie\u00A0krawędzi`,
                 showSeparately: false,
                 type: 'text',
                 class: '',

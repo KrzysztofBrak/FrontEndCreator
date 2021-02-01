@@ -86,14 +86,15 @@ export default {
     }
       .main-container{
         display: block;
+        width: 100%;
+        margin-left: 10px;
         .color-container{
           .color-button{
             display: flex;
             justify-content: space-between;
             .button{
-              max-width: 150px;
               width: 100%;
-              height: 26px;
+              height: 16px;
             }
           }
         }

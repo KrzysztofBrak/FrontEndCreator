@@ -1,5 +1,5 @@
 <template>
-    <div :class="['shapeEdit-container']">
+    <div v-if="getElementToEdit !== 'workplace'" :class="['shapeEdit-container']">
       <v-row justify="center">
         <v-expansion-panels accordion>
           <v-expansion-panel
@@ -15,9 +15,9 @@
                 <div :class="['inputFather-container']">
                   <p>{{input.inputName}}:</p>
 
-                  <div v-if="input.childs" @click="changSeparately(input)">
-                    <v-icon v-if="input.showSeparately === true"
-                    >mdi-lock-open-variant-outline
+                  <div v-if="input.childs" @click="changeSeparately(input)">
+                    <v-icon v-if="input.showSeparately === true">
+                      mdi-lock-open-variant-outline
                     </v-icon>
 
                     <v-icon v-else>mdi-lock-outline</v-icon>
@@ -170,6 +170,14 @@ export default {
       margin: 15px 0 ;
       .inputFather-container{
         display:flex;
+        justify-content: space-between;
+        input{
+          height: 16px;
+          margin: auto 0 auto 10px;
+          width: 100%;
+          text-align: end;
+          padding: 0 3px
+        }
       }
       .inputChilds-container{
         display:block;
@@ -182,7 +190,6 @@ export default {
         margin-left: 10px;
         background:#e9e9e9;
         outline: none;
-        max-width: 50px;
       }
     }
   }

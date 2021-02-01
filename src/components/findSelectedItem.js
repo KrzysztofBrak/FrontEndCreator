@@ -8,11 +8,12 @@ var findSelectedItem = function(getElementToEdit, getWorkplaceData) {
     columnIndex: -1,
     itemIndex: -1,
   }
+  //if it is workplace - return 0
+  if(getElementToEdit === 'workplace') return 0
   //first find section
   let selectedElement = getElementToEdit.split('-')[0];
   parameters.sectionIndex = getWorkplaceData
     .sections.findIndex(x => x.id === selectedElement);
-
   parameters.kindOfSelectedItem = 1;
 
   //find column if it is selected

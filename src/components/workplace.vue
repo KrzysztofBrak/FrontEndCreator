@@ -92,7 +92,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .workplace-container{
-  height: 1080px;
+  min-height: 1080px;
   background: white;
   box-shadow: $mainShadow;
   margin: 80px 60px;
