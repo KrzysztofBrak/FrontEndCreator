@@ -53,7 +53,11 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['getWorkplaceData', 'getActiveElement', 'getElementToEdit', 'getTtemClicked']),
+    ...mapGetters([
+      'getWorkplaceData',
+      'getActiveElement',
+      'getElementToEdit',
+      'getTtemClicked']),
   },
   data: () => ({
     currentSection: 0

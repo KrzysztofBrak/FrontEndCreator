@@ -7,6 +7,7 @@ var findSelectedItem = function(getElementToEdit, getWorkplaceData) {
     sectionIndex: -1,
     columnIndex: -1,
     itemIndex: -1,
+    itemType: ''
   }
   //if it is workplace - return 0
   if(getElementToEdit === 'workplace') return 0
@@ -54,6 +55,11 @@ var findSelectedItem = function(getElementToEdit, getWorkplaceData) {
         .sections[parameters.sectionIndex]
         .columns[parameters.columnIndex]
         .childs[parameters.itemIndex].style;
+
+      parameters.itemType = getWorkplaceData
+        .sections[parameters.sectionIndex]
+        .columns[parameters.columnIndex]
+        .childs[parameters.itemIndex].type;
       break;
 
     default:

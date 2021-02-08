@@ -154,6 +154,12 @@ const styleInputs = {
             {
                 inputName: 'styl:',
                 type: 'dropdown',
+                items: [
+                    'solid',
+                    'dashed',
+                    'dotted',
+                    'none'
+                ],
                 class: '',
                 vModel: 'borderStyle',
             },
@@ -205,6 +211,13 @@ const styleInputs = {
             {
                 inputName: 'Czcionka',
                 type: 'dropdown',
+                items: [
+                    'arial',
+                    'monospace',
+                    'cursive',
+                    'calibri',
+                    'fantasy'
+                ],
                 class: '',
                 vModel: 'font-family',
             },

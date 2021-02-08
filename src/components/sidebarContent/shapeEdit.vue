@@ -28,12 +28,21 @@
                     :inputName="input.vModel"
                     @selected="selectedColor"
                   />
+                  <v-select  v-else-if="input.type === 'dropdown'"
+                    :items="input.items"
+                    :class="[input.class]"
+                    v-model="style[input.vModel]"
+                    v-on:change="updateStyle(kindOfSelectedItem)"
+                    label="Solo field"
+                    solo
+                  ></v-select>
                   <input v-else :type="input.type"
                     v-show="!input.childs || input.showSeparately === false"
                     :class="[input.class]"
                     v-model="style[input.vModel]"
                     v-on:change="updateStyle(kindOfSelectedItem)"
-                  >{{style[input.vModel]}}
+                    placeholder="wprowadź wartość"
+                  >
                 </div>
                 <div :class="['inputChilds-container']"
                   v-show="input.childs && input.showSeparately === true"
@@ -50,12 +59,24 @@
                     >
                   </div>
                 </div>
-
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-row>
+        <v-textarea v-if="itemIndex !== -1 && selectedItem.itemType === 'text'"
+          filled
+          name="inputText"
+          label="Wstaw tekst"
+          v-model="getWorkplaceData.sections[sectionIndex].columns[columnIndex].childs[itemIndex].content"
+        ></v-textarea>
+        <v-file-input v-if="itemIndex !== -1 && selectedItem.itemType === 'img'"
+          small-chips
+          truncate-length="15"
+          show-size
+          v-model='chosenImg'
+          @change="updateFile($event)"
+        ></v-file-input>
     </div>
 </template>
 
@@ -99,7 +120,8 @@ export default {
     sectionIndex: -1,
     columnIndex: -1,
     itemIndex: -1,
-    style:{}
+    style:{},
+    chosenImg: null,
   }),
 
   methods:{
@@ -142,6 +164,12 @@ export default {
         default:
           break;
       }
+    },
+
+    updateFile(){
+      this.getWorkplaceData.sections[this.sectionIndex]
+        .columns[this.columnIndex].childs[this.itemIndex]
+        .content = URL.createObjectURL(this.chosenImg)
     },
 
 
@@ -191,16 +219,22 @@ export default {
         background:#e9e9e9;
         outline: none;
       }
-    }
-  }
-  ::v-deep .v-input{
-    max-width: 150px;
-    .v-input__slot{
-      border-width: 0 0 2px 0;
-      border-style: solid;
-      border-radius: 0;
-      border-color: rgba(0, 0, 0, 0.12);
-      box-shadow: none!important;
+      ::v-deep .v-input{
+        margin-left: 10px;
+        .v-input__control{
+          min-height: 17px;
+          max-height: 17px;
+          .v-input__slot{
+            max-height: 20px;
+            border-width: 0;
+            border-style: solid;
+            border-radius: 0;
+            border-color: rgba(0, 0, 0, 0.12);
+            box-shadow: none!important;
+            background: #e9e9e9;
+          }
+        }
+      }
     }
   }
   ::v-deep .row{

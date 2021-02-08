@@ -52,8 +52,13 @@ export default {
           break;
 
         case 'dodaj tekst':
-          this.setTextSelected(true);
+          // this.setTextSelected(true);
           this.addItem('text')
+          break;
+
+        case 'dodaj zdjecie':
+          // this.setTextSelected(true);
+          this.addItem('img')
           break;
 
         default:
@@ -170,15 +175,28 @@ export default {
       const activeColumn = this.getActiveElement.columns[currentColumn]
       let itemIndex = activeColumn.childs[activeColumn.childs.length - 1].id.split("item_")[1];
 
-      const itemText = `${this.getActiveElement.columns[currentColumn].id}-item_${++itemIndex}`
+      const itemID = `${this.getActiveElement.columns[currentColumn].id}-item_${++itemIndex}`
+      if(type === 'text'){
+        this.addItemToColumn({
+            id: itemID,
+            type: type,
+            content: itemID,
+            isActive: true,
+            style:{},
+        })
+      }else if(type === 'img')
       this.addItemToColumn({
-          id: itemText,
+          id: itemID,
           type: type,
-          content: itemText,
+          content: itemID,
           isActive: true,
-          style:{},
+          style:{
+            width: '200px',
+            height: '200px',
+            background: 'red'
+          },
       })
-      this.setElementToEdit(itemText);
+      this.setElementToEdit(itemID);
     }
   }
 }
