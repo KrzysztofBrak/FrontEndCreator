@@ -66,6 +66,7 @@
       </v-row>
         <v-textarea v-if="itemIndex !== -1 && selectedItem.itemType === 'text'"
           filled
+          :class="['input-text-area']"
           name="inputText"
           label="Wstaw tekst"
           v-model="getWorkplaceData.sections[sectionIndex].columns[columnIndex].childs[itemIndex].content"
@@ -235,6 +236,9 @@ export default {
           }
         }
       }
+    }
+    .input-text-area{
+      margin-top: 20px;
     }
   }
   ::v-deep .row{

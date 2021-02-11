@@ -107,6 +107,7 @@ export default {
             content:'section_0-col_0-item_0',
             isActive: false,
             style:{},
+            childStyle:{},
           }]
         }]
       }]

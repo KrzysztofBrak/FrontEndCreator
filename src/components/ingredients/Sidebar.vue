@@ -64,6 +64,7 @@ export default {
     padding: 15px;
     display: flex;
     flex-direction: column;
+    overflow: auto;
     .divider{
       margin: 10px 0;
     }

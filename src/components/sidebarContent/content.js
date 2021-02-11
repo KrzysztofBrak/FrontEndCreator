@@ -98,6 +98,42 @@ const sortbuttons = [
     }
 ]
 
+const textAlignButtons = [
+    {
+        img: 'mdi-format-align-justify',
+        alt: 'justify',
+        isActive: false,
+        positionStyleForItems:{
+            textAlign: 'justify',
+        }
+
+    },
+    {
+        img: 'mdi-format-align-left',
+        alt: 'left',
+        isActive: false,
+        positionStyleForItems:{
+            textAlign: 'left',
+        }
+    },
+    {
+        img: 'mdi-format-align-center',
+        alt: 'center',
+        isActive: false,
+        positionStyleForItems:{
+            textAlign: 'center',
+        }
+    },
+    {
+        img: 'mdi-format-align-right',
+        alt: 'right',
+        isActive: false,
+        positionStyleForItems:{
+            textAlign: 'right',
+        }
+    }
+]
+
 const styleInputs = {
     shape:{
         name: 'Przekształć:',
@@ -248,4 +284,4 @@ const styleInputs = {
         ]
     },
 }
-export {textbuttons, sortbuttons, styleInputs}
+export {textbuttons, sortbuttons, textAlignButtons, styleInputs}

@@ -11,11 +11,21 @@
       </div>
     </div>
 
-    <div :class="['icon-section']">
+    <div v-show="kindOfSelectedItem !== 3" :class="['icon-section']">
       <div v-for="button in sortbuttons"
         :class="['horizontal-positioning', {'active': button.isActive}]"
         :key="button.alt"
         @click="activateButton(button, false)"
+      >
+        <v-icon :class="[{'rotate': settingItemsInColumns}]">{{button.img}}</v-icon>
+      </div>
+    </div>
+
+    <div v-show="kindOfSelectedItem === 3" :class="['icon-section']">
+      <div v-for="button in textAlignButtons"
+        :class="['horizontal-positioning', {'active': button.isActive}]"
+        :key="button.alt"
+        @click="activateAlignButton(button, false)"
       >
         <v-icon :class="[{'rotate': settingItemsInColumns}]">{{button.img}}</v-icon>
       </div>
@@ -27,7 +37,7 @@
 <script>
 import{mapGetters} from 'vuex'
 
-import {textbuttons, sortbuttons} from './content.js'
+import {textbuttons, sortbuttons, textAlignButtons} from './content.js'
 import {findSelectedItem} from '@/components/findSelectedItem.js'
 
 export default {
@@ -35,6 +45,7 @@ export default {
   data: () => ({
     textbuttons,
     sortbuttons,
+    textAlignButtons,
     selectedItem: {},
     sectionIndex: -1,
     columnIndex: -1,
@@ -75,7 +86,6 @@ export default {
   methods:{
     activateButton(button, isFirstSectionButton){
       let btnIndex = this.textbuttons.findIndex(x => x === button)
-
   //jestem w sekcji
       if(!this.getElementToEdit.includes('col')){
           if((isFirstSectionButton && btnIndex <= 2) || !isFirstSectionButton){
@@ -112,15 +122,24 @@ export default {
       button.isActive = !button.isActive
 
       this.selectedItem = findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
+      this.updateStyles(button)
+    },
 
 
+    activateAlignButton(button){
+      this.textAlignButtons.forEach(element => {
+        element.isActive = false;
+      })
+      button.isActive = !button.isActive
+      this.updateStyles(button)
+    },
+
+    updateStyles(button){
       switch (this.kindOfSelectedItem) {
         case 1:
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex].childStyle = {
-
             ...this.getWorkplaceData.sections[this.sectionIndex].childStyle,
-
             ...button.positionStyle
           }
           break;
@@ -138,6 +157,7 @@ export default {
           break;
 
         case 3:
+          console.log('CASE 3');
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex]
               .columns[this.columnIndex].childs[this.itemIndex].childStyle = {

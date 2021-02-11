@@ -17,9 +17,18 @@
         <v-icon large>mdi-trash-can</v-icon>
       </v-btn>
     </v-fab-transition>
-    <p v-if="item.type === 'text'">{{item.content}}</p>
 
-    <div v-else-if="item.type === 'img'">
+    <div v-if="item.type === 'text'"
+      :class="['flex-item']"
+      :style="item.childStyle"
+    >
+      <p >{{item.content}}</p>
+    </div>
+
+    <div v-else-if="item.type === 'img'"
+      :class="['flex-item']"
+      :style="item.childStyle"
+    >
       <img :src="item.content" />
     </div>
 
@@ -72,12 +81,16 @@ export default {
       transition: 0.3s;
       z-index: 1;
     }
-    .column{
-      height: 100%;
+    .flex-item{
+      display: flex;
+      width: 100%;
     }
+    // .column{
+    //   height: 100%;
+    // }
   }
-  .column-btn{
-    right: 120px;
-  }
+  // .column-btn{
+  //   right: 120px;
+  // }
 
 </style>
