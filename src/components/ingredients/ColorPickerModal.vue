@@ -100,9 +100,9 @@ export default {
         }
         .color-picker{
           z-index: 23;
-          position: absolute;
-          left: -120px;
-          top: 58px;
+          position: fixed;
+          right: 6px;
+          bottom: 12px;
           width: 316px;
           max-width: 310px!important;
           padding: 5px;

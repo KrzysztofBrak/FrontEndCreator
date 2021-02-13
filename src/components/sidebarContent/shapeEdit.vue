@@ -30,7 +30,7 @@
                   />
                   <v-select  v-else-if="input.type === 'dropdown'"
                     :items="input.items"
-                    :class="[input.class]"
+                    :class="['dropdown', input.class]"
                     v-model="style[input.vModel]"
                     v-on:change="updateStyle(kindOfSelectedItem)"
                     label="Solo field"
@@ -220,7 +220,7 @@ export default {
         background:#e9e9e9;
         outline: none;
       }
-      ::v-deep .v-input{
+      .dropdown::v-deep .v-input{
         margin-left: 10px;
         .v-input__control{
           min-height: 17px;

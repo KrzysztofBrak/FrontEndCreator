@@ -2,11 +2,15 @@
   <section :class="['header-section']">
     <div :class="['header-container']">
       <div :class="['title-container']">
-        <p>Frontend <span>Creator</span></p>
+        <div>Frontend <span>Creator</span></div>
       </div>
       <div :class="['menu-container']">
         <p>{{getWorkplaceData.projectName}}</p>
         <p @click="openModal">Nowy projekt +</p>
+        <v-icon :class="['theme-switcher']"
+          @click="switchTheme()"
+        >mdi-theme-light-dark
+        </v-icon>
       </div>
     </div>
     <v-fade-transition>
@@ -34,6 +38,7 @@ export default {
   data: () => ({
     modalIsOpened: false,
     isProjectActive: false,
+    isDarkTheme: false
   }),
 
   methods:{
@@ -41,6 +46,10 @@ export default {
 
     openModal(){
       this.setNewProjectModal(true)
+    },
+    switchTheme(){
+      this.isDarkTheme = !this.isDarkTheme;
+      this.$emit('isDarkTheme', this.isDarkTheme)
     }
   }
 }
@@ -62,7 +71,7 @@ export default {
       justify-content: space-between;
       .title-container{
         margin: auto 0;
-        p{
+        div{
           margin: 0;
           display: flex;
           font-size: 24px;
@@ -84,6 +93,13 @@ export default {
       .menu-container{
         display: flex;
         margin: auto 0;
+        .theme-switcher{
+          cursor: pointer;
+          padding: 2px 5px;
+          &:hover{
+            background: $hoverColor;
+          }
+        }
         p{
           margin: 0;
           padding: 5px 20px;
@@ -91,7 +107,6 @@ export default {
           font-size: 16px;
           color: $mainFontColor;
           cursor: pointer;
-          border-radius: 7px;
           transition: 0.3s;
           &:hover{
             background: $hoverColor;

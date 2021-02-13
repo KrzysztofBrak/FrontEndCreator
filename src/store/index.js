@@ -40,6 +40,7 @@ export default new Vuex.Store({
           content:'section_0-col_0-item_0',
           isActive: false,
           style:{},
+          childStyle:{},
         }]
       }]
     },
@@ -74,6 +75,7 @@ export default new Vuex.Store({
           style:{
             height: '100%',
             width: '100%',
+            background:'#FFFFFF00',
           },
           childStyle:{},
           childs:[{
@@ -81,7 +83,10 @@ export default new Vuex.Store({
             type: 'text',
             content:'section_0-col_0-item_0',
             isActive: false,
-            style:{},
+            style:{
+              background:'#FFFFFF00',
+            },
+            childStyle:{},
           }]
         }]
       }]

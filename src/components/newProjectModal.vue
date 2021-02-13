@@ -86,7 +86,7 @@ export default {
           height: '300px',
           width: '100%',
           background:'#FFFFFF00',
-          boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
+       //   boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
           borderWidth: '0px',
           borderStyle: 'none',
           borderColor: '#FFFFFF00',
@@ -99,6 +99,7 @@ export default {
           style:{
             height: '100%',
             width: '100%',
+            background:'#FFFFFF00',
           },
           childStyle:{},
           childs:[{
@@ -106,7 +107,9 @@ export default {
             type: 'text',
             content:'section_0-col_0-item_0',
             isActive: false,
-            style:{},
+            style:{
+              background:'#FFFFFF00',
+            },
             childStyle:{},
           }]
         }]

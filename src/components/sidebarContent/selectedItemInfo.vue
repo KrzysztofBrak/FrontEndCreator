@@ -1,6 +1,6 @@
 <template>
     <div :class="['selectedItemInfo-container']">
-    <div>wybrany element:<br> {{getElementToEdit}}</div>
+    <p>wybrany element:<br> {{getElementToEdit}}</p>
     </div>
 </template>
 

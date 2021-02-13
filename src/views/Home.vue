@@ -1,6 +1,6 @@
 <template>
-  <div :class="['home']">
-    <Header/>
+  <div :class="['home', {'dark-theme': isDarkActive}]" id="theme">
+    <Header @isDarkTheme="switchTheme"/>
     <div :class="['main-container']" @dblclick.self="disactivateAllElements">
       <toolsSidebar  v-show="isProjectActive"/>
 
@@ -24,7 +24,6 @@
 // @ is an alias to /src
 import Header from '@/components/Header.vue'
 import toolsSidebar from '@/components/toolsSidebar/toolsSidebar.vue'
-// import editText from '@/components/sidebarContent/editText.vue'
 import workplace from '@/components/workplace.vue'
 import Sidebar from '@/components/ingredients/Sidebar.vue'
 
@@ -52,6 +51,7 @@ export default {
   },
   data: () => ({
     isProjectActive: false,
+    isDarkActive: false,
   }),
   mounted(){
     // just grab a DOM element
@@ -106,6 +106,9 @@ export default {
       });
        this.setWorkplaceActive(true);
        this.setElementToEdit('workplace')
+    },
+    switchTheme(value){
+      this.isDarkActive = value;
     }
   }
 }
@@ -123,6 +126,63 @@ export default {
     svg{
       margin: auto;
       display: flex;
+    }
+  }
+}
+#theme.dark-theme{
+  background: #232735;
+  // background: #676a73;
+  ::v-deep .header-container{
+    background: #2c2f3b;
+    button, p{
+      color: #acacac;
+    }
+    button:hover,
+    p:hover{
+      background:#3a3c48;
+    }
+  }
+  ::v-deep .tools-section{
+    background: #2c2f3b;
+    button, i{
+      color: #acacac;
+    }
+    .button-container:hover{
+      background:#3a3c48;
+    }
+  }
+  ::v-deep .editSidebar-section{
+    background: #2c2f3b;
+    button, i, p{
+      color: #acacac;
+    }
+    p:hover,
+    .horizontal-positioning:hover,
+    .align-text-button:hover{
+      background:#3a3c48;
+    }
+    .active{
+      background: #394157;
+    }
+  }
+
+  ::v-deep .project-modal{
+    background: #2c2f3b;
+    button, i, p{
+      color: #acacac;
+    }
+    .v-input__slot{
+      background: #2c2f3b!important;
+      .v-label, #input-9{
+        color: #acacac;
+      }
+    }
+
+    button{
+      background: #2c2f3b;
+      &.isActive{
+        background: #394157!important;
+      }
     }
   }
 }

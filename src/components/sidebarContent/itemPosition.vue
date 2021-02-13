@@ -117,7 +117,7 @@ export default {
                 this.textbuttons[2].isActive = false;
           }
       }
-
+      console.log(111111);
 
       button.isActive = !button.isActive
 
@@ -157,14 +157,14 @@ export default {
           break;
 
         case 3:
-          console.log('CASE 3');
+          console.log('CASE 3', button.positionStyle);
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex]
               .columns[this.columnIndex].childs[this.itemIndex].childStyle = {
 
                 ...this.getWorkplaceData.sections[this.sectionIndex]
                   .columns[this.columnIndex].childs[this.itemIndex].childStyle,
-                ...button.positionStyleForItems
+                ...button.positionStyle
           }
           break;
 

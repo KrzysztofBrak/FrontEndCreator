@@ -87,7 +87,7 @@ export default {
           height: '300px',
           width: '100%',
           background:'#FFFFFF00',
-          boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
+       //   boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
           borderWidth: '0px',
           borderStyle: 'none',
           borderColor: '#FFFFFF00',
@@ -104,6 +104,7 @@ export default {
           style:{
             height: '100%',
             width: '100%',
+            background:'#FFFFFF00',
           },
           childStyle:{},
           childs:[{
@@ -111,7 +112,10 @@ export default {
             type: 'text',
             content:`section_${this.getSectionsLength}-col_0-item_0`,
             isActive: false,
-            style:{},
+            style:{
+              background:'#FFFFFF00',
+            },
+            childStyle:{},
           }]
         }]
       })
@@ -127,28 +131,39 @@ export default {
        //   section.isActive = false;
           section.columns.forEach(column => {
             column.isActive = false;
-            //w prztyszłości trzeba bedzie jeszcze dezaktywować dzieci kolumn
+            column.childs.forEach(item =>{
+              item.isActive = false
+            })
           })
       });
+      //that means there is no active section
+      let sectionForNewColumn
+      if(this.getActiveElement.length !== undefined){
+        sectionForNewColumn = this.getActiveElement[0]
+        sectionForNewColumn.isActive = true;
+      }else{
+        sectionForNewColumn = this.getActiveElement
+      }
 
-      let columnIndex = this.getActiveElement.columns[this.getActiveElement.columns.length-1].id.split("col_")[1];
+      let columnIndex = sectionForNewColumn.columns[sectionForNewColumn.columns.length-1].id.split("col_")[1];
       this.addSectionChilds({
-          id: `${this.getActiveElement.id}-col_${++columnIndex}`,
+          id: `${sectionForNewColumn.id}-col_${++columnIndex}`,
           isActive: true,
           style:{
             height: '100%',
             width: '100%',
           },
           childs:[{
-            id: `${this.getActiveElement.id}-col_${columnIndex}-item_0`,
+            id: `${sectionForNewColumn.id}-col_${columnIndex}-item_0`,
             type: 'text',
-            content:`${this.getActiveElement.id}-col_${columnIndex}-item_0`,
+            content:`${sectionForNewColumn.id}-col_${columnIndex}-item_0`,
             isActive: false,
             style:{},
+            childStyle:{},
           }]
       })
 
-      this.setElementToEdit(`${this.getActiveElement.id}-col_${columnIndex}`)
+      this.setElementToEdit(`${sectionForNewColumn.id}-col_${columnIndex}`)
     },
 
 
@@ -162,20 +177,30 @@ export default {
             })
           })
       });
-      //set active section
+
+      let sectionForNewColumn
+      if(this.getActiveElement.length !== undefined){
+        sectionForNewColumn = this.getActiveElement[0]
+        sectionForNewColumn.isActive = true;
+      }else{
+        sectionForNewColumn = this.getActiveElement
+      }
 
       //active section were taken from ACTIVEELEMENT in store. Now find active column in this section
       //if there is active column...
-      let currentColumn = this.getActiveElement.columns.findIndex(x => x.isActive === true)
+      let currentColumn = sectionForNewColumn.columns.findIndex(x => x.isActive === true)
       //if there is no active column, check active sections
+      console.log(currentColumn);
       if(currentColumn === -1){
         currentColumn = 0
+
       }
 
-      const activeColumn = this.getActiveElement.columns[currentColumn]
+      const activeColumn = sectionForNewColumn.columns[currentColumn];
+      sectionForNewColumn.columns[currentColumn].isActive = true
       let itemIndex = activeColumn.childs[activeColumn.childs.length - 1].id.split("item_")[1];
 
-      const itemID = `${this.getActiveElement.columns[currentColumn].id}-item_${++itemIndex}`
+      const itemID = `${sectionForNewColumn.columns[currentColumn].id}-item_${++itemIndex}`
       if(type === 'text'){
         this.addItemToColumn({
             id: itemID,
@@ -183,18 +208,20 @@ export default {
             content: itemID,
             isActive: true,
             style:{},
+            childStyle:{},
         })
       }else if(type === 'img')
       this.addItemToColumn({
           id: itemID,
           type: type,
-          content: itemID,
+          content: require('@/assets/img/default-img.svg'),
           isActive: true,
           style:{
             width: '200px',
             height: '200px',
-            background: 'red'
           },
+          childStyle:{            width: '200px',
+            height: '200px',},
       })
       this.setElementToEdit(itemID);
     }

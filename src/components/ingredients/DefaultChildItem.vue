@@ -27,9 +27,9 @@
 
     <div v-else-if="item.type === 'img'"
       :class="['flex-item']"
-      :style="item.childStyle"
+
     >
-      <img :src="item.content" />
+      <img :src="item.content" :style="item.childStyle"/>
     </div>
 
     <p v-else>{{item.content}}</p>
