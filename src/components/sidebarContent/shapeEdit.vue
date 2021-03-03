@@ -38,7 +38,7 @@
                   ></v-select>
                   <input v-else :type="input.type"
                     v-show="!input.childs || input.showSeparately === false"
-                    :class="[input.class]"
+                    :class="[input.class, 'input-style']"
                     v-model="style[input.vModel]"
                     v-on:change="updateStyle(kindOfSelectedItem)"
                     placeholder="wprowadź wartość"
@@ -64,21 +64,25 @@
           </v-expansion-panel>
         </v-expansion-panels>
       </v-row>
-        <v-textarea v-if="itemIndex !== -1 && selectedItem.itemType === 'text'"
-          filled
-          :class="['input-text-area']"
-          name="inputText"
-          label="Wstaw tekst"
-          v-model="getWorkplaceData.sections[sectionIndex].columns[columnIndex].childs[itemIndex].content"
-        ></v-textarea>
-        <v-file-input v-if="itemIndex !== -1 && selectedItem.itemType === 'img'"
-          small-chips
-          truncate-length="15"
-          show-size
+      <v-textarea v-if="itemIndex !== -1 && selectedItem.itemType === 'text'"
+        filled
+        :class="['input-text-area']"
+        name="inputText"
+        label="Wstaw tekst"
+        v-model="getWorkplaceData.sections[sectionIndex].columns[columnIndex].childs[itemIndex].content"
+      ></v-textarea>
+      <div v-if="itemIndex !== -1 && selectedItem.itemType === 'img'"
+        :class="['file-input-container']"
+      >
+        <p @click="addImg">Dodaj grafikę</p>
+        <v-file-input truncate-length="15"
+          hide-input
           v-model='chosenImg'
           @change="updateFile($event)"
+          ref="fileInput"
         ></v-file-input>
-    </div>
+      </div>
+  </div>
 </template>
 
 <script>
@@ -170,7 +174,9 @@ export default {
     updateFile(){
       this.getWorkplaceData.sections[this.sectionIndex]
         .columns[this.columnIndex].childs[this.itemIndex]
-        .content = URL.createObjectURL(this.chosenImg)
+        .content = URL.createObjectURL(this.chosenImg);
+
+        console.log(this.chosenImg);
     },
 
 
@@ -181,6 +187,10 @@ export default {
 
     changeSeparately(input){
       input.showSeparately = !input.showSeparately
+    },
+
+    addImg(){
+      this.$refs.fileInput.$refs.input.click()
     }
   }
 }
@@ -220,7 +230,7 @@ export default {
         background:#e9e9e9;
         outline: none;
       }
-      .dropdown::v-deep .v-input{
+      ::v-deep .dropdown.v-input{
         margin-left: 10px;
         .v-input__control{
           min-height: 17px;
@@ -231,7 +241,7 @@ export default {
             border-style: solid;
             border-radius: 0;
             border-color: rgba(0, 0, 0, 0.12);
-            box-shadow: none!important;
+            box-shadow: none;
             background: #e9e9e9;
           }
         }
@@ -239,6 +249,18 @@ export default {
     }
     .input-text-area{
       margin-top: 20px;
+    }
+    .file-input-container{
+      display: flex;
+      margin-top: 10px;
+      p{
+        margin: auto 10px;
+        cursor: pointer;
+      }
+      ::v-deep .v-text-field{
+        padding-top: 0;
+        margin-top: 0;
+      }
     }
   }
   ::v-deep .row{

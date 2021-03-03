@@ -220,7 +220,8 @@ export default {
             width: '200px',
             height: '200px',
           },
-          childStyle:{            width: '200px',
+          childStyle:{
+            width: '200px',
             height: '200px',},
       })
       this.setElementToEdit(itemID);

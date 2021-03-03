@@ -188,7 +188,7 @@ const styleInputs = {
                 vModel: 'borderColor',
             },
             {
-                inputName: 'styl:',
+                inputName: 'styl',
                 type: 'dropdown',
                 items: [
                     'solid',

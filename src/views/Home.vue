@@ -185,5 +185,38 @@ export default {
       }
     }
   }
+  ::v-deep .row{
+    border: none;
+    .v-expansion-panel-header,
+    .v-expansion-panel-content{
+      background: #2c2f3b;
+    }
+  }
+  ::v-deep .input-style{
+    background: #4f525d;
+    color: #acacac;
+    &::placeholder{
+      color: #acacac;
+    }
+  }
+  ::v-deep .dropdown .v-input__slot{
+    background: #4f525d;
+    .v-list-item__title,
+    .v-select__selection{
+      color: #acacac;
+    }
+  }
+  ::v-deep .v-list{
+    background: #4f525d;
+    .v-list-item__title{
+      color: #acacac;
+    }
+  }
+  ::v-deep .v-color-picker {
+    background: #2c2f3b;
+    .v-list-item__title{
+      color: #acacac;
+  }
+}
 }
 </style>
