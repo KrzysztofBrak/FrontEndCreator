@@ -50,10 +50,11 @@ export default {
     }
   },
   data: () => ({
-    isProjectActive: false,
     isDarkActive: false,
+    isProjectActive: false
   }),
   mounted(){
+    this.isProjectActive =  (localStorage.getItem("vuex") !== null)
     // just grab a DOM element
     const element = document.querySelector('#workplace')
 

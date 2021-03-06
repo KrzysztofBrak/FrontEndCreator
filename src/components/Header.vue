@@ -33,11 +33,14 @@ export default {
 
   computed:{
     ...mapGetters(['getNewProjectModal', 'getWorkplaceData']),
+
+    isProjectActive(){
+      return (localStorage.getItem("vuex") !== null)
+    }
   },
 
   data: () => ({
     modalIsOpened: false,
-    isProjectActive: false,
     isDarkTheme: false
   }),
 

@@ -29,7 +29,7 @@
       :class="['flex-item']"
 
     >
-      <img :src="item.content" :style="item.childStyle"/>
+      <img :src="item.content" :style="item.style"/>
     </div>
 
     <p v-else>{{item.content}}</p>
@@ -85,12 +85,5 @@ export default {
       display: flex;
       width: 100%;
     }
-    // .column{
-    //   height: 100%;
-    // }
   }
-  // .column-btn{
-  //   right: 120px;
-  // }
-
 </style>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex)
 
@@ -92,7 +93,7 @@ export default new Vuex.Store({
       }]
     }
   },
-
+  plugins: [createPersistedState()],
 
   getters:{
     getNewProjectModal(state){
@@ -125,7 +126,6 @@ export default new Vuex.Store({
 
       }
       let isActiveSection = state.workplaceData.sections.find(x => x.isActive === true)
-      console.log(isActiveSection, 'fdsdf');
       return isActiveSection
 
     },
@@ -157,6 +157,7 @@ export default new Vuex.Store({
 
 //workplace store
     setWorkplaceData(state, value){
+      console.log('SETTT');
       state.workplaceData = value
     },
     setSectionsData(state, value){

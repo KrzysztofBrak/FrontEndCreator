@@ -25,12 +25,20 @@
             </div>
           </v-btn>
         </div>
-
+        <div v-show="showModalQuestion" :class="['question-container']">Jesteś pewien że chcesz nadpisać utworzony projekt?</div>
           <v-btn
             block
+            :class="['button-modal']"
             @click="createProject"
             v-on:keyup.enter="createProject"
           >UTWÓRZ
+          </v-btn>
+          <v-btn
+            :class="['button-modal']"
+            block
+            @click="closeModal"
+            v-on:keyup.Escape="closeModal"
+          >ANULUJ
           </v-btn>
       </div>
     </div>
@@ -46,6 +54,7 @@ export default {
     ...mapGetters(['getWorkplaceData','getSectionsLength']),
   },
   data: () => ({
+    showModalQuestion: false,
     projectName:'',
     customWidth:'',
     workplaceWidth: '1920px',
@@ -74,50 +83,7 @@ export default {
       isActive: false,
       value: ''
     }],
-
-    workplaceTemplate:{
-      isWorkplaceActive: false,
-      sectionsLength: 0,
-      workplaceWidth: '1920px',
-      sections:[{
-        id: 'section_0',
-        isActive: true,
-        style:{
-          height: '300px',
-          width: '100%',
-          background:'#FFFFFF00',
-       //   boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
-          borderWidth: '0px',
-          borderStyle: 'none',
-          borderColor: '#FFFFFF00',
-          borderRadius: '0px',
-        },
-        childStyle:{},
-        columns:[{
-          id: 'section_0-col_0',
-          isActive: false,
-          style:{
-            height: '100%',
-            width: '100%',
-            background:'#FFFFFF00',
-          },
-          childStyle:{},
-          childs:[{
-            id: 'section_0-col_0-item_0',
-            type: 'text',
-            content:'section_0-col_0-item_0',
-            isActive: false,
-            style:{
-              background:'#FFFFFF00',
-            },
-            childStyle:{},
-          }]
-        }]
-      }]
-    }
-
   }),
-
 
   mounted(){
     window.addEventListener('keyup', event => {
@@ -131,7 +97,6 @@ export default {
   methods:{
     ...mapMutations(['setNewProjectModal', 'setProjectName', 'setWorkplaceData']),
 
-
     closeModal(){
       this.setNewProjectModal(false);
       this.projectName = ''
@@ -141,20 +106,65 @@ export default {
     createProject(){
       if(this.projectName !== ''){
 
-        this.setNewProjectModal(false);
-        this.setWorkplaceData(this.workplaceTemplate);
-        this.setProjectName(this.projectName);
+       if(this.getWorkplaceData.projectName !== '' && !this.showModalQuestion){
+         this.showModalQuestion = true;
+       }else{
+          this.setNewProjectModal(false);
+          this.setWorkplaceData({});
+          this.setWorkplaceData({
+            projectName:'',
+            isWorkplaceActive: false,
+            sectionsLength: 0,
+            workplaceWidth: '1920px',
+            sections:[{
+              id: 'section_0',
+              isActive: true,
+              style:{
+                height: '300px',
+                width: '100%',
+                background:'#FFFFFF00',
+            //   boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
+                borderWidth: '0px',
+                borderStyle: 'none',
+                borderColor: '#FFFFFF00',
+                borderRadius: '0px',
+              },
+              childStyle:{},
+              columns:[{
+                id: 'section_0-col_0',
+                isActive: false,
+                style:{
+                  height: '100%',
+                  width: '100%',
+                  background:'#FFFFFF00',
+                },
+                childStyle:{},
+                childs:[{
+                  id: 'section_0-col_0-item_0',
+                  type: 'text',
+                  content:'section_0-col_0-item_0',
+                  isActive: false,
+                  style:{
+                    background:'#FFFFFF00',
+                  },
+                  childStyle:{},
+                }]
+              }]
+            }]
+          });
+          this.setProjectName(this.projectName);
 
-        setTimeout(() => {
-          this.projectName = ''
-
-          this.buttons.forEach(button => {
-            if(button.isActive){
-              this.getWorkplaceData.workplaceWidth = `${button.value}px`;
-              button.isActive = false;
-            }
-          })
-        }, 500);
+          setTimeout(() => {
+            this.projectName = ''
+            this.showModalQuestion = false;
+            this.buttons.forEach(button => {
+              if(button.isActive){
+                this.getWorkplaceData.workplaceWidth = `${button.value}px`;
+                button.isActive = false;
+              }
+            })
+          }, 500);
+        }
       }
     },
 
@@ -203,6 +213,12 @@ export default {
         box-shadow: $mainShadow;
         margin: 0px auto;
         padding: 30px;
+        .question-container{
+          color: red;
+        }
+        .button-modal{
+          margin: 15px 0;
+        }
       }
     }
     .buttons-container{

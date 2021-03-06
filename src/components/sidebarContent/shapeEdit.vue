@@ -175,8 +175,6 @@ export default {
       this.getWorkplaceData.sections[this.sectionIndex]
         .columns[this.columnIndex].childs[this.itemIndex]
         .content = URL.createObjectURL(this.chosenImg);
-
-        console.log(this.chosenImg);
     },
 
 
