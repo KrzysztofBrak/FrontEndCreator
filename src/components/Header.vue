@@ -5,6 +5,8 @@
         <div>Frontend <span>Creator</span></div>
       </div>
       <div :class="['menu-container']">
+        <p @click="saveProject">Zapisz projekt</p>
+        <input type="file" @change="uploadFile"/>
         <p>{{getWorkplaceData.projectName}}</p>
         <p @click="openModal">Nowy projekt +</p>
         <v-icon :class="['theme-switcher']"
@@ -53,6 +55,47 @@ export default {
     switchTheme(){
       this.isDarkTheme = !this.isDarkTheme;
       this.$emit('isDarkTheme', this.isDarkTheme)
+    },
+    saveProject(){
+      let filename = `${this.getWorkplaceData.projectName}.json`;
+      let data = localStorage.getItem("vuex");
+      console.save = this.saveData(filename, data)
+
+    },
+    saveData(filename, data){
+      data = JSON.stringify(data, undefined, 4)
+
+      var blob = new Blob([data], {type: 'text/json'}),
+        e = document.createEvent('MouseEvents'),
+        a = document.createElement('a')
+
+      a.download = filename
+      a.href = window.URL.createObjectURL(blob)
+      a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+      e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
+    },
+
+
+    uploadFile(){
+      var uploadedFile = event.target.files[0];
+
+      if(uploadedFile.type !== "application/json") {
+        alert("Błąd! Zły typ pliku");
+        return false;
+      }
+
+      if (uploadedFile) {
+        var readFile = new FileReader();
+        readFile.onload = function(e) {
+            var contents = e.target.result;
+            var json = JSON.parse(contents);
+            console.log(json);
+        };
+        readFile.readAsText(uploadedFile);
+      } else {
+        alert("Błąd, spróbuj ponownie");
+      }
     }
   }
 }
