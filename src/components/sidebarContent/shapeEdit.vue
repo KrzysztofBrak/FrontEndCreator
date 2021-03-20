@@ -275,6 +275,9 @@ export default {
         .v-expansion-panel-content{
           background: $containerBackground;
         }
+        .v-application--wrap{
+          min-height: 0!important;
+        }
       }
     }
   }

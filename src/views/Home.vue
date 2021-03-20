@@ -15,6 +15,11 @@
 
 
       <Sidebar  v-show="isProjectActive"/>
+      <v-fade-transition>
+      <div v-show="getColorsGeneratorModalOpened">
+        <ColorsGeneratorSidebar/>
+      </div>
+      </v-fade-transition>
 
     </div>
   </div>
@@ -26,6 +31,7 @@ import Header from '@/components/Header.vue'
 import toolsSidebar from '@/components/toolsSidebar/toolsSidebar.vue'
 import workplace from '@/components/workplace.vue'
 import Sidebar from '@/components/ingredients/Sidebar.vue'
+import ColorsGeneratorSidebar from '@/components/colorsGeneratorSidebar/ColorsGeneratorSidebar.vue'
 
 
 import{mapGetters, mapMutations} from 'vuex'
@@ -36,24 +42,28 @@ export default {
     Header,
     toolsSidebar,
     Sidebar,
-    workplace
+    workplace,
+    ColorsGeneratorSidebar
   },
   computed:{
     ...mapGetters(['getActualZoom',
-      'getWorkplaceData'
+      'getWorkplaceData',
+      'getColorsGeneratorModalOpened'
     ]),
   },
 
   watch:{
     getWorkplaceData(){
       this.isProjectActive = true
-    }
+    },
   },
   data: () => ({
     isDarkActive: false,
-    isProjectActive: false
+    isProjectActive: false,
+    colorGeneratorIsActive: false
   }),
   mounted(){
+    console.log(this.getColorsGeneratorModalOpened);
     this.isProjectActive =  (localStorage.getItem("vuex") !== null)
     // just grab a DOM element
     const element = document.querySelector('#workplace')
@@ -93,7 +103,7 @@ export default {
 
   },
   methods:{
-    ...mapMutations(['setActualZoom', 'setWorkplaceActive', 'setElementToEdit']),
+    ...mapMutations(['setActualZoom', 'setWorkplaceActive', 'setElementToEdit', 'setColorsGeneratorModal']),
 
     disactivateAllElements(){
       this.getWorkplaceData.sections.forEach(section => {

@@ -26,6 +26,10 @@ const buttons = [
     {
         img: 'mdi-image-plus',
         alt: 'dodaj zdjecie'
+    },
+    {
+        img: 'mdi-palette-outline',
+        alt: 'dobierz kolory'
     }
 ]
 export {buttons}

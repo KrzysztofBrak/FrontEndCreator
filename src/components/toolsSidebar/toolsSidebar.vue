@@ -38,7 +38,8 @@ export default {
       'setWorkplaceActive',
       'addItemToColumn',
       'setElementToEdit',
-      'addSectionChilds'
+      'addSectionChilds',
+      'setColorsGeneratorModal'
     ]),
 
     btnClick(btnCategory){
@@ -59,6 +60,11 @@ export default {
         case 'dodaj zdjecie':
           // this.setTextSelected(true);
           this.addItem('img')
+          break;
+
+        case 'dobierz kolory':
+          // this.setTextSelected(true);
+          this.selectColors()
           break;
 
         default:
@@ -225,6 +231,10 @@ export default {
             height: '200px',},
       })
       this.setElementToEdit(itemID);
+    },
+
+    selectColors(){
+      this.setColorsGeneratorModal(true)
     }
   }
 }

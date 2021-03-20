@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     isTextSelected: false,
     newProjectModalOpened: false,
+    colorsGeneratorModalOpened: false,
     actualZoom: 0.4,
     //That helps to avoid bubbling effect
     itemClicked:'section',
@@ -99,6 +100,9 @@ export default new Vuex.Store({
     getNewProjectModal(state){
       return state.newProjectModalOpened
     },
+    getColorsGeneratorModalOpened(state){
+      return state.colorsGeneratorModalOpened
+    },
     getActualZoom(state){
       return state.actualZoom
     },
@@ -140,6 +144,10 @@ export default new Vuex.Store({
   mutations: {
     setNewProjectModal(state, value){
       state.newProjectModalOpened = value
+    },
+    setColorsGeneratorModal(state, value){
+      console.log('index');
+      state.colorsGeneratorModalOpened = value
     },
     setProjectName(state, value){
       state.workplaceData.projectName = value

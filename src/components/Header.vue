@@ -5,10 +5,15 @@
         <div>Frontend <span>Creator</span></div>
       </div>
       <div :class="['menu-container']">
-        <p @click="saveProject">Zapisz projekt</p>
-        <input type="file" @change="uploadFile"/>
+        <input type="file"
+          ref="openFileInput"
+          @change="uploadFile"
+          :class="['hidden-input']"
+        />
         <p>{{getWorkplaceData.projectName}}</p>
         <p @click="openModal">Nowy projekt +</p>
+        <p @click="$refs.openFileInput.click()" >Wczytaj projekt</p>
+        <p @click="saveProject">Zapisz projekt</p>
         <v-icon :class="['theme-switcher']"
           @click="switchTheme()"
         >mdi-theme-light-dark
@@ -47,7 +52,7 @@ export default {
   }),
 
   methods:{
-    ...mapMutations(['setNewProjectModal']),
+    ...mapMutations(['setNewProjectModal', 'setWorkplaceData']),
 
     openModal(){
       this.setNewProjectModal(true)
@@ -57,15 +62,15 @@ export default {
       this.$emit('isDarkTheme', this.isDarkTheme)
     },
     saveProject(){
-      let filename = `${this.getWorkplaceData.projectName}.json`;
-      let data = localStorage.getItem("vuex");
+      const filename = `${this.getWorkplaceData.projectName}.json`;
+      const data = localStorage.getItem("vuex");
       console.save = this.saveData(filename, data)
 
     },
     saveData(filename, data){
       data = JSON.stringify(data, undefined, 4)
 
-      var blob = new Blob([data], {type: 'text/json'}),
+      const blob = new Blob([data], {type: 'text/json'}),
         e = document.createEvent('MouseEvents'),
         a = document.createElement('a')
 
@@ -79,24 +84,24 @@ export default {
 
     uploadFile(){
       var uploadedFile = event.target.files[0];
-
+//@TODO - VALIDATION IF JSON CONTAINS ALL NECESSERY VARIABLES
       if(uploadedFile.type !== "application/json") {
         alert("Błąd! Zły typ pliku");
         return false;
       }
 
       if (uploadedFile) {
-        var readFile = new FileReader();
-        readFile.onload = function(e) {
-            var contents = e.target.result;
-            var json = JSON.parse(contents);
-            console.log(json);
+        const readFile = new FileReader();
+        readFile.onload = (e)=> {
+            const contents = e.target.result;
+            const json = JSON.parse(contents);
+            this.setWorkplaceData(JSON.parse(json).workplaceData)
         };
         readFile.readAsText(uploadedFile);
       } else {
         alert("Błąd, spróbuj ponownie");
       }
-    }
+    },
   }
 }
 </script>
@@ -146,6 +151,9 @@ export default {
             background: $hoverColor;
           }
         }
+        .hidden-input{
+          display: none;
+        }
         p{
           margin: 0;
           padding: 5px 20px;
@@ -162,5 +170,3 @@ export default {
     }
   }
 </style>
-
-
