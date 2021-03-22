@@ -16,11 +16,11 @@
           ></v-color-picker>
         </v-app>
         <div class="colors-container">
-          <div class="color" :style="{background: colorRGBHEX.hex}"></div>
-          <div class="color" :style="{background: `rgb(${firstOption[0].r},${firstOption[0].g},${firstOption[0].b})`}"></div>
-          <div class="color" :style="{background: `rgb(${firstOption[1].r},${firstOption[1].g},${firstOption[1].b})`}"></div>
-          <div class="color" :style="{background: `rgb(${firstOption[2].r},${firstOption[2].g},${firstOption[2].b})`}"></div>
-          <div class="color" :style="{background: `rgb(${firstOption[3].r},${firstOption[3].g},${firstOption[3].b})`}"></div>
+          <div class="color" :style="{background: firstOption[0]}"></div>
+          <div class="color" :style="{background: firstOption[1]}"></div>
+          <div class="color" :style="{background: firstOption[2]}"></div>
+          <div class="color" :style="{background: firstOption[3]}"></div>
+          <div class="color" :style="{background: firstOption1}"></div>
         </div>
       </div>
     </div>
@@ -62,26 +62,31 @@ export default {
   data: () => ({
     absolute: true,
     overlay: false,
+firstOption1: '',
     colorRGBHEX:{
       hex: '#FF00FF',
       rgba: { r: 255, g: 0, b: 255, a: 1 },
     },
-    firstOption:[
-      { r: 255, g: 0, b: 255, a: 1 },
-      { r: 255, g: 0, b: 255, a: 1 },
-      { r: 255, g: 0, b: 255, a: 1 },
-      { r: 255, g: 0, b: 255, a: 1 },
-      ]
+    firstOption:[],
   }),
+
   methods:{
     ...mapMutations([
       'setColorsGeneratorModal'
     ]),
     setColor(){
-      this.firstOption[0].g = this.firstOption[0].g + 10
-      this.firstOption[1].g = this.firstOption[1].g + 15
-      this.firstOption[2].g = this.firstOption[2].g + 20
-      this.firstOption[3].g = this.firstOption[3].g + 25
+      var Color = require('color');
+
+
+        [0,1,2,3,4].forEach(i => {
+          let selectedColorWithoutA = {r: this.colorRGBHEX.rgba.r, g: this.colorRGBHEX.rgba.g, b: this.colorRGBHEX.rgba.b}
+          let selectedColor = Color(selectedColorWithoutA)
+          let selectedColorInHSL = selectedColor.hsl()
+          let rotatedColor = selectedColorInHSL.rotate(-15 * i)
+          let toRGB = rotatedColor.rgb()
+          this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])}, ${this.colorRGBHEX.rgba.a})`
+          this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])}, ${this.colorRGBHEX.rgba.a})` //???????????
+        });
     }
   }
 }
@@ -121,7 +126,6 @@ export default {
       .color{
         width: 100%;
         height: 100px;
-        background: red;
       }
     }
   }
