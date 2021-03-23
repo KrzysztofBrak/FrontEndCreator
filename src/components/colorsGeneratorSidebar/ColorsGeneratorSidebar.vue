@@ -2,10 +2,6 @@
   <section>
     <div :class="['overlay']" @click.self="setColorsGeneratorModal(false)">
       <div :class="['color-generator']">
-        <p :class="['button-modal']"
-          @click="setColorsGeneratorModal(false)"
-          v-on:keyup.Escape="setColorsGeneratorModal(false)"
-        >X</p>
         <v-app>
           <v-color-picker
             :class="['color-picker']"
@@ -14,6 +10,21 @@
             hide-mode-switch
             v-model="color"
           ></v-color-picker>
+            <v-radio-group v-model="radioGroup" :class="['background']">
+              <v-radio
+                v-for="item in radioButtons"
+                :key="item"
+                :label="item"
+                :value="item"
+              ></v-radio>
+            </v-radio-group>
+            <v-slider
+              label="Rozpiętość:"
+              :class="['background']"
+              max="70"
+              min="15"
+              v-model="range"
+            ></v-slider>
         </v-app>
         <div class="colors-container">
           <div class="color" :style="{background: firstOption[0]}"></div>
@@ -46,8 +57,7 @@ export default {
       },
       set:  _.throttle(function(v){
         this.colorRGBHEX = v
-    },200),
-
+      },200),
     }
   },
   watch:{
@@ -57,17 +67,30 @@ export default {
       handler(){
         this.setColor()
       }
+    },
+    range(){
+      this.setColor()
+    },
+    radioGroup(){
+      this.setColor()
     }
   },
   data: () => ({
     absolute: true,
     overlay: false,
-firstOption1: '',
+    range:15,
+    radioGroup: 'Analogicznie',
+    firstOption1: '',
     colorRGBHEX:{
       hex: '#FF00FF',
       rgba: { r: 255, g: 0, b: 255, a: 1 },
     },
     firstOption:[],
+    radioButtons:[
+      'Analogicznie',
+      'Triada',
+      'Monochromatyczny'
+    ]
   }),
 
   methods:{
@@ -75,19 +98,93 @@ firstOption1: '',
       'setColorsGeneratorModal'
     ]),
     setColor(){
-      var Color = require('color');
+      const Color = require('color');
+      let selectedColorWithoutA = {r: this.colorRGBHEX.rgba.r, g: this.colorRGBHEX.rgba.g, b: this.colorRGBHEX.rgba.b}
+      let selectedColor = Color(selectedColorWithoutA)
+      let selectedColorInHSL = selectedColor.hsl();
+      switch (this.radioGroup) {
+        case 'Analogicznie':
+          this.analogical(selectedColorInHSL)
+          break;
+        case 'Triada':
+          this.triad(selectedColorInHSL)
+          break;
+        case 'Monochromatyczny':
+          this.monochromatic(selectedColorInHSL)
+          break;
+
+        default:
+          break;
+      }
+    },
+
+    analogical(selectedColorInHSL){
+      [0,1,2,3,4].forEach(i => {
+        let rotatedColor = selectedColorInHSL.rotate(this.range * i)
+        let toRGB = rotatedColor.rgb()
+        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+      });
+    },
+
+    triad(selectedColorInHSL){
+      let inc = 0;
+      let rotatedColor
+      [0,1,2,3,4].forEach(i => {
+        if(i % 2 === 0){
+          rotatedColor = selectedColorInHSL.rotate(120 * inc)
+          inc = inc - 1
+        }
+        if(i % 2 === 1 || i === 4 ){
+          rotatedColor.color[2] = rotatedColor.color[2] + 30
+        }
+        if(i === 1 || i === 2 || i === 4){
+          rotatedColor.color[1] = rotatedColor.color[1] - 10
+        }
+        let toRGB = rotatedColor.rgb()
+        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+      });
+    },
+
+    monochromatic(selectedColorInHSL){
+      let rotatedColor
+      [0,1,2,3,4].forEach(i => {
+        rotatedColor = selectedColorInHSL.rotate(120 * 0)
+
+        if(i > 2){
+          rotatedColor.color[1] = rotatedColor.color[1] -30
+        }
+        if(i === 1 ){
+          rotatedColor.color[2] = rotatedColor.color[2] + 30
+        }
+        if(i === 2 || i === 3){
+          rotatedColor.color[2] = rotatedColor.color[2] + 40
+        }
+          if(rotatedColor.color[2] > 80){
+            rotatedColor.color[2] =  rotatedColor.color[2] - 70
+          }
+          if(rotatedColor.color[2] < 10){
+            rotatedColor.color[2] = 20 +  rotatedColor.color[2]
+          }
+          console.log(rotatedColor.color);
+        // if(i > 2){
+        //   rotatedColor.color[1] = rotatedColor.color[1] -30
+        // }
+        // if(i === 1 ){
+        //   rotatedColor.color[2] = rotatedColor.color[2] - 20
+        // }
+        // if(i === 2 || i === 3){
+        //   rotatedColor.color[2] = rotatedColor.color[2] - 40
+        // }
 
 
-        [0,1,2,3,4].forEach(i => {
-          let selectedColorWithoutA = {r: this.colorRGBHEX.rgba.r, g: this.colorRGBHEX.rgba.g, b: this.colorRGBHEX.rgba.b}
-          let selectedColor = Color(selectedColorWithoutA)
-          let selectedColorInHSL = selectedColor.hsl()
-          let rotatedColor = selectedColorInHSL.rotate(-15 * i)
-          let toRGB = rotatedColor.rgb()
-          this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])}, ${this.colorRGBHEX.rgba.a})`
-          this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])}, ${this.colorRGBHEX.rgba.a})` //???????????
-        });
-    }
+        let toRGB = rotatedColor.rgb()
+
+        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+      });
+    },
   }
 }
 </script>
@@ -106,11 +203,11 @@ firstOption1: '',
     }
   .color-generator{
     z-index: 1;
-    height: 100%;
     width: 400px;
     background: $containerBackground;
     box-shadow: $mainShadow;
     position: fixed;
+    justify-content: space-between;
     top: 50px;
     bottom: 0;
     right: 0;
@@ -125,12 +222,18 @@ firstOption1: '',
       display: flex;
       .color{
         width: 100%;
-        height: 100px;
+        height: 150px;
       }
+    }
+    .background{
+      background: $containerBackground;
     }
   }
   ::v-deep .v-application--wrap{
     min-height: 0!important;
+    .v-input--selection-controls{
+      margin-top: 0;
+    }
     .v-color-picker__controls {
       background: $containerBackground;
     }
