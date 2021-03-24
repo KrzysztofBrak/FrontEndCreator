@@ -89,7 +89,10 @@ export default {
     radioButtons:[
       'Analogicznie',
       'Triada',
-      'Monochromatyczny'
+      'Monochromatyczny',
+      'Uzupełniający',
+      'Czworokątny',
+      'Odcienie'
     ]
   }),
 
@@ -111,6 +114,15 @@ export default {
           break;
         case 'Monochromatyczny':
           this.monochromatic(selectedColorInHSL)
+          break;
+        case 'Uzupełniający':
+          this.complementary(selectedColorInHSL)
+          break;
+        case 'Czworokątny':
+          this.square(selectedColorInHSL)
+          break;
+        case 'Odcienie':
+          this.shades(selectedColorInHSL)
           break;
 
         default:
@@ -161,26 +173,90 @@ export default {
         if(i === 2 || i === 3){
           rotatedColor.color[2] = rotatedColor.color[2] + 40
         }
-          if(rotatedColor.color[2] > 80){
-            rotatedColor.color[2] =  rotatedColor.color[2] - 70
-          }
-          if(rotatedColor.color[2] < 10){
-            rotatedColor.color[2] = 20 +  rotatedColor.color[2]
-          }
-          console.log(rotatedColor.color);
-        // if(i > 2){
-        //   rotatedColor.color[1] = rotatedColor.color[1] -30
-        // }
-        // if(i === 1 ){
-        //   rotatedColor.color[2] = rotatedColor.color[2] - 20
-        // }
-        // if(i === 2 || i === 3){
-        //   rotatedColor.color[2] = rotatedColor.color[2] - 40
-        // }
-
-
+        //dwa warunki to uniknięcie proponowania barw bardzo ciemnych i bardzo jasnych
+        if(rotatedColor.color[2] > 80){
+          rotatedColor.color[2] =   Math.abs(rotatedColor.color[2] - 70)
+        }
+        if(rotatedColor.color[2] < 10){
+          rotatedColor.color[2] =  Math.abs(20 +  rotatedColor.color[2])
+        }
         let toRGB = rotatedColor.rgb()
 
+        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+      });
+    },
+    complementary(selectedColorInHSL){
+      let inc = 0;
+      let rotatedColor
+      [0,1,2,3,4].forEach(i => {
+        if(i % 3 === 0){
+          rotatedColor = selectedColorInHSL.rotate(180 * inc)
+          inc = inc - 1
+        }
+        if(i % 3 === 1){
+          rotatedColor.color[1] = rotatedColor.color[1] - 8
+          rotatedColor.color[2] = rotatedColor.color[2] + 30
+        }
+        if(i % 3 === 2){
+          rotatedColor.color[1] = rotatedColor.color[1] - 10
+          rotatedColor.color[2] = rotatedColor.color[2] + 10
+        }
+
+        let toRGB = rotatedColor.rgb()
+        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+      });
+    },
+    square(selectedColorInHSL){
+      let inc = 0;
+      let rotatedColor
+      [0,1,2,3,4].forEach(i => {
+        if(i  !== 1){
+          rotatedColor = selectedColorInHSL.rotate(90 * inc)
+          inc = inc - 1
+        }
+        if(i === 1){
+          rotatedColor.color[1] = rotatedColor.color[1] - 10
+        }
+        if(i === 2){
+          rotatedColor.color[1] = rotatedColor.color[1] - 20
+        }
+        if(i === 4){
+          rotatedColor.color[1] = rotatedColor.color[1] - 5
+        }
+
+        let toRGB = rotatedColor.rgb()
+        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+      });
+    },
+    shades(selectedColorInHSL){
+      let rotatedColor
+      [0,1,2,3,4].forEach(i => {
+
+        rotatedColor = selectedColorInHSL
+
+        if(i === 1){
+          rotatedColor.color[2] = rotatedColor.color[2] - 25
+        }
+        if(i === 2){
+          rotatedColor.color[2] = rotatedColor.color[2] + 50
+        }
+        if(i === 3){
+          rotatedColor.color[2] = rotatedColor.color[2] + 5
+        }
+        if(i === 4){
+          rotatedColor.color[2] = rotatedColor.color[2] - 25
+        }
+        //         //dwa warunki to uniknięcie proponowania barw bardzo ciemnych i bardzo jasnych
+        if(rotatedColor.color[2] < 20){
+          rotatedColor.color[2] = 80 - Math.abs(rotatedColor.color[2])
+        }else if(rotatedColor.color[2] > 80){
+          rotatedColor.color[2] = Math.abs(60 - rotatedColor.color[2])
+        }
+          console.log(rotatedColor.color);
+        let toRGB = rotatedColor.rgb()
         this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
         this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
       });
