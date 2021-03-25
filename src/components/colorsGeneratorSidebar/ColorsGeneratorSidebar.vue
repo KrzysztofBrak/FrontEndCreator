@@ -2,7 +2,7 @@
   <section>
     <div :class="['overlay']" @click.self="setColorsGeneratorModal(false)">
       <div :class="['color-generator']">
-        <v-app>
+        <v-app  :class="['background']">
           <v-color-picker
             :class="['color-picker']"
             width="370"
@@ -10,28 +10,30 @@
             hide-mode-switch
             v-model="color"
           ></v-color-picker>
-            <v-radio-group v-model="radioGroup" :class="['background']">
-              <v-radio
-                v-for="item in radioButtons"
-                :key="item"
-                :label="item"
-                :value="item"
-              ></v-radio>
-            </v-radio-group>
-            <v-slider
-              label="Rozpiętość:"
-              :class="['background']"
-              max="70"
-              min="15"
-              v-model="range"
-            ></v-slider>
+          <div :class="['selected-color']">{{HEXColors[0]}}</div>
+          <v-radio-group v-model="radioGroup" :class="['background']">
+            <v-radio
+              v-for="item in radioButtons"
+              :key="item"
+              :label="item"
+              :value="item"
+            ></v-radio>
+          </v-radio-group>
+          <v-slider
+            label="Rozpiętość:"
+            :class="['background slider']"
+            max="70"
+            min="15"
+            v-model="range"
+            :disabled="radioGroup !== 'Analogicznie'"
+          ></v-slider>
         </v-app>
         <div class="colors-container">
-          <div class="color" :style="{background: firstOption[0]}"></div>
-          <div class="color" :style="{background: firstOption[1]}"></div>
-          <div class="color" :style="{background: firstOption[2]}"></div>
-          <div class="color" :style="{background: firstOption[3]}"></div>
-          <div class="color" :style="{background: firstOption1}"></div>
+          <div class="color" :style="{background: firstOption[0], color: invertColor(HEXColors[0]) }">{{cutHash(HEXColors[0])}}</div>
+          <div class="color" :style="{background: firstOption[1], color: invertColor(HEXColors[1])}">{{cutHash(HEXColors[1])}}</div>
+          <div class="color" :style="{background: firstOption[2], color: invertColor(HEXColors[2])}">{{cutHash(HEXColors[2])}}</div>
+          <div class="color" :style="{background: firstOption[3], color: invertColor(HEXColors[3])}">{{cutHash(HEXColors[3])}}</div>
+          <div class="color" :style="{background: firstOption1, color: invertColor(HEXColors[4])}">{{cutHash(HEXColors[4])}}</div>
         </div>
       </div>
     </div>
@@ -83,9 +85,10 @@ export default {
     firstOption1: '',
     colorRGBHEX:{
       hex: '#FF00FF',
-      rgba: { r: 255, g: 0, b: 255, a: 1 },
+      rgba: { r: 255, g: 0, b: 255},
     },
     firstOption:[],
+    HEXColors:[],
     radioButtons:[
       'Analogicznie',
       'Triada',
@@ -128,14 +131,15 @@ export default {
         default:
           break;
       }
+      this.convertToHex()
     },
 
     analogical(selectedColorInHSL){
       [0,1,2,3,4].forEach(i => {
         let rotatedColor = selectedColorInHSL.rotate(this.range * i)
         let toRGB = rotatedColor.rgb()
-        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
-        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+        this.firstOption[i] = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
       });
     },
 
@@ -154,8 +158,8 @@ export default {
           rotatedColor.color[1] = rotatedColor.color[1] - 10
         }
         let toRGB = rotatedColor.rgb()
-        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
-        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+        this.firstOption[i] = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
       });
     },
 
@@ -182,8 +186,8 @@ export default {
         }
         let toRGB = rotatedColor.rgb()
 
-        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
-        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+        this.firstOption[i] = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
       });
     },
     complementary(selectedColorInHSL){
@@ -204,8 +208,8 @@ export default {
         }
 
         let toRGB = rotatedColor.rgb()
-        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
-        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+        this.firstOption[i] = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
       });
     },
     square(selectedColorInHSL){
@@ -227,8 +231,9 @@ export default {
         }
 
         let toRGB = rotatedColor.rgb()
-        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
-        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+        this.firstOption[i] = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+
+        this.firstOption1 = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
       });
     },
     shades(selectedColorInHSL){
@@ -255,12 +260,29 @@ export default {
         }else if(rotatedColor.color[2] > 80){
           rotatedColor.color[2] = Math.abs(60 - rotatedColor.color[2])
         }
-          console.log(rotatedColor.color);
         let toRGB = rotatedColor.rgb()
-        this.firstOption[i] = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
-        this.firstOption1 = `rgba(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
+        this.firstOption[i] = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})`
+        this.firstOption1 = `rgb(${Math.round(toRGB.color[0])}, ${Math.round(toRGB.color[1])}, ${Math.round(toRGB.color[2])})` //???????????
       });
     },
+
+    convertToHex(){
+      this.HEXColors = []
+      const Color = require('color');
+      this.firstOption.forEach(element => {
+        this.HEXColors.push(Color(element).hex())
+      });
+    },
+
+    invertColor(color){
+      const invert = require('invert-color');
+      return invert(color, true)
+    },
+
+    cutHash(color){
+      return color.substring(1)
+
+    }
   }
 }
 </script>
@@ -291,14 +313,30 @@ export default {
     display: flex;
     flex-direction: column;
     overflow: auto;
+    .selected-color{
+      margin: 0 auto 20px auto;
+      font-size: 20px;
+    }
     .button-modal{
       margin: 10px 0;
     }
+    .slider{
+      width: 96%;
+    }
     .colors-container{
       display: flex;
+      position: relative;
+      width: 108%;
+      right: 15px;
+      bottom: -15px;
       .color{
         width: 100%;
-        height: 150px;
+        height: 20vh;
+        font-size: 20px;
+        font-weight: 600;
+        font-family: system-ui;
+        text-align: center;
+        cursor: pointer;
       }
     }
     .background{
@@ -312,6 +350,13 @@ export default {
     }
     .v-color-picker__controls {
       background: $containerBackground;
+    }
+    .v-color-picker__alpha,
+    .v-color-picker__edit{
+      display: none;
+    }
+    .v-color-picker__hue{
+      margin-bottom: 5px;
     }
   }
 </style>
