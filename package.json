@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "panzoom": "^9.4.1",
     "vue": "^2.6.11",
+    "vue-clipboard2": "^0.3.1",
     "vue-router": "^3.2.0",
     "vuetify": "^2.3.21",
     "vuex": "^3.4.0",

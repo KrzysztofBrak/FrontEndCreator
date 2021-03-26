@@ -29,14 +29,21 @@
           ></v-slider>
         </v-app>
         <div class="colors-container">
-          <div class="color" :style="{background: firstOption[0], color: invertColor(HEXColors[0]) }">{{cutHash(HEXColors[0])}}</div>
-          <div class="color" :style="{background: firstOption[1], color: invertColor(HEXColors[1])}">{{cutHash(HEXColors[1])}}</div>
-          <div class="color" :style="{background: firstOption[2], color: invertColor(HEXColors[2])}">{{cutHash(HEXColors[2])}}</div>
-          <div class="color" :style="{background: firstOption[3], color: invertColor(HEXColors[3])}">{{cutHash(HEXColors[3])}}</div>
-          <div class="color" :style="{background: firstOption1, color: invertColor(HEXColors[4])}">{{cutHash(HEXColors[4])}}</div>
+          <div v-clipboard:copy="HEXColors[0]" v-clipboard:success="onCopy" class="color" :style="{background: firstOption[0], color: invertColor(HEXColors[0]) }">{{cutHash(HEXColors[0])}}</div>
+          <div v-clipboard:copy="HEXColors[1]" v-clipboard:success="onCopy" class="color" :style="{background: firstOption[1], color: invertColor(HEXColors[1])}">{{cutHash(HEXColors[1])}}</div>
+          <div v-clipboard:copy="HEXColors[2]" v-clipboard:success="onCopy" class="color" :style="{background: firstOption[2], color: invertColor(HEXColors[2])}">{{cutHash(HEXColors[2])}}</div>
+          <div v-clipboard:copy="HEXColors[3]" v-clipboard:success="onCopy" class="color" :style="{background: firstOption[3], color: invertColor(HEXColors[3])}">{{cutHash(HEXColors[3])}}</div>
+          <div v-clipboard:copy="HEXColors[4]" v-clipboard:success="onCopy" class="color" :style="{background: firstOption1, color: invertColor(HEXColors[4])}">{{cutHash(HEXColors[4])}}</div>
         </div>
       </div>
     </div>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      top
+    >
+      {{ text }}
+    </v-snackbar>
   </section>
 </template>
 
@@ -45,7 +52,6 @@ import{mapGetters, mapMutations} from 'vuex'
 import _ from 'lodash';
 
 export default {
-
   name: 'ColorsGeneratorSidebar',
   components:{
   },
@@ -80,6 +86,9 @@ export default {
   data: () => ({
     absolute: true,
     overlay: false,
+    snackbar: false,
+    text: 'Kolor został skopiowany do schowka',
+    timeout: 2000,
     range:15,
     radioGroup: 'Analogicznie',
     firstOption1: '',
@@ -282,6 +291,17 @@ export default {
     cutHash(color){
       return color.substring(1)
 
+    },
+    copyColor(color){
+      console.log(color);
+      var copyText = document.querySelector('color1');
+      copyText.setAttribute('type', 'text');
+      copyText.select();
+      document.execCommand("copy");
+      alert("Copied the text: " + copyText.value);
+    },
+    onCopy(){
+      this.snackbar = true
     }
   }
 }
@@ -358,5 +378,9 @@ export default {
     .v-color-picker__hue{
       margin-bottom: 5px;
     }
+  }
+  ::v-deep .v-snack__wrapper{
+    margin-top: 33px;
+    background-color: #44a544 !important;
   }
 </style>
