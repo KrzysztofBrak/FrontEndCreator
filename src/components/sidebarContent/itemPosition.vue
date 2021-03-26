@@ -117,8 +117,6 @@ export default {
                 this.textbuttons[2].isActive = false;
           }
       }
-      console.log(111111);
-
       button.isActive = !button.isActive
 
       this.selectedItem = findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
@@ -129,6 +127,7 @@ export default {
     activateAlignButton(button){
       this.textAlignButtons.forEach(element => {
         element.isActive = false;
+        console.log(123, element);
       })
       button.isActive = !button.isActive
       this.updateStyles(button)
@@ -157,14 +156,15 @@ export default {
           break;
 
         case 3:
-          console.log('CASE 3', button.positionStyle);
+          console.log('CASE 3', button);
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex]
               .columns[this.columnIndex].childs[this.itemIndex].childStyle = {
 
                 ...this.getWorkplaceData.sections[this.sectionIndex]
                   .columns[this.columnIndex].childs[this.itemIndex].childStyle,
-                ...button.positionStyle
+                //...button.positionStyle
+                ...button.positionStyleForItems
           }
           break;
 

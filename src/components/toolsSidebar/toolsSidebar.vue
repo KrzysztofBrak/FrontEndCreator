@@ -243,6 +243,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .tools-section{
+    z-index: 1;
     height: 100%;
     width: 50px;
     background: $containerBackground;

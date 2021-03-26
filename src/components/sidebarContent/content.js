@@ -211,32 +211,32 @@ const styleInputs = {
                 type: 'text',
                 class: '',
                 vModel: 'borderRadius',
-                childs:[
-                    {
-                        inputName: 'top-left',
-                        type: 'text',
-                        class: '',
-                        vModel: 'borderTopLeftRadius',
-                    },
-                    {
-                        inputName: 'top-right',
-                        type: 'text',
-                        class: '',
-                        vModel: 'borderTopRightRadius',
-                    },
-                    {
-                        inputName: 'bottom-left',
-                        type: 'text',
-                        class: '',
-                        vModel: 'borderBottomLeftRadius',
-                    },
-                    {
-                        inputName: 'bottom-right',
-                        type: 'text',
-                        class: '',
-                        vModel: 'borderBottomRightRadius',
-                    },
-                ],
+                // childs:[
+                //     {
+                //         inputName: 'top-left',
+                //         type: 'text',
+                //         class: '',
+                //         vModel: 'borderTopLeftRadius',
+                //     },
+                //     {
+                //         inputName: 'top-right',
+                //         type: 'text',
+                //         class: '',
+                //         vModel: 'borderTopRightRadius',
+                //     },
+                //     {
+                //         inputName: 'bottom-left',
+                //         type: 'text',
+                //         class: '',
+                //         vModel: 'borderBottomLeftRadius',
+                //     },
+                //     {
+                //         inputName: 'bottom-right',
+                //         type: 'text',
+                //         class: '',
+                //         vModel: 'borderBottomRightRadius',
+                //     },
+                // ],
             },
         ]
     },
@@ -258,12 +258,6 @@ const styleInputs = {
                 vModel: 'font-family',
             },
             {
-                inputName: 'Kolor',
-                type: 'ColorPicker',
-                class: '',
-                vModel: 'color',
-            },
-            {
                 inputName: 'Rozmiar',
                 type: 'text',
                 class: '',
@@ -276,10 +270,22 @@ const styleInputs = {
                 vModel: 'font-weight',
             },
             {
+                inputName: 'Interlinia',
+                type: 'text',
+                class: '',
+                vModel: 'line-height',
+            },
+            {
                 inputName: 'Cień',
                 type: 'ColorPicker',
                 class: '',
                 vModel: 'box-shadow',
+            },
+            {
+                inputName: 'Kolor',
+                type: 'ColorPicker',
+                class: '',
+                vModel: 'color',
             },
         ]
     },

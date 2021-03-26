@@ -11,18 +11,18 @@ const buttons = [
         img: 'mdi-format-color-text',
         alt: 'dodaj tekst'
     },
-    {
-        img: 'mdi-form-textbox',
-        alt: 'dodaj pole tekstowe'
-    },
-    {
-        img: 'mdi-gesture-tap-button',
-        alt: 'dodaj przycisk'
-    },
-    {
-        img: 'mdi-table-plus',
-        alt: 'dodaj tabelę'
-    },
+    // {
+    //     img: 'mdi-form-textbox',
+    //     alt: 'dodaj pole tekstowe'
+    // },
+    // {
+    //     img: 'mdi-gesture-tap-button',
+    //     alt: 'dodaj przycisk'
+    // },
+    // {
+    //     img: 'mdi-table-plus',
+    //     alt: 'dodaj tabelę'
+    // },
     {
         img: 'mdi-image-plus',
         alt: 'dodaj zdjecie'

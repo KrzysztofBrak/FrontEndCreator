@@ -189,6 +189,9 @@ export default {
 
     addImg(){
       this.$refs.fileInput.$refs.input.click()
+    },
+    selected(){
+    //  console.log('ggg');
     }
   }
 }
