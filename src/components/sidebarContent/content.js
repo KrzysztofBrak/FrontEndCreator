@@ -156,12 +156,66 @@ const styleInputs = {
                 type: 'text',
                 class: '',
                 vModel: 'padding',
+                showSeparately: false,
+                childs:[
+                    {
+                        inputName: 'mdi-border-left-variant mdi-rotate-90',
+                        type: 'text',
+                        class: '',
+                        vModel: 'paddingTop',
+                    },
+                    {
+                        inputName: 'mdi-border-left-variant mdi-rotate-180',
+                        type: 'text',
+                        class: '',
+                        vModel: 'paddingRight',
+                    },
+                    {
+                        inputName: 'mdi-border-left-variant mdi-rotate-270',
+                        type: 'text',
+                        class: '',
+                        vModel: 'paddingBottom',
+                    },
+                    {
+                        inputName: 'mdi-border-left-variant',
+                        type: 'text',
+                        class: '',
+                        vModel: 'paddingLeft',
+                    },
+                ],
             },
             {
                 inputName: 'Odstęp\u00A0zew.',
                 type: 'text',
                 class: '',
                 vModel: 'margin',
+                showSeparately: false,
+                childs:[
+                    {
+                        inputName: 'mdi-border-left-variant mdi-rotate-90',
+                        type: 'text',
+                        class: '',
+                        vModel: 'marginTop',
+                    },
+                    {
+                        inputName: 'mdi-border-left-variant mdi-rotate-180',
+                        type: 'text',
+                        class: '',
+                        vModel: 'marginRight',
+                    },
+                    {
+                        inputName: 'mdi-border-left-variant mdi-rotate-270',
+                        type: 'text',
+                        class: '',
+                        vModel: 'marginBottom',
+                    },
+                    {
+                        inputName: 'mdi-border-left-variant',
+                        type: 'text',
+                        class: '',
+                        vModel: 'marginLeft',
+                    },
+                ],
             },
             {
                 inputName: 'Wypełnienie',
@@ -207,36 +261,36 @@ const styleInputs = {
             },
             {
                 inputName: `zaokrąglenie\u00A0krawędzi`,
-                showSeparately: false,
                 type: 'text',
                 class: '',
                 vModel: 'borderRadius',
-                // childs:[
-                //     {
-                //         inputName: 'top-left',
-                //         type: 'text',
-                //         class: '',
-                //         vModel: 'borderTopLeftRadius',
-                //     },
-                //     {
-                //         inputName: 'top-right',
-                //         type: 'text',
-                //         class: '',
-                //         vModel: 'borderTopRightRadius',
-                //     },
-                //     {
-                //         inputName: 'bottom-left',
-                //         type: 'text',
-                //         class: '',
-                //         vModel: 'borderBottomLeftRadius',
-                //     },
-                //     {
-                //         inputName: 'bottom-right',
-                //         type: 'text',
-                //         class: '',
-                //         vModel: 'borderBottomRightRadius',
-                //     },
-                // ],
+                showSeparately: false,
+                childs:[
+                    {
+                        inputName: 'mdi-rounded-corner mdi-rotate-270',
+                        type: 'text',
+                        class: '',
+                        vModel: 'borderTopLeftRadius',
+                    },
+                    {
+                        inputName: 'mdi-rounded-corner',
+                        type: 'text',
+                        class: '',
+                        vModel: 'borderTopRightRadius',
+                    },
+                    {
+                        inputName: 'mdi-rounded-corner mdi-rotate-180',
+                        type: 'text',
+                        class: '',
+                        vModel: 'borderBottomLeftRadius',
+                    },
+                    {
+                        inputName: 'mdi-rounded-corner mdi-rotate-90',
+                        type: 'text',
+                        class: '',
+                        vModel: 'borderBottomRightRadius',
+                    },
+                ],
             },
         ]
     },

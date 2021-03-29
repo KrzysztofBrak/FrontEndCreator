@@ -15,14 +15,6 @@
                 <div :class="['inputFather-container']">
                   <p>{{input.inputName}}:</p>
 
-                  <div v-if="input.childs" @click="changeSeparately(input)">
-                    <v-icon v-if="input.showSeparately === true">
-                      mdi-lock-open-variant-outline
-                    </v-icon>
-
-                    <v-icon v-else>mdi-lock-outline</v-icon>
-                  </div>
-
                   <ColorPickerModal v-if="input.type === 'ColorPicker'"
                     :selectedColor="style[input.vModel]"
                     :inputName="input.vModel"
@@ -43,7 +35,18 @@
                     v-on:change="updateStyle(kindOfSelectedItem)"
                     placeholder="wprowadź wartość"
                   >
+                <div v-if="input.childs" @click="changeSeparately(input)">
+                  <v-icon v-if="input.showSeparately === true"
+                    @click="updateInputWithChild(input, true)"
+                    class="lock">
+                    mdi-lock-open-variant-outline
+                  </v-icon>
+
+                  <v-icon v-else @click="updateInputWithChild(input, false)" class="lock">mdi-lock-outline</v-icon>
                 </div>
+                </div>
+
+
                 <div :class="['inputChilds-container']"
                   v-show="input.childs && input.showSeparately === true"
                 >
@@ -51,7 +54,8 @@
                     :key="childInput.inputName"
                     :class="['container']"
                   >
-                    <p>{{childInput.inputName}}:</p>
+                  <v-icon class="lock" v-text="childInput.inputName"></v-icon>
+                    <!-- <p>{{childInput.inputName}}:</p> -->
                     <input :type="childInput.type"
                       :class="[childInput.class]"
                       v-model="style[childInput.vModel]"
@@ -171,6 +175,23 @@ export default {
       }
     },
 
+    updateInputWithChild(item, everyBorderSelected){
+      if(everyBorderSelected){
+        console.log(123, this.style[item.vModel]);
+        this.style[item.childs[0].vModel] = '';
+        this.style[item.childs[1].vModel] = '';
+        this.style[item.childs[2].vModel] = '';
+        this.style[item.childs[3].vModel] = '';
+      }else{
+        this.style[item.vModel] = ''
+        console.log(123, this.style[item.childs[0].vModel]);
+        console.log(123, this.style[item.childs[1].vModel]);
+        console.log(123, this.style[item.childs[2].vModel]);
+        console.log(123, this.style[item.childs[3].vModel]);
+      }
+      this.updateStyle(this.kindOfSelectedItem)
+    },
+
     updateFile(){
       this.getWorkplaceData.sections[this.sectionIndex]
         .columns[this.columnIndex].childs[this.itemIndex]
@@ -218,12 +239,22 @@ export default {
           text-align: end;
           padding: 0 3px
         }
+        .lock{
+          font-size: 17px;
+          margin-left: 5px;
+        }
       }
       .inputChilds-container{
         display:block;
         transition: 0.3s;
         .container{
           display: flex;
+          p{
+            white-space: nowrap;
+          }
+          input{
+            width: 100%;
+          }
         }
       }
       input{
