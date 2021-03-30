@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    isDarkMode: false,
     isTextSelected: false,
     newProjectModalOpened: false,
     colorsGeneratorModalOpened: false,
@@ -21,7 +22,6 @@ export default new Vuex.Store({
         height: '300px',
         width: '100%',
         background:'#FFFFFF00',
-      //  boxShadow: 'box-shadow: 0px 0px 10px 1px rgba(0,0,0,0);',
         borderWidth: '0px',
         borderStyle: 'none',
         borderColor: '#FFFFFF00',
@@ -60,7 +60,6 @@ export default new Vuex.Store({
           height: '300px',
           width: '100%',
           background:'#FFFFFF00',
-      //    boxShadow: '0px 0px 10px 1px rgba(0,0,0,0)',
           borderWidth: '0px',
           borderStyle: 'none',
           borderColor: '#FFFFFF00',
@@ -97,6 +96,12 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
 
   getters:{
+    getDarkMode(state){
+      return state.isDarkMode
+    },
+    getProjectName(state){
+      return state.workplaceData.projectName
+    },
     getNewProjectModal(state){
       return state.newProjectModalOpened
     },
@@ -142,6 +147,9 @@ export default new Vuex.Store({
 
 
   mutations: {
+    setDarkMode(state, value){
+      state.isDarkMode = value
+    },
     setNewProjectModal(state, value){
       state.newProjectModalOpened = value
     },
@@ -227,6 +235,7 @@ export default new Vuex.Store({
       if(value === true){
         let IDArray = state.elementToEdit.split('-');
         IDArray.splice(IDArray.length-1, 1)
+        console.log(value, IDArray.join('-'));
         if(IDArray.join('-') === ''){
           state.elementToEdit = "workplace";
         }else{

@@ -222,13 +222,7 @@ const styleInputs = {
                 type: 'ColorPicker',
                 class: '',
                 vModel: 'background',
-            },
-            {
-                inputName: 'Cień',
-                type: 'ColorPicker',
-                class: '',
-                vModel: 'boxShadow',
-            },
+            }
         ]
     },
     borders:{
@@ -328,12 +322,6 @@ const styleInputs = {
                 type: 'text',
                 class: '',
                 vModel: 'line-height',
-            },
-            {
-                inputName: 'Cień',
-                type: 'ColorPicker',
-                class: '',
-                vModel: 'box-shadow',
             },
             {
                 inputName: 'Kolor',

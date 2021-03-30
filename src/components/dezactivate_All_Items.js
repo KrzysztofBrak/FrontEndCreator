@@ -4,7 +4,9 @@ var dezactivateEverything = function(x) {
           column.childs.forEach(item => {
             item.isActive = false;
           })
+          column.isActive = false;
         })
+        section.isActive = false;
       });
 }
 

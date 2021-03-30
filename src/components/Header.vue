@@ -39,7 +39,7 @@ export default {
   },
 
   computed:{
-    ...mapGetters(['getNewProjectModal', 'getWorkplaceData']),
+    ...mapGetters(['getNewProjectModal', 'getWorkplaceData', 'getDarkMode']),
 
     isProjectActive(){
       return (localStorage.getItem("vuex") !== null)
@@ -48,18 +48,20 @@ export default {
 
   data: () => ({
     modalIsOpened: false,
-    isDarkTheme: false
+   // isDarkTheme: false
   }),
 
   methods:{
-    ...mapMutations(['setNewProjectModal', 'setWorkplaceData']),
+    ...mapMutations(['setNewProjectModal', 'setWorkplaceData', 'setDarkMode']),
 
     openModal(){
       this.setNewProjectModal(true)
     },
     switchTheme(){
-      this.isDarkTheme = !this.isDarkTheme;
-      this.$emit('isDarkTheme', this.isDarkTheme)
+
+     // this.isDarkTheme = !this.isDarkTheme;
+      this.setDarkMode(!this.getDarkMode)
+     // this.$emit('isDarkTheme', this.isDarkTheme)
     },
     saveProject(){
       const filename = `${this.getWorkplaceData.projectName}.json`;

@@ -1,6 +1,6 @@
 <template>
-  <div :class="['home', {'dark-theme': isDarkActive}]" id="theme">
-    <Header @isDarkTheme="switchTheme"/>
+  <div :class="['home', {'dark-theme': getDarkMode}]" id="theme">
+    <Header/>
     <div :class="['main-container']" @dblclick.self="disactivateAllElements">
       <toolsSidebar  v-show="isProjectActive"/>
 
@@ -48,7 +48,8 @@ export default {
   computed:{
     ...mapGetters(['getActualZoom',
       'getWorkplaceData',
-      'getColorsGeneratorModalOpened'
+      'getColorsGeneratorModalOpened',
+      'getDarkMode'
     ]),
   },
 
@@ -58,12 +59,10 @@ export default {
     },
   },
   data: () => ({
-    isDarkActive: false,
     isProjectActive: false,
     colorGeneratorIsActive: false
   }),
   mounted(){
-    console.log(this.getColorsGeneratorModalOpened);
     this.isProjectActive =  (localStorage.getItem("vuex") !== null)
     // just grab a DOM element
     const element = document.querySelector('#workplace')
@@ -117,9 +116,6 @@ export default {
       });
        this.setWorkplaceActive(true);
        this.setElementToEdit('workplace')
-    },
-    switchTheme(value){
-      this.isDarkActive = value;
     }
   }
 }
@@ -225,9 +221,24 @@ export default {
   }
   ::v-deep .v-color-picker {
     background: #2c2f3b;
-    .v-list-item__title{
+    .v-list-item__title, span, input{
       color: #acacac;
+    }
   }
-}
+  ::v-deep .color-generator {
+    background: #2c2f3b;
+    .v-color-picker__controls,
+    .v-input--radio-group--column,
+    .slider .v-input__control,
+    .v-application--wrap{
+      background: #2c2f3b;
+    }
+
+    .selected-color,
+    .v-label,
+    .mdi-radiobox-blank{
+      color: #acacac;
+    }
+  }
 }
 </style>

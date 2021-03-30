@@ -1,7 +1,7 @@
 <template>
     <div v-if="getElementToEdit !== 'workplace'" :class="['shapeEdit-container']">
       <v-row justify="center">
-        <v-expansion-panels accordion>
+        <v-expansion-panels accordion v-model="isPanelOpened">
           <v-expansion-panel
             v-for="item in styleInputs"
             :key="item.name"
@@ -55,7 +55,6 @@
                     :class="['container']"
                   >
                   <v-icon class="lock" v-text="childInput.inputName"></v-icon>
-                    <!-- <p>{{childInput.inputName}}:</p> -->
                     <input :type="childInput.type"
                       :class="[childInput.class]"
                       v-model="style[childInput.vModel]"
@@ -90,9 +89,10 @@
 </template>
 
 <script>
-import{mapGetters} from 'vuex'
+import{mapGetters, mapMutations} from 'vuex'
 import ColorPickerModal from '@/components/ingredients/ColorPickerModal.vue'
 import {findSelectedItem} from '@/components/findSelectedItem.js'
+import {dezactivateEverything} from '@/components/dezactivate_All_Items.js'
 
 import{styleInputs} from './content'
 export default {
@@ -105,7 +105,8 @@ export default {
   computed:{
     ...mapGetters([
       'getElementToEdit',
-      'getWorkplaceData'
+      'getWorkplaceData',
+      'getProjectName'
     ]),
   },
 
@@ -122,6 +123,11 @@ export default {
         this.style = this.selectedItem.style;
       }
     },
+    getProjectName(){
+      dezactivateEverything(this.getWorkplaceData)
+      this.isPanelOpened = false;
+      this.setElementToEdit('workplace');
+    }
   },
   data: () => ({
     styleInputs,
@@ -131,9 +137,11 @@ export default {
     itemIndex: -1,
     style:{},
     chosenImg: null,
+    isPanelOpened: false
   }),
 
   methods:{
+    ...mapMutations(['setElementToEdit']),
     updateStyle(kindOfSelectedItem){
       switch (kindOfSelectedItem) {
         case 1:
