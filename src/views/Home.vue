@@ -225,6 +225,10 @@ export default {
       color: #acacac;
     }
   }
+  ::v-deep select {
+    background: #4f525d;
+    color: #acacac;
+  }
   ::v-deep .color-generator {
     background: #2c2f3b;
     .v-color-picker__controls,

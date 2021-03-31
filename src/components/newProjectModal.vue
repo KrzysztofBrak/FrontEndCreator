@@ -123,10 +123,10 @@ export default {
                 height: '300px',
                 width: '100%',
                 background:'#FFFFFF00',
-                borderWidth: '0px',
-                borderStyle: 'none',
+                borderWidth: '',
+                borderStyle: '',
                 borderColor: '#FFFFFF00',
-                borderRadius: '0px',
+                borderRadius: '',
               },
               childStyle:{},
               columns:[{

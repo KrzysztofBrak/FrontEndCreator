@@ -20,14 +20,21 @@
                     :inputName="input.vModel"
                     @selected="selectedColor"
                   />
-                  <v-select  v-else-if="input.type === 'dropdown'"
-                    :items="input.items"
+                  <select v-else-if="input.type === 'dropdown'" id="tstselect" name="tstselect"
+                   dir="rtl"
                     :class="['dropdown', input.class]"
-                    v-model="style[input.vModel]"
                     v-on:change="updateStyle(kindOfSelectedItem)"
-                    label="Solo field"
-                    solo
-                  ></v-select>
+                    v-model="x">
+                    <option v-for="option in input.items" :key="option" :value="option">{{option}}</option>
+                  </select>
+
+                  <select v-else-if="input.type === 'dropdownWithDifferentNames'"
+                    dir="rtl"
+                    :class="['dropdown', input.class]"
+                    v-on:change="updateStyle(kindOfSelectedItem)"
+                    v-model="style[input.vModel]">
+                    <option v-for="option in input.items" :key="option.value" :value="option.name">{{option.value}}</option>
+                  </select>
                   <input v-else :type="input.type"
                     v-show="!input.childs || input.showSeparately === false"
                     :class="[input.class, 'input-style']"
@@ -219,7 +226,19 @@ export default {
     addImg(){
       this.$refs.fileInput.$refs.input.click()
     },
+    connectNameWithStyle(inputName, inputData){
+      console.log(inputName, inputData);
+      let selectedItem = inputData.itemsName.findIndex(x => x === inputName)
+      this.style[inputData.vModel] = inputData.items[selectedItem]
+      this.updateStyle(this.kindOfSelectedItem)
+    },
+    getLabel(inputName, inputData){
+      let selectedItem = inputData.items.findIndex(x => x === inputName)
+      return inputData.itemsName[selectedItem]
+    },
     selected(){
+     // let selectedItem = inputData.itemsName.findIndex(x => x === inputName)
+
     //  console.log('ggg');
     }
   }
@@ -270,21 +289,16 @@ export default {
         background:#e9e9e9;
         outline: none;
       }
-      ::v-deep .dropdown.v-input{
-        margin-left: 10px;
-        .v-input__control{
-          min-height: 17px;
-          max-height: 17px;
-          .v-input__slot{
-            max-height: 20px;
-            border-width: 0;
-            border-style: solid;
-            border-radius: 0;
-            border-color: rgba(0, 0, 0, 0.12);
-            box-shadow: none;
-            background: #e9e9e9;
-          }
-        }
+      .dropdown{
+        background: #e9e9e9;
+        width: 100%;
+        margin-left: 5px;
+      }
+      select, option {
+        text-align:right;
+        appearance: auto;
+        padding-left: 5px;
+
       }
     }
     .input-text-area{

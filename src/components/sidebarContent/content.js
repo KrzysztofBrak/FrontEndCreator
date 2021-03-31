@@ -237,12 +237,24 @@ const styleInputs = {
             },
             {
                 inputName: 'styl',
-                type: 'dropdown',
+                type: 'dropdownWithDifferentNames',
                 items: [
-                    'solid',
-                    'dashed',
-                    'dotted',
-                    'none'
+                    {
+                        name:'solid',
+                        value: 'ciągłe'
+                    },
+                    {
+                        name:'dashed',
+                        value: 'kreski'
+                    },
+                    {
+                        name:'dotted',
+                        value: 'kropki'
+                    },
+                    {
+                        name:'none',
+                        value: 'brak'
+                    },
                 ],
                 class: '',
                 vModel: 'borderStyle',
@@ -313,9 +325,26 @@ const styleInputs = {
             },
             {
                 inputName: 'Grubość',
-                type: 'text',
+                type: 'dropdownWithDifferentNames',
                 class: '',
                 vModel: 'font-weight',
+                items: [
+                    {
+                        name:'100',
+                        value: 'light',
+                        selected: 'selected'
+                    },
+                    {
+                        name:'400',
+                        value: 'regular',
+                        selected: ''
+                    },
+                    {
+                        name:'600',
+                        value: 'bold',
+                        selected: ""
+                    }
+                ]
             },
             {
                 inputName: 'Interlinia',
