@@ -1,5 +1,5 @@
 var dezactivateEverything = function(x) {
-        x.sections.forEach(section => {
+      x.sections.forEach(section => {
         section.columns.forEach(column => {
           column.childs.forEach(item => {
             item.isActive = false;

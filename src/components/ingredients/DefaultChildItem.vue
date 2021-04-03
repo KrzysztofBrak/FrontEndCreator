@@ -80,6 +80,10 @@ export default {
       box-shadow: 0px 0px 10px 0px rgb(230, 71, 119);
       transition: 0.3s;
       z-index: 1;
+
+    }
+    .item-btn{
+right: 160px;
     }
     .flex-item{
       display: flex;

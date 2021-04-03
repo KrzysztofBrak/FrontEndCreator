@@ -38,7 +38,6 @@ export default {
   data: () => ({
 
   }),
-
   methods:{
     ...mapMutations(['setWorkplaceActive', 'setElementToEdit', 'setItemClicked']),
 

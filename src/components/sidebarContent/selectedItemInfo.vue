@@ -19,5 +19,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.selectedItemInfo-container{
+  margin: 10px;
+  line-height: 1.6;
+}
 </style>

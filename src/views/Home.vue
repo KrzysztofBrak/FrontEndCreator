@@ -244,5 +244,11 @@ export default {
       color: #acacac;
     }
   }
+  ::v-deep .v-input__control {
+    .v-label,
+    textarea{
+      color: #acacac;
+    }
+  }
 }
 </style>

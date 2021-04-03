@@ -150,7 +150,10 @@ export default {
         sectionForNewColumn = this.getActiveElement
       }
 
-      let columnIndex = sectionForNewColumn.columns[sectionForNewColumn.columns.length-1].id.split("col_")[1];
+      let columnIndex = (sectionForNewColumn.columns.length > 0)
+                      ? sectionForNewColumn.columns[sectionForNewColumn.columns.length-1].id.split("col_")[1]
+                      : 0
+      //let columnIndex = sectionForNewColumn.columns[sectionForNewColumn.columns.length-1].id.split("col_")[1];
       this.addSectionChilds({
           id: `${sectionForNewColumn.id}-col_${++columnIndex}`,
           isActive: true,
@@ -195,15 +198,14 @@ export default {
       //if there is active column...
       let currentColumn = sectionForNewColumn.columns.findIndex(x => x.isActive === true)
       //if there is no active column, check active sections
-      console.log(currentColumn);
-      if(currentColumn === -1){
-        currentColumn = 0
-
-      }
+      if(currentColumn === -1){ currentColumn = 0 }
 
       const activeColumn = sectionForNewColumn.columns[currentColumn];
       sectionForNewColumn.columns[currentColumn].isActive = true
-      let itemIndex = activeColumn.childs[activeColumn.childs.length - 1].id.split("item_")[1];
+
+      let itemIndex = (activeColumn.childs.length > 0)
+                      ? activeColumn.childs[activeColumn.childs.length - 1].id.split("item_")[1]
+                      : 0
 
       const itemID = `${sectionForNewColumn.columns[currentColumn].id}-item_${++itemIndex}`
       if(type === 'text'){
@@ -215,20 +217,21 @@ export default {
             style:{},
             childStyle:{},
         })
-      }else if(type === 'img')
-      this.addItemToColumn({
-          id: itemID,
-          type: type,
-          content: require('@/assets/img/default-img.svg'),
-          isActive: true,
-          style:{
-            width: '200px',
-            height: '200px',
-          },
-          childStyle:{
-            width: '200px',
-            height: '200px',},
-      })
+      }else{
+        this.addItemToColumn({
+            id: itemID,
+            type: type,
+            content: require('@/assets/img/default-img.svg'),
+            isActive: true,
+            style:{
+              width: '200px',
+              height: '200px',
+            },
+            childStyle:{
+              width: '200px',
+              height: '200px',},
+        })
+      }
       this.setElementToEdit(itemID);
     },
 

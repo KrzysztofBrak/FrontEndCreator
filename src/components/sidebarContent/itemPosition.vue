@@ -186,7 +186,7 @@ export default {
 
 <style scoped lang="scss">
     .align-text-container{
-      margin: 10px;
+      margin: 0 0 30px 0;
       display: block;
       justify-content: space-between;
       .icon-section{

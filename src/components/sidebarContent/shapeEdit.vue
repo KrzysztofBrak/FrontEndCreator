@@ -8,6 +8,7 @@
           >
             <v-expansion-panel-header>{{item.name}}</v-expansion-panel-header>
             <v-expansion-panel-content>
+                 <ItemPosition v-if="item.name === 'Przekształć:'"/>
               <div v-for="input in item.inputs"
                 :key="input.inputName"
                 :class="['input-container']"
@@ -24,7 +25,7 @@
                    dir="rtl"
                     :class="['dropdown', input.class]"
                     v-on:change="updateStyle(kindOfSelectedItem)"
-                    v-model="x">
+                    v-model="style[input.vModel]">
                     <option v-for="option in input.items" :key="option" :value="option">{{option}}</option>
                   </select>
 
@@ -100,13 +101,15 @@ import{mapGetters, mapMutations} from 'vuex'
 import ColorPickerModal from '@/components/ingredients/ColorPickerModal.vue'
 import {findSelectedItem} from '@/components/findSelectedItem.js'
 import {dezactivateEverything} from '@/components/dezactivate_All_Items.js'
+import ItemPosition from '@/components/sidebarContent/itemPosition.vue'
 
 import{styleInputs} from './content'
 export default {
   name: 'shapeEdit',
 
   components:{
-    ColorPickerModal
+    ColorPickerModal,
+    ItemPosition
   },
 
   computed:{
@@ -146,7 +149,6 @@ export default {
     chosenImg: null,
     isPanelOpened: false
   }),
-
   methods:{
     ...mapMutations(['setElementToEdit']),
     updateStyle(kindOfSelectedItem){
@@ -199,20 +201,19 @@ export default {
         this.style[item.childs[3].vModel] = '';
       }else{
         this.style[item.vModel] = ''
-        console.log(123, this.style[item.childs[0].vModel]);
-        console.log(123, this.style[item.childs[1].vModel]);
-        console.log(123, this.style[item.childs[2].vModel]);
-        console.log(123, this.style[item.childs[3].vModel]);
       }
       this.updateStyle(this.kindOfSelectedItem)
     },
 
     updateFile(){
-      this.getWorkplaceData.sections[this.sectionIndex]
-        .columns[this.columnIndex].childs[this.itemIndex]
-        .content = URL.createObjectURL(this.chosenImg);
+        var reader = new FileReader();
+        reader.readAsDataURL(this.chosenImg);
+        reader.onloadend = () => {
+          this.getWorkplaceData.sections[this.sectionIndex]
+            .columns[this.columnIndex].childs[this.itemIndex]
+            .content = reader.result;
+        }
     },
-
 
     selectedColor(colorValue){
       this.style[colorValue.label] = colorValue.color;
@@ -227,7 +228,6 @@ export default {
       this.$refs.fileInput.$refs.input.click()
     },
     connectNameWithStyle(inputName, inputData){
-      console.log(inputName, inputData);
       let selectedItem = inputData.itemsName.findIndex(x => x === inputName)
       this.style[inputData.vModel] = inputData.items[selectedItem]
       this.updateStyle(this.kindOfSelectedItem)
