@@ -1,10 +1,11 @@
 <template>
-  <section :class="['column-section', {'activeSection': column.isActive}]"
+  <section class="column-section"
+    :class="[{'activeSection': column.isActive}]"
     @dblclick="activateColumn"
   >
     <v-fab-transition>
       <v-btn
-        :class="['column-btn']"
+        class="column-btn"
         v-show="column.isActive"
         color="rgb(135, 230, 71)"
         dark
@@ -19,10 +20,10 @@
     </v-fab-transition>
 
     <!-- display items in current column -->
-    <div :class="['item-container']"
+    <div class="item-container"
       :style="column.childStyle"
       >
-      <div :class="['item']"
+      <div class="item"
         v-for="(item, index) in getWorkplaceData.sections[currentSection].columns[currentColumn].childs"
         :key="index"
         :id="item.id"

@@ -1,7 +1,7 @@
 <template>
-  <section  :class="['new-project-modal']">
-    <div :class="['overlay']" @click.self="closeModal">
-      <div :class="['project-modal']">
+  <section  class="new-project-modal">
+    <div class="overlay" @click.self="closeModal">
+      <div class="project-modal">
         <v-text-field
           label="Nazwa projektu"
           :rules="[() => !!projectName || 'Pole jest wymagane']"
@@ -10,31 +10,32 @@
           autofocus
           v-model="projectName"
         ></v-text-field>
-        <div :class="['buttons-container']">
+        <div class="buttons-container">
           <v-btn
             v-for="btn in buttons"
             :key="btn.icon"
-            :class="['button', { 'isActive': btn.isActive}]"
+            class="button"
+            :class="[{ 'isActive': btn.isActive}]"
             block
             @click="setWorkplaceWidth(btn)"
           >
             <v-icon large>{{btn.icon}}</v-icon>
-            <div :class="['btn-content-container']">
+            <div class="btn-content-container">
               <p>{{btn.textFirstPart}}<br>{{btn.textSecondPart}}</p>
               <input v-if="btn.input" type="text" placeholder="WPISZ WARTOŚĆ" v-model="btn.value"/>{{btn.value}}
             </div>
           </v-btn>
         </div>
-        <div v-show="showModalQuestion" :class="['question-container']">Jesteś pewien że chcesz nadpisać utworzony projekt?</div>
+        <div v-show="showModalQuestion" class="question-container">Jesteś pewien że chcesz nadpisać utworzony projekt?</div>
           <v-btn
             block
-            :class="['button-modal']"
+            class="button-modal"
             @click="createProject"
             v-on:keyup.enter="createProject"
           >UTWÓRZ
           </v-btn>
           <v-btn
-            :class="['button-modal']"
+            class="button-modal"
             block
             @click="closeModal"
             v-on:keyup.Escape="closeModal"

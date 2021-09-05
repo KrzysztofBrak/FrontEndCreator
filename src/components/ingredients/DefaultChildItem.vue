@@ -1,10 +1,11 @@
 <template>
-  <section :class="['childItem-section', {'activeItem': item.isActive}]"
+  <section class="childItem-section"
+    :class="[{'activeItem': item.isActive}]"
     @dblclick="activateItem"
   >
     <v-fab-transition>
       <v-btn
-        :class="['item-btn']"
+        class="item-btn"
         v-show="item.isActive"
         color="rgb(230, 71, 119)"
         dark
@@ -19,14 +20,14 @@
     </v-fab-transition>
 
     <div v-if="item.type === 'text'"
-      :class="['flex-item']"
+      class="flex-item"
       :style="item.childStyle"
     >
       <p >{{item.content}}</p>
     </div>
 
     <div v-else-if="item.type === 'img'"
-      :class="['flex-item']"
+      class="flex-item"
 
     >
       <img :src="item.content" :style="item.style"/>
@@ -83,7 +84,7 @@ export default {
 
     }
     .item-btn{
-right: 160px;
+      right: 160px;
     }
     .flex-item{
       display: flex;

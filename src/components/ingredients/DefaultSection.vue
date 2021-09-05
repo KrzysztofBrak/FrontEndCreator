@@ -1,5 +1,6 @@
 <template>
-  <section :class="['default-section', {'activeSection': section.isActive}]"
+  <section class="default-section"
+    :class="[{'activeSection': section.isActive}]"
     @dblclick="activateSection"
     :style="{width: this.getWorkplaceData.workplaceWidth}"
   >
@@ -17,10 +18,10 @@
         <v-icon large>mdi-trash-can</v-icon>
       </v-btn>
     </v-fab-transition>
-    <div :class="['columns-container']"
+    <div class="columns-container"
       :style="section.childStyle"
     >
-      <div :class="['column']"
+      <div class="column"
         v-for="(column, index) in getWorkplaceData.sections[currentSection].columns"
         :key="index"
         :id="column.id"
@@ -74,7 +75,6 @@ export default {
     ]),
 
     activateSection(){
-   //   this.section.isActive = true;
       this.setWorkplaceActive(false)
     },
     deleteSection(){

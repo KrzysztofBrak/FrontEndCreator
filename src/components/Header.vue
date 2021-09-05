@@ -1,20 +1,20 @@
 <template>
-  <section :class="['header-section']">
-    <div :class="['header-container']">
-      <div :class="['title-container']">
+  <section class="header-section">
+    <div class="header-container">
+      <div class="title-container">
         <div>Frontend <span>Creator</span></div>
       </div>
       <div :class="['menu-container']">
         <input type="file"
           ref="openFileInput"
           @change="uploadFile"
-          :class="['hidden-input']"
+          class="hidden-input"
         />
         <p>{{getWorkplaceData.projectName}}</p>
         <p @click="openModal">Nowy projekt +</p>
         <p @click="$refs.openFileInput.click()" >Wczytaj projekt</p>
         <p @click="saveProject">Zapisz projekt</p>
-        <v-icon :class="['theme-switcher']"
+        <v-icon class="theme-switcher"
           @click="switchTheme()"
         >mdi-theme-light-dark
         </v-icon>

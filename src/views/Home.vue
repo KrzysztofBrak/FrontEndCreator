@@ -1,26 +1,19 @@
 <template>
-  <div :class="['home', {'dark-theme': getDarkMode}]" id="theme">
+  <div class="home" :class="[{'dark-theme': getDarkMode}]" id="theme">
     <Header/>
-    <div :class="['main-container']" @dblclick.self="disactivateAllElements">
+    <div class="main-container" @dblclick.self="disactivateAllElements">
       <toolsSidebar  v-show="isProjectActive"/>
-
-
       <div v-show="!isProjectActive"
-        :class="['icon-container']">
-        <img :src="require('@/assets/img/new_file.svg')"/>
+        class="icon-container">
+        <img :src="require('@/assets/img/new_file.svg')" alt="nowy projekt"/>
       </div>
-      <workplace v-show="isProjectActive">
-
-      </workplace>
-
-
+      <workplace v-show="isProjectActive"/>
       <Sidebar  v-show="isProjectActive"/>
       <v-fade-transition>
-      <div v-show="getColorsGeneratorModalOpened">
-        <ColorsGeneratorSidebar/>
-      </div>
+        <div v-show="getColorsGeneratorModalOpened">
+          <ColorsGeneratorSidebar/>
+        </div>
       </v-fade-transition>
-
     </div>
   </div>
 </template>

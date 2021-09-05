@@ -1,15 +1,12 @@
 <template>
-  <section :class="['tools-section']">
-    <div :class="['top-tools-section']">
-      <div :class="['button-container']"
+  <section class="tools-section">
+    <div class="top-tools-section">
+      <div class="button-container"
         v-for="button in buttons"
         :key="button.alt"
         @click="btnClick(button.alt)">
-        <v-icon medium
-        >{{button.img}}</v-icon>
+        <v-icon medium>{{button.img}}</v-icon>
       </div>
-    </div>
-    <div :class="['bottom-tools-section']">
     </div>
   </section>
 </template>
@@ -17,6 +14,8 @@
 <script>
 import {buttons} from './content.js'
 import{mapGetters, mapMutations} from 'vuex'
+
+import dezactivateElements from '@/mixins/dezactivateElements.vue'
 
 export default {
   name: 'toolsSidebar',
@@ -27,6 +26,7 @@ export default {
       'getActiveElement'
     ]),
   },
+  mixins: [dezactivateElements],
   data: () => ({
     buttons,
   }),
@@ -53,17 +53,14 @@ export default {
           break;
 
         case 'dodaj tekst':
-          // this.setTextSelected(true);
           this.addItem('text')
           break;
 
         case 'dodaj zdjecie':
-          // this.setTextSelected(true);
           this.addItem('img')
           break;
 
         case 'dobierz kolory':
-          // this.setTextSelected(true);
           this.selectColors()
           break;
 
@@ -73,16 +70,7 @@ export default {
 
 
     addSection(){
-      //set active section
-      this.getWorkplaceData.sections.forEach(section => {
-          section.isActive = false;
-          section.columns.forEach(column => {
-            column.isActive = false;
-            column.childs.forEach(item =>{
-              item.isActive = false
-            })
-          })
-      });
+      this.dezactivateElements(this.getWorkplaceData, '')
 
       let sectionNumber = this.getSectionsLength
       this.setSectionsLength(++sectionNumber);
@@ -129,18 +117,9 @@ export default {
       this.setElementToEdit(`section_${this.getSectionsLength}`)
     },
 
-    //================================
     addColumn(){
-      //get index of last column (it won't work when switching columns places will be active)
-      this.getWorkplaceData.sections.forEach(section => {
-       //   section.isActive = false;
-          section.columns.forEach(column => {
-            column.isActive = false;
-            column.childs.forEach(item =>{
-              item.isActive = false
-            })
-          })
-      });
+      this.dezactivateElements(this.getWorkplaceData, 'withoutSections')
+
       //that means there is no active section
       let sectionForNewColumn
       if(this.getActiveElement.length !== undefined){
@@ -153,7 +132,6 @@ export default {
       let columnIndex = (sectionForNewColumn.columns.length > 0)
                       ? sectionForNewColumn.columns[sectionForNewColumn.columns.length-1].id.split("col_")[1]
                       : 0
-      //let columnIndex = sectionForNewColumn.columns[sectionForNewColumn.columns.length-1].id.split("col_")[1];
       this.addSectionChilds({
           id: `${sectionForNewColumn.id}-col_${++columnIndex}`,
           isActive: true,
@@ -174,17 +152,8 @@ export default {
       this.setElementToEdit(`${sectionForNewColumn.id}-col_${columnIndex}`)
     },
 
-
-    //================================
-
     addItem(type){
-      this.getWorkplaceData.sections.forEach(section => {
-          section.columns.forEach(column => {
-            column.childs.forEach(item =>{
-              item.isActive = false
-            })
-          })
-      });
+      this.dezactivateElements(this.getWorkplaceData, 'withoutSectionsAndColumns')
 
       let sectionForNewColumn
       if(this.getActiveElement.length !== undefined){
@@ -241,8 +210,6 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .tools-section{
     z-index: 1;
@@ -264,15 +231,15 @@ export default {
       }
     }
   }
-        ::v-deep .v-input{
-        max-width: 150px;
-        .v-input__slot{
-          background: $containerBackground!important;
-          border-width: 0 0 2px 0;
-          border-style: solid;
-          border-radius: 0;
-          border-color: rgba(0, 0, 0, 0.12);
-          box-shadow: none!important;
-        }
-      }
+  ::v-deep .v-input{
+    max-width: 150px;
+    .v-input__slot{
+      background: $containerBackground!important;
+      border-width: 0 0 2px 0;
+      border-style: solid;
+      border-radius: 0;
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: none!important;
+    }
+  }
 </style>

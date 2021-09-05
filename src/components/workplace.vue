@@ -1,6 +1,6 @@
 <template>
   <section
-    :class="['workplace-container']"
+    class="workplace-container"
     id="workplace"
     :style="{width: this.getWorkplaceData.workplaceWidth}"
     @dblclick.self="disactivateAllElements"
@@ -13,7 +13,7 @@
       @dblclick="disactivateSection(component), setSection(component)"
     >
       <component :is="'DefaultSection'"
-      :style="component.style"
+        :style="component.style"
         :section="component"
         :ref="'sections'"
       ></component>

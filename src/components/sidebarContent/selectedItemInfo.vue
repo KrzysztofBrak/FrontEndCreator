@@ -1,9 +1,8 @@
 <template>
-    <div :class="['selectedItemInfo-container']">
-    <p>wybrany element:<br> {{getElementToEdit}}</p>
+    <div class="selectedItemInfo-container">
+      <p>wybrany element:<br> {{getElementToEdit}}</p>
     </div>
 </template>
-
 <script>
 import{mapGetters} from 'vuex'
 
@@ -12,12 +11,9 @@ export default {
 
   computed:{
     ...mapGetters(['getElementToEdit']),
-  },
-  data: () => ({
-  }),
+  }
 }
 </script>
-
 <style scoped lang="scss">
 .selectedItemInfo-container{
   margin: 10px;

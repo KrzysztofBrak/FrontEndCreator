@@ -1,9 +1,9 @@
 <template>
-  <div  :class="['align-text-container']">
-
-    <div :class="['icon-section']">
+  <div class="align-text-container">
+    <div class="icon-section">
       <div v-for="button in textbuttons"
-        :class="['align-text-button', {'active': button.isActive}]"
+        class="align-text-button"
+        :class="[{'active': button.isActive}]"
         :key="button.alt"
         @click="activateButton(button, true)"
       >
@@ -11,9 +11,10 @@
       </div>
     </div>
 
-    <div v-show="kindOfSelectedItem !== 3" :class="['icon-section']">
+    <div v-show="kindOfSelectedItem !== 3" class="icon-section">
       <div v-for="button in sortbuttons"
-        :class="['horizontal-positioning', {'active': button.isActive}]"
+        class="horizontal-positioning"
+        :class="[{'active': button.isActive}]"
         :key="button.alt"
         @click="activateButton(button, false)"
       >
@@ -21,16 +22,16 @@
       </div>
     </div>
 
-    <div v-show="kindOfSelectedItem === 3" :class="['icon-section']">
+    <div v-show="kindOfSelectedItem === 3" class="icon-section">
       <div v-for="button in textAlignButtons"
-        :class="['horizontal-positioning', {'active': button.isActive}]"
+        class="horizontal-positioning"
+        :class="[{'active': button.isActive}]"
         :key="button.alt"
         @click="activateAlignButton(button, false)"
       >
         <v-icon :class="[{'rotate': settingItemsInColumns}]">{{button.img}}</v-icon>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -38,10 +39,12 @@
 import{mapGetters} from 'vuex'
 
 import {textbuttons, sortbuttons, textAlignButtons} from './content.js'
-import {findSelectedItem} from '@/components/findSelectedItem.js'
+import findSelectedItem from '@/mixins/findSelectedItem.vue'
+
 
 export default {
   name: 'itemPosition',
+  mixins: [findSelectedItem],
   data: () => ({
     textbuttons,
     sortbuttons,
@@ -66,7 +69,7 @@ export default {
     getElementToEdit: {
       immediate: true,
       handler(){
-        this.selectedItem = findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
+        this.selectedItem = this.findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
 
         this.kindOfSelectedItem = this.selectedItem.kindOfSelectedItem;
         this.sectionIndex = this.selectedItem.sectionIndex;
@@ -75,10 +78,7 @@ export default {
         this.style = this.selectedItem.style;
 
         this.clearActiveButtons();
-
-
         this.settingItemsInColumns = (this.kindOfSelectedItem === 2) ? true : false;
-
       }
     },
   },
@@ -119,7 +119,7 @@ export default {
       }
       button.isActive = !button.isActive
 
-      this.selectedItem = findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
+      this.selectedItem = this.findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
       this.updateStyles(button)
     },
 
@@ -127,7 +127,6 @@ export default {
     activateAlignButton(button){
       this.textAlignButtons.forEach(element => {
         element.isActive = false;
-        console.log(123, element);
       })
       button.isActive = !button.isActive
       this.updateStyles(button)
@@ -156,7 +155,6 @@ export default {
           break;
 
         case 3:
-          console.log('CASE 3', button);
           //merge old object with the new one
           this.getWorkplaceData.sections[this.sectionIndex]
               .columns[this.columnIndex].childs[this.itemIndex].childStyle = {

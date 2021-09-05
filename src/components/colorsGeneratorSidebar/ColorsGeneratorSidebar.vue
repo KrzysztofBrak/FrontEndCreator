@@ -1,17 +1,17 @@
 <template>
   <section>
-    <div :class="['overlay']" @click.self="setColorsGeneratorModal(false)">
-      <div :class="['color-generator']">
-        <v-app  :class="['background']">
+    <div class="overlay" @click.self="setColorsGeneratorModal(false)">
+      <div class="color-generator">
+        <v-app  class="background">
           <v-color-picker
-            :class="['color-picker']"
+            class="color-picker"
             width="370"
             mode="hexa"
             hide-mode-switch
             v-model="color"
           ></v-color-picker>
-          <div :class="['selected-color']">{{HEXColors[0]}}</div>
-          <v-radio-group v-model="radioGroup" :class="['background']">
+          <div class="selected-color">{{HEXColors[0]}}</div>
+          <v-radio-group v-model="radioGroup" class="background">
             <v-radio
               v-for="item in radioButtons"
               :key="item"
@@ -21,7 +21,7 @@
           </v-radio-group>
           <v-slider
             label="Rozpiętość:"
-            :class="['background slider']"
+            class="background slider"
             max="70"
             min="15"
             v-model="range"
@@ -290,7 +290,6 @@ export default {
 
     cutHash(color){
       return color.substring(1)
-
     },
     copyColor(color){
       console.log(color);

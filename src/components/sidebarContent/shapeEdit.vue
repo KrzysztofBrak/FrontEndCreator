@@ -1,5 +1,5 @@
 <template>
-    <div v-if="getElementToEdit !== 'workplace'" :class="['shapeEdit-container']">
+    <div v-if="getElementToEdit !== 'workplace'" class="shapeEdit-container">
       <v-row justify="center">
         <v-expansion-panels accordion v-model="isPanelOpened">
           <v-expansion-panel
@@ -11,9 +11,9 @@
                  <ItemPosition v-if="item.name === 'Przekształć:'"/>
               <div v-for="input in item.inputs"
                 :key="input.inputName"
-                :class="['input-container']"
+                class="input-container"
               >
-                <div :class="['inputFather-container']">
+                <div class="inputFather-container">
                   <p>{{input.inputName}}:</p>
 
                   <ColorPickerModal v-if="input.type === 'ColorPicker'"
@@ -23,7 +23,8 @@
                   />
                   <select v-else-if="input.type === 'dropdown'" id="tstselect" name="tstselect"
                    dir="rtl"
-                    :class="['dropdown', input.class]"
+                    class="dropdown"
+                    :class="input.class"
                     v-on:change="updateStyle(kindOfSelectedItem)"
                     v-model="style[input.vModel]">
                     <option v-for="option in input.items" :key="option" :value="option">{{option}}</option>
@@ -31,14 +32,16 @@
 
                   <select v-else-if="input.type === 'dropdownWithDifferentNames'"
                     dir="rtl"
-                    :class="['dropdown', input.class]"
+                    class="dropdown"
+                    :class="input.class"
                     v-on:change="updateStyle(kindOfSelectedItem)"
                     v-model="style[input.vModel]">
                     <option v-for="option in input.items" :key="option.value" :value="option.name">{{option.value}}</option>
                   </select>
                   <input v-else :type="input.type"
                     v-show="!input.childs || input.showSeparately === false"
-                    :class="[input.class, 'input-style']"
+                    class="input-style"
+                    :class="input.class"
                     v-model="style[input.vModel]"
                     v-on:change="updateStyle(kindOfSelectedItem)"
                     placeholder="wprowadź wartość"
@@ -55,16 +58,16 @@
                 </div>
 
 
-                <div :class="['inputChilds-container']"
+                <div class="inputChilds-container"
                   v-show="input.childs && input.showSeparately === true"
                 >
                   <div v-for="childInput in input.childs"
                     :key="childInput.inputName"
-                    :class="['container']"
+                    class="container"
                   >
                   <v-icon class="lock" v-text="childInput.inputName"></v-icon>
                     <input :type="childInput.type"
-                      :class="[childInput.class]"
+                      :class="childInput.class"
                       v-model="style[childInput.vModel]"
                       v-on:change="updateStyle(kindOfSelectedItem)"
                     >
@@ -77,13 +80,13 @@
       </v-row>
       <v-textarea v-if="itemIndex !== -1 && selectedItem.itemType === 'text'"
         filled
-        :class="['input-text-area']"
+        class="input-text-area"
         name="inputText"
         label="Wstaw tekst"
         v-model="getWorkplaceData.sections[sectionIndex].columns[columnIndex].childs[itemIndex].content"
       ></v-textarea>
       <div v-if="itemIndex !== -1 && selectedItem.itemType === 'img'"
-        :class="['file-input-container']"
+        class="file-input-container"
       >
         <p @click="addImg">Dodaj grafikę</p>
         <v-file-input truncate-length="15"
@@ -99,8 +102,8 @@
 <script>
 import{mapGetters, mapMutations} from 'vuex'
 import ColorPickerModal from '@/components/ingredients/ColorPickerModal.vue'
-import {findSelectedItem} from '@/components/findSelectedItem.js'
-import {dezactivateEverything} from '@/components/dezactivate_All_Items.js'
+import dezactivateElements from '@/mixins/dezactivateElements.vue'
+import findSelectedItem from '@/mixins/findSelectedItem.vue'
 import ItemPosition from '@/components/sidebarContent/itemPosition.vue'
 
 import{styleInputs} from './content'
@@ -124,7 +127,7 @@ export default {
     getElementToEdit: {
       immediate: true,
       handler(){
-        this.selectedItem = findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
+        this.selectedItem = this.findSelectedItem(this.getElementToEdit, this.getWorkplaceData);
 
         this.kindOfSelectedItem = this.selectedItem.kindOfSelectedItem;
         this.sectionIndex = this.selectedItem.sectionIndex;
@@ -134,11 +137,12 @@ export default {
       }
     },
     getProjectName(){
-      dezactivateEverything(this.getWorkplaceData)
+      this.dezactivateElements(this.getWorkplaceData, '')
       this.isPanelOpened = false;
       this.setElementToEdit('workplace');
     }
   },
+  mixins: [dezactivateElements, findSelectedItem],
   data: () => ({
     styleInputs,
     selectedItem: {},
@@ -194,7 +198,6 @@ export default {
 
     updateInputWithChild(item, everyBorderSelected){
       if(everyBorderSelected){
-        console.log(123, this.style[item.vModel]);
         this.style[item.childs[0].vModel] = '';
         this.style[item.childs[1].vModel] = '';
         this.style[item.childs[2].vModel] = '';
@@ -239,7 +242,6 @@ export default {
     selected(){
      // let selectedItem = inputData.itemsName.findIndex(x => x === inputName)
 
-    //  console.log('ggg');
     }
   }
 }

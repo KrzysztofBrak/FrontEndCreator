@@ -1,9 +1,9 @@
 <template>
-  <div :class="['main-container']">
-    <div :class="['color-container']">
-      <div :class="['color-button']">
+  <div class="main-container">
+    <div class="color-container">
+      <div class="color-button">
         <v-btn
-          :class="['button']"
+          class="button"
           color="secondary"
           @click="modalIsOpened = !modalIsOpened"
           :style="{background: color}"
@@ -14,7 +14,7 @@
     <v-app>
     <v-fade-transition>
       <v-color-picker v-show="modalIsOpened"
-        :class="['color-picker']"
+        class="color-picker"
         show-swatches
         mode="hexa"
         v-model="color"
@@ -23,7 +23,8 @@
     </v-fade-transition>
     </v-app>
     <div v-show="modalIsOpened===true"
-      :class="['overlay']" @click.self="closeModal"
+      class="overlay"
+      @click.self="closeModal"
     >
     </div>
   </div>
@@ -71,8 +72,6 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
     .overlay{
       position: fixed;
