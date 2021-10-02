@@ -173,7 +173,6 @@ export default new Vuex.Store({
 
 //workplace store
     setWorkplaceData(state, value){
-      console.log('SETTT');
       state.workplaceData = value
     },
     setSectionsData(state, value){
