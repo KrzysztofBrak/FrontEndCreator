@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div v-show="kindOfSelectedItem !== 3" class="icon-section">
+    <div v-show="!getElementToEdit.includes('item')" class="icon-section">
       <div
         v-for="button in sortbuttons"
         class="horizontal-positioning"
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <div v-show="kindOfSelectedItem === 3" class="icon-section">
+    <div v-show="getElementToEdit.includes('item')" class="icon-section">
       <div
         v-for="button in textAlignButtons"
         class="horizontal-positioning"
@@ -56,16 +56,11 @@ export default {
     sortbuttons,
     textAlignButtons,
     selectedItem: {},
-    sectionIndex: -1,
-    columnIndex: -1,
-    itemIndex: -1,
-    kindOfSelectedItem: 0,
-    style: {},
     settingItemsInColumns: false,
   }),
 
   computed: {
-    ...mapGetters(["getElementToEdit", "getWorkplaceData"]),
+    ...mapGetters(["getElementToEdit"]),
   },
 
   watch: {
@@ -74,15 +69,12 @@ export default {
       handler() {
         this.selectedItem = this.findSelectedItem(this.getElementToEdit);
 
-        this.kindOfSelectedItem = this.selectedItem.kindOfSelectedItem;
-        this.sectionIndex = this.selectedItem.sectionIndex;
-        this.columnIndex = this.selectedItem.columnIndex;
-        this.itemIndex = this.selectedItem.itemIndex;
-        this.style = this.selectedItem.style;
-
         this.clearActiveButtons();
         this.settingItemsInColumns =
-          this.kindOfSelectedItem === 2 ? true : false;
+          this.getElementToEdit.includes("col") &&
+          !this.getElementToEdit.includes("item")
+            ? true
+            : false;
       },
     },
   },
@@ -123,7 +115,7 @@ export default {
       button.isActive = !button.isActive;
 
       this.selectedItem = this.findSelectedItem(this.getElementToEdit);
-      this.updateStyles(button);
+      this.updateStyles(button.positionStyle);
     },
 
     activateAlignButton(button) {
@@ -131,48 +123,15 @@ export default {
         element.isActive = false;
       });
       button.isActive = !button.isActive;
-      this.updateStyles(button);
+      this.updateStyles(button.positionStyleForItems);
     },
 
-    updateStyles(button) {
-      switch (this.kindOfSelectedItem) {
-        case 1:
-          //merge old object with the new one
-          this.getWorkplaceData.sections[this.sectionIndex].childStyle = {
-            ...this.getWorkplaceData.sections[this.sectionIndex].childStyle,
-            ...button.positionStyle,
-          };
-          break;
-
-        case 2:
-          //merge old object with the new one
-          this.getWorkplaceData.sections[this.sectionIndex].columns[
-            this.columnIndex
-          ].childStyle = {
-            ...this.getWorkplaceData.sections[this.sectionIndex].columns[
-              this.columnIndex
-            ].childStyle,
-
-            ...button.positionStyleForItems,
-          };
-          break;
-
-        case 3:
-          //merge old object with the new one
-          this.getWorkplaceData.sections[this.sectionIndex].columns[
-            this.columnIndex
-          ].childs[this.itemIndex].childStyle = {
-            ...this.getWorkplaceData.sections[this.sectionIndex].columns[
-              this.columnIndex
-            ].childs[this.itemIndex].childStyle,
-            //...button.positionStyle
-            ...button.positionStyleForItems,
-          };
-          break;
-
-        default:
-          break;
-      }
+    updateStyles(positionParams) {
+      //merge old object with the new one
+      this.selectedItem.childStyle = {
+        ...this.selectedItem.childStyle,
+        ...positionParams,
+      };
     },
     clearActiveButtons() {
       this.textbuttons.forEach((element) => {

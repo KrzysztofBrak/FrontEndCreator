@@ -27,7 +27,7 @@
                   dir="rtl"
                   class="dropdown"
                   :class="input.class"
-                  v-on:change="updateStyle(kindOfSelectedItem)"
+                  v-on:change="updateStyle()"
                   v-model="style[input.vModel]"
                 >
                   <option
@@ -44,7 +44,7 @@
                   dir="rtl"
                   class="dropdown"
                   :class="input.class"
-                  v-on:change="updateStyle(kindOfSelectedItem)"
+                  v-on:change="updateStyle()"
                   v-model="style[input.vModel]"
                 >
                   <option
@@ -62,10 +62,13 @@
                   class="input-style"
                   :class="input.class"
                   v-model="style[input.vModel]"
-                  v-on:change="updateStyle(kindOfSelectedItem)"
+                  v-on:change="updateStyle()"
                   placeholder="wprowadź wartość"
                 />
-                <div v-if="input.childs" @click="changeSeparately(input)">
+                <div
+                  v-if="input.childs"
+                  @click="input.showSeparately = !input.showSeparately"
+                >
                   <v-icon
                     v-if="input.showSeparately === true"
                     @click="updateInputWithChild(input, true)"
@@ -97,7 +100,7 @@
                     :type="childInput.type"
                     :class="childInput.class"
                     v-model="style[childInput.vModel]"
-                    v-on:change="updateStyle(kindOfSelectedItem)"
+                    v-on:change="updateStyle()"
                   />
                 </div>
               </div>
@@ -107,22 +110,18 @@
       </v-expansion-panels>
     </v-row>
     <v-textarea
-      v-if="itemIndex !== -1 && selectedItem.itemType === 'text'"
+      v-if="getElementToEdit.includes('item') && selectedItem.type === 'text'"
       filled
       class="input-text-area"
       name="inputText"
       label="Wstaw tekst"
-      v-model="
-        getWorkplaceData.sections[sectionIndex].columns[columnIndex].childs[
-          itemIndex
-        ].content
-      "
+      v-model="selectedItem.content"
     ></v-textarea>
     <div
-      v-if="itemIndex !== -1 && selectedItem.itemType === 'img'"
+      v-if="getElementToEdit.includes('item') && selectedItem.type === 'img'"
       class="file-input-container"
     >
-      <p @click="addImg">Dodaj grafikę</p>
+      <p @click="$refs.fileInput.$refs.input.click()">Dodaj grafikę</p>
       <v-file-input
         truncate-length="15"
         hide-input
@@ -151,7 +150,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["getElementToEdit", "getWorkplaceData", "getProjectName"]),
+    ...mapGetters(["getElementToEdit", "getProjectName"]),
   },
 
   watch: {
@@ -159,11 +158,6 @@ export default {
       immediate: true,
       handler() {
         this.selectedItem = this.findSelectedItem(this.getElementToEdit);
-
-        this.kindOfSelectedItem = this.selectedItem.kindOfSelectedItem;
-        this.sectionIndex = this.selectedItem.sectionIndex;
-        this.columnIndex = this.selectedItem.columnIndex;
-        this.itemIndex = this.selectedItem.itemIndex;
         this.style = this.selectedItem.style;
       },
     },
@@ -177,55 +171,19 @@ export default {
   data: () => ({
     styleInputs,
     selectedItem: {},
-    sectionIndex: -1,
-    columnIndex: -1,
-    itemIndex: -1,
     style: {},
     chosenImg: null,
     isPanelOpened: false,
   }),
   methods: {
     ...mapMutations(["setElementToEdit"]),
-    updateStyle(kindOfSelectedItem) {
-      switch (kindOfSelectedItem) {
-        case 1:
-          //merge old object with the new one
-          this.getWorkplaceData.sections[this.sectionIndex].style = {
-            ...this.getWorkplaceData.sections[this.sectionIndex].style,
 
-            ...this.style,
-          };
-          break;
-
-        case 2:
-          //merge old object with the new one
-          this.getWorkplaceData.sections[this.sectionIndex].columns[
-            this.columnIndex
-          ].style = {
-            ...this.getWorkplaceData.sections[this.sectionIndex].columns[
-              this.columnIndex
-            ].style,
-
-            ...this.style,
-          };
-          break;
-
-        case 3:
-          //merge old object with the new one
-          this.getWorkplaceData.sections[this.sectionIndex].columns[
-            this.columnIndex
-          ].childs[this.itemIndex].style = {
-            ...this.getWorkplaceData.sections[this.sectionIndex].columns[
-              this.columnIndex
-            ].childs[this.itemIndex].style,
-
-            ...this.style,
-          };
-          break;
-
-        default:
-          break;
-      }
+    updateStyle() {
+      //merge old object with the new one
+      this.selectedItem.style = {
+        ...this.selectedItem.style,
+        ...this.style,
+      };
     },
 
     updateInputWithChild(item, everyBorderSelected) {
@@ -237,42 +195,20 @@ export default {
       } else {
         this.style[item.vModel] = "";
       }
-      this.updateStyle(this.kindOfSelectedItem);
+      this.updateStyle();
     },
 
     updateFile() {
       var reader = new FileReader();
       reader.readAsDataURL(this.chosenImg);
       reader.onloadend = () => {
-        this.getWorkplaceData.sections[this.sectionIndex].columns[
-          this.columnIndex
-        ].childs[this.itemIndex].content = reader.result;
+        this.selectedItem.content = reader.result;
       };
     },
 
     selectedColor(colorValue) {
       this.style[colorValue.label] = colorValue.color;
-      this.updateStyle(this.kindOfSelectedItem);
-    },
-
-    changeSeparately(input) {
-      input.showSeparately = !input.showSeparately;
-    },
-
-    addImg() {
-      this.$refs.fileInput.$refs.input.click();
-    },
-    connectNameWithStyle(inputName, inputData) {
-      let selectedItem = inputData.itemsName.findIndex((x) => x === inputName);
-      this.style[inputData.vModel] = inputData.items[selectedItem];
-      this.updateStyle(this.kindOfSelectedItem);
-    },
-    getLabel(inputName, inputData) {
-      let selectedItem = inputData.items.findIndex((x) => x === inputName);
-      return inputData.itemsName[selectedItem];
-    },
-    selected() {
-      // let selectedItem = inputData.itemsName.findIndex(x => x === inputName)
+      this.updateStyle();
     },
   },
 };
