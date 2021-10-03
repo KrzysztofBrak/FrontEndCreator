@@ -15,43 +15,9 @@ export default new Vuex.Store({
     itemClicked:'section',
     elementToEdit: 'section_0',
 
-    activeElement:{
-      id: 'section_0',
-      isActive: true,
-      style:{
-        height: '300px',
-        width: '100%',
-        background:'#FFFFFF00',
-        borderWidth: '',
-        borderStyle: '',
-        borderColor: '#FFFFFF00',
-        borderRadius: '',
-      },
-      childStyle:{},
-      columns:[{
-        id: 'section_0-col_0',
-        isActive: false,
-        style:{
-          height: '100%',
-          width: '100%',
-        },
-        childStyle:{},
-        childs:[{
-          id: 'section_0-col_0-item_0',
-          type: 'text',
-          content:'section_0-col_0-item_0',
-          isActive: false,
-          style:{},
-          childStyle:{},
-        }]
-      }]
-    },
-
-
     workplaceData:{
       projectName:'',
       isWorkplaceActive: false,
-      sectionsLength: 0,
       workplaceWidth: '1920px',
       sections:[{
         id: 'section_0',
@@ -111,40 +77,19 @@ export default new Vuex.Store({
     getActualZoom(state){
       return state.actualZoom
     },
-    getSectionsArray(state){
-      return state.sectionsArray
-    },
     getTextSelected(state){
       return state.isTextSelected
     },
     getTtemClicked(state){
       return state.itemClicked
     },
-
-
-
     getWorkplaceData(state){
       return state.workplaceData
     },
-    getSectionsLength(state){
-      return state.workplaceData.sectionsLength
-    },
-    getActiveElement(state){
-      if(state.workplaceData.isWorkplaceActive){
-        return state.workplaceData.sections
-
-      }
-      let isActiveSection = state.workplaceData.sections.find(x => x.isActive === true)
-      return isActiveSection
-
-    },
-
     getElementToEdit(state){
       return state.elementToEdit
     }
   },
-
-
 
   mutations: {
     setDarkMode(state, value){
@@ -154,7 +99,6 @@ export default new Vuex.Store({
       state.newProjectModalOpened = value
     },
     setColorsGeneratorModal(state, value){
-      console.log('index');
       state.colorsGeneratorModalOpened = value
     },
     setProjectName(state, value){
@@ -170,80 +114,48 @@ export default new Vuex.Store({
       state.itemClicked = value
     },
 
-
-//workplace store
+    //workplace store
     setWorkplaceData(state, value){
       state.workplaceData = value
     },
     setSectionsData(state, value){
       state.workplaceData.sections.push(value)
     },
-    addSectionChilds(state, value){
-      let index = value.id.split('-')[0]
-      let findSection = state.workplaceData.sections.findIndex(x => x.id === index)
-      state.workplaceData.sections[findSection].columns.push(value)
-    },
-    setSectionsLength(state, value){
-      state.workplaceData.sectionsLength = value
-    },
     setUpdatedArray(state, value){
       state.workplaceData.sections.splice(value, 1)
-    },
-    setDeleteColumn(state, value){
-      //find section where column is
-      let index = value.id.split('-')[0]
-      let findSection = state.workplaceData.sections.findIndex(x => x.id === index)
-      //find column to delete
-      let findColumn = state.workplaceData.sections[findSection].columns.findIndex(x => x.id === value.id)
-      state.workplaceData.sections[findSection].columns.splice(findColumn, 1)
     },
     setWorkplaceActive(state, value){
       state.workplaceData.isWorkplaceActive = value
     },
-
+    addSectionChilds(state, value){
+      const findSection = state.workplaceData.sections.find(x => x.id === value.id.split('-')[0])
+      findSection.columns.push(value)
+    },
+    setDeleteColumn(state, value){
+      const findSection = state.workplaceData.sections.find(x => x.id === value.id.split('-')[0])
+      const findColumn = findSection.columns.findIndex(x => x.id === value.id)
+      findSection.columns.splice(findColumn, 1)
+    },
     addItemToColumn(state, value){
-      let sectionIndex = value.id.split('-')[0]
-      let findSection = state.workplaceData.sections.findIndex(x => x.id === sectionIndex);
-
-      let columnIndex = value.id.split('-item_')[0]
-      let findColumn = state.workplaceData.sections[findSection].columns.findIndex(x => x.id === columnIndex);
-
-      state.workplaceData.sections[findSection].columns[findColumn].childs.push(value)
+      const findSection = state.workplaceData.sections.find(x => x.id === value.id.split('-')[0]);
+      const findColumn = findSection.columns.find(x => x.id === value.id.split('-item_')[0]);
+      findColumn.childs.push(value)
     },
-
     setDeleteItem(state, value){
-      //find section where item is
-      let sectionIndex = value.id.split('-')[0]
-      let findSection = state.workplaceData.sections.findIndex(x => x.id === sectionIndex);
-
-      //find column where item is
-      let columnIndex = value.id.split('-item_')[0]
-
-      let findColumn = state.workplaceData.sections[findSection]
-      .columns.findIndex(x => x.id === columnIndex);
-
-      //find item to delete
-      let findItem = state.workplaceData.sections[findSection]
-        .columns[findColumn].childs.findIndex(x => x.id === value.id)
-
-      state.workplaceData.sections[findSection].columns[findColumn]
-        .childs.splice(findItem, 1)
+      const findSection = state.workplaceData.sections.find(x => x.id === value.id.split('-')[0]);
+      const findColumn = findSection.columns.find(x => x.id === value.id.split('-item_')[0]);
+      const findItem = findColumn.childs.findIndex(x => x.id === value.id)
+      findColumn.childs.splice(findItem, 1)
     },
-
     setElementToEdit(state, value){
       if(value === true){
         let IDArray = state.elementToEdit.split('-');
         IDArray.splice(IDArray.length-1, 1)
-        console.log(value, IDArray.join('-'));
-        if(IDArray.join('-') === ''){
-          state.elementToEdit = "workplace";
-        }else{
-          state.elementToEdit = IDArray.join('-');
-        }
+
+        state.elementToEdit = (IDArray.join('-') === '') ? "workplace" : IDArray.join('-')
       }else{
         state.elementToEdit = value
       }
     }
-
   }
 })

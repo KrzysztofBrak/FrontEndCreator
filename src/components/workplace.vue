@@ -2,17 +2,18 @@
   <section
     class="workplace-container"
     id="workplace"
-    :style="{width: this.getWorkplaceData.workplaceWidth}"
+    :style="{ width: this.getWorkplaceData.workplaceWidth }"
     @dblclick.self="disactivateAllElements"
   >
-    <div v-for="(component, index) in getWorkplaceData.sections"
+    <div
+      v-for="(component, index) in getWorkplaceData.sections"
       :key="index"
       :id="component.id"
       :ref="component.id"
-
-      @dblclick="disactivateSection(component), setSection(component)"
+      @dblclick="setSection(component)"
     >
-      <component :is="'DefaultSection'"
+      <component
+        :is="'DefaultSection'"
         :style="component.style"
         :section="component"
         :ref="'sections'"
@@ -22,81 +23,61 @@
 </template>
 
 <script>
-import DefaultSection from '@/components/ingredients/DefaultSection.vue'
+import DefaultSection from "@/components/ingredients/DefaultSection.vue";
+import dezactivateElements from "@/mixins/dezactivateElements.vue";
 
-import{mapGetters, mapMutations} from 'vuex'
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-  name: 'Workplace',
-  components:{
-    DefaultSection
+  name: "Workplace",
+  components: {
+    DefaultSection,
   },
-  computed:{
-    ...mapGetters(['getWorkplaceData','getSectionsLength', 'getActiveElement', 'getElementToEdit', 'getTtemClicked']),
+  computed: {
+    ...mapGetters(["getWorkplaceData", "getElementToEdit", "getTtemClicked"]),
   },
+  mixins: [dezactivateElements],
+  methods: {
+    ...mapMutations([
+      "setWorkplaceActive",
+      "setElementToEdit",
+      "setItemClicked",
+    ]),
 
-  data: () => ({
+    setSection(selectedSection) {
+      this.dezactivateElements("", selectedSection);
 
-  }),
-  methods:{
-    ...mapMutations(['setWorkplaceActive', 'setElementToEdit', 'setItemClicked']),
-
-    disactivateSection(selectedSection){
-      this.getWorkplaceData.sections.forEach(section => {
-        if(selectedSection.id !== section.id){
-          section.isActive = false;
-
-          section.columns.forEach(column => {
-            column.isActive = false
-
-            column.childs.forEach(item => {
-              item.isActive = false;
-            })
-          })
-        }
-      });
-    },
-    setSection(selectedSection){
-      let sectionIndex = this.getWorkplaceData.sections.findIndex(x => x.id === selectedSection.id);
-      this.getWorkplaceData.sections[sectionIndex].isActive = true
+      const sectionIndex = this.getWorkplaceData.sections.findIndex(
+        (x) => x.id === selectedSection.id
+      );
+      this.getWorkplaceData.sections[sectionIndex].isActive = true;
 
       //zapobiega event bubblingowi
-      if(!this.getTtemClicked.includes("col")){
-        console.log('CLICK section');
+      if (!this.getTtemClicked.includes("col")) {
         //save ID of item to edit
-        this.setElementToEdit(this.getWorkplaceData.sections[sectionIndex].id)
-        this.setItemClicked(this.getWorkplaceData.sections[sectionIndex].id)
+        this.setElementToEdit(this.getWorkplaceData.sections[sectionIndex].id);
+        this.setItemClicked(this.getWorkplaceData.sections[sectionIndex].id);
       }
-      this.setItemClicked('')
-
+      this.setItemClicked("");
     },
 
-    disactivateAllElements(){
-      this.getWorkplaceData.sections.forEach(section => {
-          section.isActive = false;
-          section.columns.forEach(column => {
-            column.isActive = false;
-            column.childs.forEach(item =>{
-              item.isActive = false
-            })
-          })
-      });
-      this.setElementToEdit('workplace')
+    disactivateAllElements() {
+      this.dezactivateElements("");
+      this.setElementToEdit("workplace");
       this.setWorkplaceActive(true);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.workplace-container{
+.workplace-container {
   min-height: 1080px;
   background: white;
   box-shadow: $mainShadow;
   margin: 80px 60px;
   position: fixed;
-  p{
+  p {
     font-size: 16px;
   }
 }

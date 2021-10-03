@@ -3,23 +3,34 @@ import Vue from "vue";
 
 export default Vue.extend({
   methods: {
-    dezactivateElements(workspace, cleaningLevel) {
-      workspace.sections.forEach((section) => {
-        section.columns.forEach((column) => {
-          column.childs.forEach((item) => {
-            item.isActive = false;
-          });
-          if (cleaningLevel !== "withoutSectionsAndColumns") {
-            column.isActive = false;
-          }
-        });
+    dezactivateElements(cleaningLevel, selectedItem) {
+      this.$store.getters.getWorkplaceData.sections.forEach((section) => {
         if (
-          !(
-            cleaningLevel === "withoutSections" ||
-            cleaningLevel === "withoutSectionsAndColumns"
-          )
+          typeof selectedItem === "undefined" ||
+          selectedItem.id !== section.id
         ) {
-          section.isActive = false;
+          section.columns.forEach((column) => {
+            if (
+              typeof selectedItem === "undefined" ||
+              selectedItem.id !== column.id
+            ) {
+              column.childs.forEach((item) => {
+                item.isActive = false;
+              });
+            }
+
+            if (cleaningLevel !== "itemsOnly") {
+              column.isActive = false;
+            }
+          });
+          if (
+            !(
+              cleaningLevel === "itemsOnly" ||
+              cleaningLevel === "withoutSections"
+            )
+          ) {
+            section.isActive = false;
+          }
         }
       });
     },

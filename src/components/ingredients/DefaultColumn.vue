@@ -1,6 +1,7 @@
 <template>
-  <section class="column-section"
-    :class="[{'activeSection': column.isActive}]"
+  <section
+    class="column-section"
+    :class="[{ activeSection: column.isActive }]"
     @dblclick="activateColumn"
   >
     <v-fab-transition>
@@ -20,136 +21,141 @@
     </v-fab-transition>
 
     <!-- display items in current column -->
-    <div class="item-container"
-      :style="column.childStyle"
-      >
-      <div class="item"
-        v-for="(item, index) in getWorkplaceData.sections[currentSection].columns[currentColumn].childs"
+    <div class="item-container" :style="column.childStyle">
+      <div
+        class="item"
+        v-for="(item, index) in getWorkplaceData.sections[currentSection]
+          .columns[currentColumn].childs"
         :key="index"
         :id="item.id"
         :style="item.style"
-        @dblclick="disactivateItems(), setItems(item)"
+        @dblclick="setItems(item)"
       >
-      <component :is="'DefaultChildItem'"
-        :id="item.id"
-        :item="item"
-        :ref="'items'"
-      ></component>
+        <component
+          :is="'DefaultChildItem'"
+          :id="item.id"
+          :item="item"
+          :ref="'items'"
+        ></component>
       </div>
     </div>
-
   </section>
 </template>
 
 <script>
-import{mapGetters, mapMutations} from 'vuex'
+import { mapGetters, mapMutations } from "vuex";
 
-import DefaultChildItem from '@/components/ingredients/DefaultChildItem.vue'
+import DefaultChildItem from "@/components/ingredients/DefaultChildItem.vue";
+import dezactivateElements from "@/mixins/dezactivateElements.vue";
 
 export default {
-  name: 'DefaultColumn',
-  components:{
-    DefaultChildItem
+  name: "DefaultColumn",
+  components: {
+    DefaultChildItem,
   },
-  props:{
-    column:{
+  props: {
+    column: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
-  computed:{
-    ...mapGetters(['getWorkplaceData','getActiveElement']),
+  computed: {
+    ...mapGetters(["getWorkplaceData"]),
   },
+  mixins: [dezactivateElements],
 
   data: () => ({
-    currentSection:0,
-    currentColumn:0
+    currentSection: 0,
+    currentColumn: 0,
   }),
 
-  mounted(){
-		this.$nextTick(() => {
+  mounted() {
+    this.$nextTick(() => {
       //find current column:
       //to do that, first find section...
-      this.currentSection = this.getWorkplaceData.sections
-        .findIndex(x => x.id == this.column.id.split('-')[0])
+      this.currentSection = this.getWorkplaceData.sections.findIndex(
+        (x) => x.id == this.column.id.split("-")[0]
+      );
 
       //then find there current column
-      this.currentColumn = this.getWorkplaceData.sections[this.currentSection]
-        .columns.findIndex(x => x.id == this.column.id)
-		});
+      this.currentColumn = this.getWorkplaceData.sections[
+        this.currentSection
+      ].columns.findIndex((x) => x.id == this.column.id);
+    });
   },
 
-  methods:{
+  methods: {
     ...mapMutations([
-      'setUpdatedArray',
-      'setWorkplaceActive',
-      'setDeleteColumn',
-      'setElementToEdit',
-      'setItemClicked'
+      "setUpdatedArray",
+      "setWorkplaceActive",
+      "setDeleteColumn",
+      "setElementToEdit",
+      "setItemClicked",
     ]),
 
-    activateColumn(){
+    activateColumn() {
       this.setWorkplaceActive(false);
     },
-    deleteColumn(){
+    deleteColumn() {
       this.setDeleteColumn(this.column);
       this.setElementToEdit(true);
     },
 
+    setItems(selectedItem) {
+      this.dezactivateElements("itemsOnly");
 
-    disactivateItems(){
-      this.getWorkplaceData.sections.forEach(section => {
-        section.columns.forEach(column => {
-          column.childs.forEach(item => {
-            item.isActive = false;
-          })
-        })
-      });
-    },
-
-    setItems(selectedItem){
-      if(this.getWorkplaceData.sections[this.currentSection].columns[this.currentColumn].isActive === true){
+      if (
+        this.getWorkplaceData.sections[this.currentSection].columns[
+          this.currentColumn
+        ].isActive === true
+      ) {
         //get index of active item...
-        let childIndex = this.getWorkplaceData.sections[this.currentSection]
-          .columns[this.currentColumn].childs.findIndex(x => x.id === selectedItem.id);
+        let childIndex = this.getWorkplaceData.sections[
+          this.currentSection
+        ].columns[this.currentColumn].childs.findIndex(
+          (x) => x.id === selectedItem.id
+        );
         //...and set it to true
-        this.getWorkplaceData.sections[this.currentSection]
-          .columns[this.currentColumn].childs[childIndex].isActive = true
+        this.getWorkplaceData.sections[this.currentSection].columns[
+          this.currentColumn
+        ].childs[childIndex].isActive = true;
 
+        //ID of element to edit:
+        this.setElementToEdit(
+          this.getWorkplaceData.sections[this.currentSection].columns[
+            this.currentColumn
+          ].childs[childIndex].id
+        );
 
-          //ID of element to edit:
-          this.setElementToEdit(this.getWorkplaceData.sections[this.currentSection]
-          .columns[this.currentColumn].childs[childIndex].id)
-
-
-          this.setItemClicked(this.getWorkplaceData.sections[this.currentSection]
-          .columns[this.currentColumn].childs[childIndex].id)
-
+        this.setItemClicked(
+          this.getWorkplaceData.sections[this.currentSection].columns[
+            this.currentColumn
+          ].childs[childIndex].id
+        );
       }
       this.setWorkplaceActive(false);
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
-  .column-section{
-    height: 100%;
-    display: flex;
-    &.activeSection{
-      box-shadow: 0px 0px 10px 0px rgb(135, 230, 71);
-      transition: 0.3s;
-      z-index: 1;
-    }
+.column-section {
+  height: 100%;
+  display: flex;
+  &.activeSection {
+    box-shadow: 0px 0px 10px 0px rgb(135, 230, 71);
+    transition: 0.3s;
+    z-index: 1;
   }
-  .column-btn{
-    right: 85px;
-  }
-  .item-container{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
+}
+.column-btn {
+  right: 85px;
+}
+.item-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 </style>

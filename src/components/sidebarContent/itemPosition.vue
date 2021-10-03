@@ -72,10 +72,7 @@ export default {
     getElementToEdit: {
       immediate: true,
       handler() {
-        this.selectedItem = this.findSelectedItem(
-          this.getElementToEdit,
-          this.getWorkplaceData
-        );
+        this.selectedItem = this.findSelectedItem(this.getElementToEdit);
 
         this.kindOfSelectedItem = this.selectedItem.kindOfSelectedItem;
         this.sectionIndex = this.selectedItem.sectionIndex;
@@ -125,10 +122,7 @@ export default {
       }
       button.isActive = !button.isActive;
 
-      this.selectedItem = this.findSelectedItem(
-        this.getElementToEdit,
-        this.getWorkplaceData
-      );
+      this.selectedItem = this.findSelectedItem(this.getElementToEdit);
       this.updateStyles(button);
     },
 

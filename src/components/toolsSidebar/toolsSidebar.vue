@@ -22,11 +22,7 @@ import dezactivateElements from "@/mixins/dezactivateElements.vue";
 export default {
   name: "toolsSidebar",
   computed: {
-    ...mapGetters([
-      "getWorkplaceData",
-      "getSectionsLength",
-      "getActiveElement",
-    ]),
+    ...mapGetters(["getWorkplaceData", "getElementToEdit"]),
   },
   mixins: [dezactivateElements],
   data: () => ({
@@ -36,7 +32,6 @@ export default {
     ...mapMutations([
       "setSectionsData",
       "setTextSelected",
-      "setSectionsLength",
       "setWorkplaceActive",
       "addItemToColumn",
       "setElementToEdit",
@@ -63,7 +58,7 @@ export default {
           break;
 
         case "dobierz kolory":
-          this.selectColors();
+          this.setColorsGeneratorModal(true);
           break;
 
         default:
@@ -71,12 +66,16 @@ export default {
     },
 
     addSection() {
-      this.dezactivateElements(this.getWorkplaceData, "");
+      this.dezactivateElements("");
 
-      let sectionNumber = this.getSectionsLength;
-      this.setSectionsLength(++sectionNumber);
+      const sectionsArray = this.getWorkplaceData.sections;
+      let sectionNumber = sectionsArray.length
+        ? Number(
+            sectionsArray[sectionsArray.length - 1].id.split("section_")[1]
+          ) + 1
+        : 0;
       this.setSectionsData({
-        id: `section_${this.getSectionsLength}`,
+        id: `section_${sectionNumber}`,
         isActive: true,
         style: {
           height: "300px",
@@ -94,7 +93,7 @@ export default {
         childStyle: {},
         columns: [
           {
-            id: `section_${this.getSectionsLength}-col_0`,
+            id: `section_${sectionNumber}-col_0`,
             isActive: false,
             style: {
               height: "100%",
@@ -104,9 +103,9 @@ export default {
             childStyle: {},
             childs: [
               {
-                id: `section_${this.getSectionsLength}-col_0-item_0`,
+                id: `section_${sectionNumber}-col_0-item_0`,
                 type: "text",
-                content: `section_${this.getSectionsLength}-col_0-item_0`,
+                content: `section_${sectionNumber}-col_0-item_0`,
                 isActive: false,
                 style: {
                   background: "#FFFFFF00",
@@ -119,27 +118,18 @@ export default {
       });
       this.setWorkplaceActive(false);
       this.setTextSelected(false);
-      this.setElementToEdit(`section_${this.getSectionsLength}`);
+      this.setElementToEdit(`section_${sectionNumber}`);
     },
 
     addColumn() {
-      this.dezactivateElements(this.getWorkplaceData, "withoutSections");
+      this.dezactivateElements("withoutSections");
 
-      //that means there is no active section
-      let sectionForNewColumn;
-      if (this.getActiveElement.length !== undefined) {
-        sectionForNewColumn = this.getActiveElement[0];
-        sectionForNewColumn.isActive = true;
-      } else {
-        sectionForNewColumn = this.getActiveElement;
-      }
-
-      let columnIndex =
-        sectionForNewColumn.columns.length > 0
-          ? sectionForNewColumn.columns[
-              sectionForNewColumn.columns.length - 1
-            ].id.split("col_")[1]
-          : 0;
+      let sectionForNewColumn = this.findActiveSection();
+      let columnIndex = sectionForNewColumn.columns.length
+        ? sectionForNewColumn.columns[
+            sectionForNewColumn.columns.length - 1
+          ].id.split("col_")[1]
+        : 0;
       this.addSectionChilds({
         id: `${sectionForNewColumn.id}-col_${++columnIndex}`,
         isActive: true,
@@ -163,28 +153,15 @@ export default {
     },
 
     addItem(type) {
-      this.dezactivateElements(
-        this.getWorkplaceData,
-        "withoutSectionsAndColumns"
-      );
+      this.dezactivateElements("itemsOnly");
 
-      let sectionForNewColumn;
-      if (this.getActiveElement.length !== undefined) {
-        sectionForNewColumn = this.getActiveElement[0];
-        sectionForNewColumn.isActive = true;
-      } else {
-        sectionForNewColumn = this.getActiveElement;
-      }
-
-      //active section were taken from ACTIVEELEMENT in store. Now find active column in this section
+      let sectionForNewColumn = this.findActiveSection();
       //if there is active column...
       let currentColumn = sectionForNewColumn.columns.findIndex(
         (x) => x.isActive === true
       );
       //if there is no active column, check active sections
-      if (currentColumn === -1) {
-        currentColumn = 0;
-      }
+      if (currentColumn === -1) currentColumn = 0;
 
       const activeColumn = sectionForNewColumn.columns[currentColumn];
       sectionForNewColumn.columns[currentColumn].isActive = true;
@@ -226,9 +203,16 @@ export default {
       }
       this.setElementToEdit(itemID);
     },
-
-    selectColors() {
-      this.setColorsGeneratorModal(true);
+    findActiveSection() {
+      //that means there is no active section
+      let sectionForNewColumn =
+        this.getElementToEdit === "workplace"
+          ? this.getWorkplaceData.sections[0]
+          : this.getWorkplaceData.sections.find(
+              (section) => section.id === this.getElementToEdit.split("-")[0]
+            );
+      sectionForNewColumn.isActive = true;
+      return sectionForNewColumn;
     },
   },
 };

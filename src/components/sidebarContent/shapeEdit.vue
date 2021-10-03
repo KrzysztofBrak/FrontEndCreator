@@ -158,10 +158,7 @@ export default {
     getElementToEdit: {
       immediate: true,
       handler() {
-        this.selectedItem = this.findSelectedItem(
-          this.getElementToEdit,
-          this.getWorkplaceData
-        );
+        this.selectedItem = this.findSelectedItem(this.getElementToEdit);
 
         this.kindOfSelectedItem = this.selectedItem.kindOfSelectedItem;
         this.sectionIndex = this.selectedItem.sectionIndex;
@@ -171,7 +168,7 @@ export default {
       },
     },
     getProjectName() {
-      this.dezactivateElements(this.getWorkplaceData, "");
+      this.dezactivateElements("");
       this.isPanelOpened = false;
       this.setElementToEdit("workplace");
     },

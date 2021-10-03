@@ -59,7 +59,7 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "newProjectModal",
   computed: {
-    ...mapGetters(["getWorkplaceData", "getSectionsLength"]),
+    ...mapGetters(["getWorkplaceData"]),
   },
   data: () => ({
     showModalQuestion: false,
@@ -128,7 +128,6 @@ export default {
           this.setWorkplaceData({
             projectName: "",
             isWorkplaceActive: false,
-            sectionsLength: 0,
             workplaceWidth: "1920px",
             sections: [
               {

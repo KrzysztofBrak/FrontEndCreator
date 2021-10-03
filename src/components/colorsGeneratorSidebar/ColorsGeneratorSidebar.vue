@@ -257,6 +257,7 @@ export default {
         currentHSLColor = selectedColorInHSL;
         switch (i) {
           case 1:
+          case 4:
             currentHSLColor.color[2] -= 25;
             break;
           case 2:
@@ -264,9 +265,6 @@ export default {
             break;
           case 3:
             currentHSLColor.color[2] += 5;
-            break;
-          case 4:
-            currentHSLColor.color[2] -= 25;
             break;
 
           default:
