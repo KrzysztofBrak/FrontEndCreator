@@ -1,8 +1,8 @@
 <template>
   <section
     class="column-section"
-    :class="[{ activeSection: column.isActive }]"
-    @dblclick="activateColumn"
+    :class="{ activeSection: column.isActive }"
+    @dblclick="setWorkplaceActive(false)"
   >
     <v-fab-transition>
       <v-btn
@@ -19,13 +19,11 @@
         <v-icon large>mdi-trash-can</v-icon>
       </v-btn>
     </v-fab-transition>
-
     <!-- display items in current column -->
     <div class="item-container" :style="column.childStyle">
       <div
         class="item"
-        v-for="(item, index) in getWorkplaceData.sections[currentSection]
-          .columns[currentColumn].childs"
+        v-for="(item, index) in currentColumn.childs"
         :key="index"
         :id="item.id"
         :style="item.style"
@@ -66,37 +64,32 @@ export default {
   mixins: [dezactivateElements],
 
   data: () => ({
-    currentSection: 0,
-    currentColumn: 0,
+    currentColumn: {},
   }),
 
   mounted() {
     this.$nextTick(() => {
       //find current column:
       //to do that, first find section...
-      this.currentSection = this.getWorkplaceData.sections.findIndex(
+      const currentSection = this.getWorkplaceData.sections.find(
         (x) => x.id == this.column.id.split("-")[0]
       );
 
       //then find there current column
-      this.currentColumn = this.getWorkplaceData.sections[
-        this.currentSection
-      ].columns.findIndex((x) => x.id == this.column.id);
+      this.currentColumn = currentSection.columns.find(
+        (x) => x.id == this.column.id
+      );
     });
   },
 
   methods: {
     ...mapMutations([
-      "setUpdatedArray",
       "setWorkplaceActive",
       "setDeleteColumn",
       "setElementToEdit",
       "setItemClicked",
     ]),
 
-    activateColumn() {
-      this.setWorkplaceActive(false);
-    },
     deleteColumn() {
       this.setDeleteColumn(this.column);
       this.setElementToEdit(true);
@@ -105,34 +98,17 @@ export default {
     setItems(selectedItem) {
       this.dezactivateElements("itemsOnly");
 
-      if (
-        this.getWorkplaceData.sections[this.currentSection].columns[
-          this.currentColumn
-        ].isActive === true
-      ) {
+      if (this.currentColumn.isActive) {
         //get index of active item...
-        let childIndex = this.getWorkplaceData.sections[
-          this.currentSection
-        ].columns[this.currentColumn].childs.findIndex(
+        let childIndex = this.currentColumn.childs.find(
           (x) => x.id === selectedItem.id
         );
         //...and set it to true
-        this.getWorkplaceData.sections[this.currentSection].columns[
-          this.currentColumn
-        ].childs[childIndex].isActive = true;
+        childIndex.isActive = true;
 
         //ID of element to edit:
-        this.setElementToEdit(
-          this.getWorkplaceData.sections[this.currentSection].columns[
-            this.currentColumn
-          ].childs[childIndex].id
-        );
-
-        this.setItemClicked(
-          this.getWorkplaceData.sections[this.currentSection].columns[
-            this.currentColumn
-          ].childs[childIndex].id
-        );
+        this.setElementToEdit(childIndex.id);
+        this.setItemClicked(childIndex.id);
       }
       this.setWorkplaceActive(false);
     },

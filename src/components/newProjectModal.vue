@@ -64,9 +64,7 @@ export default {
   data: () => ({
     showModalQuestion: false,
     projectName: "",
-    customWidth: "",
     workplaceWidth: "1920px",
-    isButtonDisabled: true,
     buttons: [
       {
         icon: "mdi-desktop-mac",
@@ -97,9 +95,7 @@ export default {
 
   mounted() {
     window.addEventListener("keyup", (event) => {
-      if (event.keyCode === 13) {
-        this.createProject();
-      }
+      event.keyCode === 13 && this.createProject();
     });
   },
 
@@ -196,7 +192,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .new-project-modal {
   ::v-deep .v-input {

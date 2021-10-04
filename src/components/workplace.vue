@@ -34,7 +34,7 @@ export default {
     DefaultSection,
   },
   computed: {
-    ...mapGetters(["getWorkplaceData", "getElementToEdit", "getTtemClicked"]),
+    ...mapGetters(["getWorkplaceData", "getTtemClicked"]),
   },
   mixins: [dezactivateElements],
   methods: {
@@ -47,16 +47,16 @@ export default {
     setSection(selectedSection) {
       this.dezactivateElements("", selectedSection);
 
-      const sectionIndex = this.getWorkplaceData.sections.findIndex(
+      const section = this.getWorkplaceData.sections.find(
         (x) => x.id === selectedSection.id
       );
-      this.getWorkplaceData.sections[sectionIndex].isActive = true;
+      section.isActive = true;
 
       //zapobiega event bubblingowi
       if (!this.getTtemClicked.includes("col")) {
         //save ID of item to edit
-        this.setElementToEdit(this.getWorkplaceData.sections[sectionIndex].id);
-        this.setItemClicked(this.getWorkplaceData.sections[sectionIndex].id);
+        this.setElementToEdit(section.id);
+        this.setItemClicked(section.id);
       }
       this.setItemClicked("");
     },

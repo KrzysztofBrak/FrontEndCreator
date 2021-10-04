@@ -1,7 +1,7 @@
 <template>
   <section
     class="childItem-section"
-    :class="[{ activeItem: item.isActive }]"
+    :class="{ activeItem: item.isActive }"
     @dblclick="setWorkplaceActive(false)"
   >
     <v-fab-transition>
@@ -25,7 +25,7 @@
     </div>
 
     <div v-else-if="item.type === 'img'" class="flex-item">
-      <img :src="item.content" :style="item.style" />
+      <img :src="item.content" :style="item.style" alt="img" />
     </div>
 
     <p v-else>{{ item.content }}</p>

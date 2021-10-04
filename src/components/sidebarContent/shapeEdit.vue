@@ -179,7 +179,6 @@ export default {
     ...mapMutations(["setElementToEdit"]),
 
     updateStyle() {
-      //merge old object with the new one
       this.selectedItem.style = {
         ...this.selectedItem.style,
         ...this.style,
@@ -188,10 +187,9 @@ export default {
 
     updateInputWithChild(item, everyBorderSelected) {
       if (everyBorderSelected) {
-        this.style[item.childs[0].vModel] = "";
-        this.style[item.childs[1].vModel] = "";
-        this.style[item.childs[2].vModel] = "";
-        this.style[item.childs[3].vModel] = "";
+        item.childs.forEach((element) => {
+          this.style[element.vModel] = "";
+        });
       } else {
         this.style[item.vModel] = "";
       }
@@ -199,7 +197,7 @@ export default {
     },
 
     updateFile() {
-      var reader = new FileReader();
+      let reader = new FileReader();
       reader.readAsDataURL(this.chosenImg);
       reader.onloadend = () => {
         this.selectedItem.content = reader.result;

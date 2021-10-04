@@ -1,7 +1,7 @@
 <template>
   <section
     class="default-section"
-    :class="[{ activeSection: section.isActive }]"
+    :class="{ activeSection: section.isActive }"
     @dblclick="activateSection"
     :style="{ width: this.getWorkplaceData.workplaceWidth }"
   >
@@ -22,8 +22,7 @@
     <div class="columns-container" :style="section.childStyle">
       <div
         class="column"
-        v-for="(column, index) in getWorkplaceData.sections[currentSection]
-          .columns"
+        v-for="(column, index) in currentSection.columns"
         :key="index"
         :id="column.id"
         :style="column.style"
@@ -57,14 +56,14 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getWorkplaceData", "getElementToEdit", "getTtemClicked"]),
+    ...mapGetters(["getWorkplaceData", "getTtemClicked"]),
   },
   mixins: [dezactivateElements],
   data: () => ({
-    currentSection: 0,
+    currentSection: {},
   }),
   mounted() {
-    this.currentSection = this.getWorkplaceData.sections.findIndex(
+    this.currentSection = this.getWorkplaceData.sections.find(
       (x) => x.id == this.section.id
     );
   },
@@ -92,29 +91,17 @@ export default {
     disactivateColumn(selectedColumn) {
       this.dezactivateElements("withoutSections", selectedColumn);
 
-      if (
-        this.getWorkplaceData.sections[this.currentSection].isActive === true
-      ) {
-        let childIndex = this.getWorkplaceData.sections[
-          this.currentSection
-        ].columns.findIndex((x) => x.id === selectedColumn.id);
+      if (this.currentSection.isActive) {
+        const childIndex = this.currentSection.columns.find(
+          (x) => x.id === selectedColumn.id
+        );
 
-        this.getWorkplaceData.sections[this.currentSection].columns[
-          childIndex
-        ].isActive = true;
+        childIndex.isActive = true;
 
         //ID of item to edit
         if (!this.getTtemClicked.includes("item")) {
-          this.setElementToEdit(
-            this.getWorkplaceData.sections[this.currentSection].columns[
-              childIndex
-            ].id
-          );
-          this.setItemClicked(
-            this.getWorkplaceData.sections[this.currentSection].columns[
-              childIndex
-            ].id
-          );
+          this.setElementToEdit(childIndex.id);
+          this.setItemClicked(childIndex.id);
         }
       }
     },

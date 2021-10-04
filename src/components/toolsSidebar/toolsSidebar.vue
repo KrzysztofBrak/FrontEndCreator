@@ -164,6 +164,7 @@ export default {
       if (currentColumn === -1) currentColumn = 0;
 
       const activeColumn = sectionForNewColumn.columns[currentColumn];
+
       sectionForNewColumn.columns[currentColumn].isActive = true;
 
       let itemIndex =

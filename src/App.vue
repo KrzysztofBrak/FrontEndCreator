@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <style lang="scss">
-body{
+body {
   margin: 0;
   background: #d4d4d4;
 }
@@ -14,5 +14,4 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 </style>

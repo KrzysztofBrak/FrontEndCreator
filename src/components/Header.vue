@@ -4,7 +4,7 @@
       <div class="title-container">
         <div>Frontend <span>Creator</span></div>
       </div>
-      <div :class="['menu-container']">
+      <div class="menu-container">
         <input
           type="file"
           ref="openFileInput"

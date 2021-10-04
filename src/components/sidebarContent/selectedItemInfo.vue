@@ -1,21 +1,25 @@
 <template>
-    <div class="selectedItemInfo-container">
-      <p>wybrany element:<br> {{getElementToEdit}}</p>
-    </div>
+  <div class="selectedItemInfo-container">
+    <p>
+      wybrany element:
+      <br />
+      {{ getElementToEdit }}
+    </p>
+  </div>
 </template>
 <script>
-import{mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'selectedItemInfo',
+  name: "selectedItemInfo",
 
-  computed:{
-    ...mapGetters(['getElementToEdit']),
-  }
-}
+  computed: {
+    ...mapGetters(["getElementToEdit"]),
+  },
+};
 </script>
 <style scoped lang="scss">
-.selectedItemInfo-container{
+.selectedItemInfo-container {
   margin: 10px;
   line-height: 1.6;
 }

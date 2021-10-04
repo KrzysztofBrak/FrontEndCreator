@@ -4,7 +4,7 @@
       <div
         v-for="button in textbuttons"
         class="align-text-button"
-        :class="[{ active: button.isActive }]"
+        :class="{ active: button.isActive }"
         :key="button.alt"
         @click="activateButton(button, true)"
       >
@@ -16,11 +16,11 @@
       <div
         v-for="button in sortbuttons"
         class="horizontal-positioning"
-        :class="[{ active: button.isActive }]"
+        :class="{ active: button.isActive }"
         :key="button.alt"
         @click="activateButton(button, false)"
       >
-        <v-icon :class="[{ rotate: settingItemsInColumns }]">{{
+        <v-icon :class="{ rotate: settingItemsInColumns }">{{
           button.img
         }}</v-icon>
       </div>
@@ -30,11 +30,11 @@
       <div
         v-for="button in textAlignButtons"
         class="horizontal-positioning"
-        :class="[{ active: button.isActive }]"
+        :class="{ active: button.isActive }"
         :key="button.alt"
         @click="activateAlignButton(button, false)"
       >
-        <v-icon :class="[{ rotate: settingItemsInColumns }]">{{
+        <v-icon :class="{ rotate: settingItemsInColumns }">{{
           button.img
         }}</v-icon>
       </div>
