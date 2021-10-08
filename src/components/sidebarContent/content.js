@@ -1,4 +1,4 @@
-const textbuttons = [
+const horizontalAlign = [
     {
         img: 'mdi-align-horizontal-left',
         alt: 'left',
@@ -35,6 +35,8 @@ const textbuttons = [
             alignItems: 'flex-end'
         }
     },
+]
+const verticalAlign = [
     {
         img: 'mdi-align-vertical-top',
         alt: 'top',
@@ -72,11 +74,13 @@ const textbuttons = [
         }
     }
 ]
-const sortbuttons = [
+const justifyContent = [
     {
         img: 'mdi-arrow-collapse-horizontal',
         alt: 'collapse-horizontal',
         isActive: false,
+        hideIcon: false,
+        isRotating: true,
         positionStyle:{
             justifyContent: 'space-around',
         },
@@ -89,6 +93,8 @@ const sortbuttons = [
         img: 'mdi-arrow-expand-horizontal',
         alt: 'expand-horizontal',
         isActive: false,
+        hideIcon: false,
+        isRotating: true,
         positionStyle:{
             justifyContent: 'space-between',
         },
@@ -98,11 +104,12 @@ const sortbuttons = [
     }
 ]
 
-const textAlignButtons = [
+const justifyText = [
     {
         img: 'mdi-format-align-justify',
         alt: 'justify',
         isActive: false,
+        hideIcon: true,
         positionStyleForItems:{
             textAlign: 'justify',
         }
@@ -112,6 +119,7 @@ const textAlignButtons = [
         img: 'mdi-format-align-left',
         alt: 'left',
         isActive: false,
+        hideIcon: true,
         positionStyleForItems:{
             textAlign: 'left',
         }
@@ -120,6 +128,7 @@ const textAlignButtons = [
         img: 'mdi-format-align-center',
         alt: 'center',
         isActive: false,
+        hideIcon: true,
         positionStyleForItems:{
             textAlign: 'center',
         }
@@ -128,6 +137,7 @@ const textAlignButtons = [
         img: 'mdi-format-align-right',
         alt: 'right',
         isActive: false,
+        hideIcon: true,
         positionStyleForItems:{
             textAlign: 'right',
         }
@@ -361,4 +371,4 @@ const styleInputs = {
         ]
     },
 }
-export {textbuttons, sortbuttons, textAlignButtons, styleInputs}
+export {horizontalAlign, verticalAlign, justifyContent, justifyText, styleInputs}
