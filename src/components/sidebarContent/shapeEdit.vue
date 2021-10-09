@@ -1,5 +1,5 @@
 <template>
-  <div v-if="getElementToEdit !== 'workplace'" class="shapeEdit-container">
+  <div v-if="getElementToEdit !== 'workplace'">
     <v-row justify="center">
       <v-expansion-panels accordion v-model="isPanelOpened">
         <v-expansion-panel v-for="item in styleInputs" :key="item.name">
@@ -7,62 +7,45 @@
           <v-expansion-panel-content>
             <ItemPosition v-if="item.name === 'Przekształć:'" />
             <div
-              v-for="input in item.inputs"
-              :key="input.inputName"
-              class="input-container"
+              v-for="(input, index) in item.inputs"
+              :key="index"
+              class="input-container my-4 text-body-2"
             >
-              <div class="inputFather-container">
+              <div class="d-flex justify-space-between">
                 <p>{{ input.inputName }}:</p>
 
                 <ColorPickerModal
                   v-if="input.type === 'ColorPicker'"
-                  :selectedColor="style[input.vModel]"
+                  :selectedColor="selectedItem.style[input.vModel]"
                   :inputName="input.vModel"
-                  @selected="selectedColor"
+                  @selected="
+                    selectedItem.style[colorValue.label] = colorValue.color
+                  "
                 />
-                <select
-                  v-else-if="input.type === 'dropdown'"
-                  id="tstselect"
-                  name="tstselect"
-                  dir="rtl"
-                  class="dropdown"
-                  :class="input.class"
-                  v-on:change="updateStyle()"
-                  v-model="style[input.vModel]"
-                >
-                  <option
-                    v-for="option in input.items"
-                    :key="option"
-                    :value="option"
-                  >
-                    {{ option }}
-                  </option>
-                </select>
 
                 <select
-                  v-else-if="input.type === 'dropdownWithDifferentNames'"
-                  dir="rtl"
-                  class="dropdown"
+                  v-else-if="input.type === 'dropdown'"
+                  class="dropdown ml-1"
                   :class="input.class"
-                  v-on:change="updateStyle()"
-                  v-model="style[input.vModel]"
+                  v-model="selectedItem.style[input.vModel]"
                 >
                   <option
                     v-for="option in input.items"
                     :key="option.value"
                     :value="option.name"
+                    class="text-right pl-4"
                   >
                     {{ option.value }}
                   </option>
                 </select>
+
                 <input
                   v-else
                   :type="input.type"
-                  v-show="!input.childs || input.showSeparately === false"
-                  class="input-style"
+                  v-show="!input.childs || !input.showSeparately"
+                  class="input-style my-auto mr-0 ml-3 px-1 text-end w-100"
                   :class="input.class"
-                  v-model="style[input.vModel]"
-                  v-on:change="updateStyle()"
+                  v-model="selectedItem.style[input.vModel]"
                   placeholder="wprowadź wartość"
                 />
                 <div
@@ -70,37 +53,31 @@
                   @click="input.showSeparately = !input.showSeparately"
                 >
                   <v-icon
-                    v-if="input.showSeparately === true"
-                    @click="updateInputWithChild(input, true)"
-                    class="lock"
+                    @click="updateInputWithChild(input)"
+                    class="lock ml-1 text-body-1"
                   >
-                    mdi-lock-open-variant-outline
+                    {{
+                      input.showSeparately
+                        ? "mdi-lock-open-variant-outline"
+                        : "mdi-lock-outline"
+                    }}
                   </v-icon>
-
-                  <v-icon
-                    v-else
-                    @click="updateInputWithChild(input, false)"
-                    class="lock"
-                    >mdi-lock-outline</v-icon
-                  >
                 </div>
               </div>
 
-              <div
-                class="inputChilds-container"
-                v-show="input.childs && input.showSeparately === true"
-              >
+              <div v-show="input.childs && input.showSeparately">
                 <div
                   v-for="childInput in input.childs"
                   :key="childInput.inputName"
-                  class="container"
+                  class="container d-flex"
                 >
-                  <v-icon class="lock" v-text="childInput.inputName"></v-icon>
+                  <v-icon class="ml-1" v-text="childInput.inputName"></v-icon>
                   <input
                     :type="childInput.type"
                     :class="childInput.class"
-                    v-model="style[childInput.vModel]"
-                    v-on:change="updateStyle()"
+                    class="input-style ml-12 text-end"
+                    placeholder="wprowadź wartość"
+                    v-model="selectedItem.style[childInput.vModel]"
                   />
                 </div>
               </div>
@@ -112,16 +89,17 @@
     <v-textarea
       v-if="getElementToEdit.includes('item') && selectedItem.type === 'text'"
       filled
-      class="input-text-area"
-      name="inputText"
+      class="mt-5"
       label="Wstaw tekst"
       v-model="selectedItem.content"
     ></v-textarea>
     <div
       v-if="getElementToEdit.includes('item') && selectedItem.type === 'img'"
-      class="file-input-container"
+      class="file-input-container d-flex mt-3"
     >
-      <p @click="$refs.fileInput.$refs.input.click()">Dodaj grafikę</p>
+      <p @click="$refs.fileInput.$refs.input.click()" class="mt-5 mx-3">
+        Dodaj grafikę
+      </p>
       <v-file-input
         truncate-length="15"
         hide-input
@@ -136,11 +114,11 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import ColorPickerModal from "@/components/ingredients/ColorPickerModal.vue";
+import ItemPosition from "@/components/sidebarContent/itemPosition.vue";
 import dezactivateElements from "@/mixins/dezactivateElements.vue";
 import findSelectedItem from "@/mixins/findSelectedItem.vue";
-import ItemPosition from "@/components/sidebarContent/itemPosition.vue";
 
-import { styleInputs } from "./content";
+import { styleInputs } from "./styleInputs";
 export default {
   name: "shapeEdit",
 
@@ -158,7 +136,6 @@ export default {
       immediate: true,
       handler() {
         this.selectedItem = this.findSelectedItem(this.getElementToEdit);
-        this.style = this.selectedItem.style;
       },
     },
     getProjectName() {
@@ -168,122 +145,53 @@ export default {
     },
   },
   mixins: [dezactivateElements, findSelectedItem],
+
   data: () => ({
     styleInputs,
     selectedItem: {},
-    style: {},
     chosenImg: null,
     isPanelOpened: false,
   }),
   methods: {
     ...mapMutations(["setElementToEdit"]),
 
-    updateStyle() {
-      this.selectedItem.style = {
-        ...this.selectedItem.style,
-        ...this.style,
-      };
-    },
-
-    updateInputWithChild(item, everyBorderSelected) {
-      if (everyBorderSelected) {
+    updateInputWithChild(item) {
+      if (item.showSeparately) {
         item.childs.forEach((element) => {
-          this.style[element.vModel] = "";
+          this.selectedItem.style[element.vModel] = "";
         });
       } else {
-        this.style[item.vModel] = "";
+        this.selectedItem.style[item.vModel] = "";
       }
-      this.updateStyle();
     },
 
     updateFile() {
-      let reader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(this.chosenImg);
       reader.onloadend = () => {
         this.selectedItem.content = reader.result;
       };
-    },
-
-    selectedColor(colorValue) {
-      this.style[colorValue.label] = colorValue.color;
-      this.updateStyle();
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.shapeEdit-container {
-  h1 {
-    font-size: 12px;
-    color: gray;
-    font-weight: 400;
-  }
-  .input-container {
-    font-size: 14px;
-    display: block;
-    margin: 15px 0;
-    .inputFather-container {
-      display: flex;
-      justify-content: space-between;
-      input {
-        height: 16px;
-        margin: auto 0 auto 10px;
-        width: 100%;
-        text-align: end;
-        padding: 0 3px;
-      }
-      .lock {
-        font-size: 17px;
-        margin-left: 5px;
-      }
-    }
-    .inputChilds-container {
-      display: block;
-      transition: 0.3s;
-      .container {
-        display: flex;
-        p {
-          white-space: nowrap;
-        }
-        input {
-          width: 100%;
-        }
-      }
-    }
-    input {
-      margin-left: 10px;
-      background: #e9e9e9;
-      outline: none;
-    }
-    .dropdown {
-      background: #e9e9e9;
-      width: 100%;
-      margin-left: 5px;
-    }
-    select,
-    option {
-      text-align: right;
-      appearance: auto;
-      padding-left: 5px;
-    }
-  }
-  .input-text-area {
-    margin-top: 20px;
-  }
-  .file-input-container {
-    display: flex;
-    margin-top: 10px;
-    p {
-      margin: auto 10px;
-      cursor: pointer;
-    }
-    ::v-deep .v-text-field {
-      padding-top: 0;
-      margin-top: 0;
-    }
-  }
+.input-style {
+  width: 100%;
+  outline: none;
 }
+
+.dropdown {
+  background: $containerBackground;
+  width: 100%;
+  outline: none;
+}
+
+.file-input-container p {
+  cursor: pointer;
+}
+
 ::v-deep .row {
   width: 300px;
   border-bottom: 1px solid #c7c7c7;
