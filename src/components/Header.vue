@@ -1,10 +1,12 @@
 <template>
   <section class="header-section">
-    <div class="header-container">
-      <div class="title-container">
-        <div>Frontend <span>Creator</span></div>
+    <div class="header-container px-5 d-flex justify-space-between">
+      <div class="my-auto mx-0">
+        <div class="site-title d-flex text-h5 font-weight-bold">
+          Frontend <span class="text-subtitle-1 font-weight-bold">Creator</span>
+        </div>
       </div>
-      <div class="menu-container">
+      <div class="menu-container d-flex my-auto">
         <input
           type="file"
           ref="openFileInput"
@@ -15,7 +17,7 @@
         <p @click="setNewProjectModal(true)">Nowy projekt +</p>
         <p @click="$refs.openFileInput.click()">Wczytaj projekt</p>
         <p @click="saveProject">Zapisz projekt</p>
-        <v-icon class="theme-switcher" @click="setDarkMode(!this.getDarkMode)"
+        <v-icon class="pa=1" @click="switchDarkMode"
           >mdi-theme-light-dark
         </v-icon>
       </div>
@@ -104,6 +106,9 @@ export default {
         alert("Błąd, spróbuj ponownie");
       }
     },
+    switchDarkMode() {
+      this.setDarkMode(!this.getDarkMode);
+    },
   },
 };
 </script>
@@ -117,60 +122,37 @@ export default {
   height: 50px;
   z-index: 21;
   .header-container {
-    padding: 0 20px;
     height: 100%;
-    display: flex;
-    justify-content: space-between;
-    .title-container {
-      margin: auto 0;
-      div {
-        margin: 0;
-        display: flex;
-        font-size: 24px;
-        color: $mainFontColor;
-        font-weight: 700;
+    .site-title {
+      color: $mainFontColor;
+      position: relative;
+      bottom: 5px;
+      span {
+        -webkit-text-fill-color: transparent;
+        background: -webkit-linear-gradient(
+          180deg,
+          rgba(29, 26, 219, 1),
+          rgba(253, 29, 29, 1) 53%
+        );
         position: relative;
-        bottom: 5px;
-        span {
-          font-size: 16px;
-          -webkit-text-fill-color: transparent;
-          background: -webkit-linear-gradient(
-            180deg,
-            rgba(29, 26, 219, 1),
-            rgba(253, 29, 29, 1) 53%
-          );
-          position: relative;
-          top: 21px;
-          right: 25px;
-          -webkit-background-clip: text;
-        }
+        top: 17px;
+        right: 25px;
+        -webkit-background-clip: text;
       }
     }
-    .menu-container {
+    .menu-container *:hover {
+      background: $hoverColor;
+      cursor: pointer;
+    }
+    .hidden-input {
+      display: none;
+    }
+    p {
+      margin: 0;
+      padding: 5px 20px;
       display: flex;
-      margin: auto 0;
-      .theme-switcher {
-        cursor: pointer;
-        padding: 2px 5px;
-        &:hover {
-          background: $hoverColor;
-        }
-      }
-      .hidden-input {
-        display: none;
-      }
-      p {
-        margin: 0;
-        padding: 5px 20px;
-        display: flex;
-        font-size: 16px;
-        color: $mainFontColor;
-        cursor: pointer;
-        transition: 0.3s;
-        &:hover {
-          background: $hoverColor;
-        }
-      }
+      font-size: 1rem;
+      color: $mainFontColor;
     }
   }
 }

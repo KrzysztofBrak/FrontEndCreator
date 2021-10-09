@@ -1,8 +1,12 @@
 <template>
-  <section class="editSidebar-section">
-    <v-fade-transition>
-      <selectedItemInfo transition="fade-transition" />
-    </v-fade-transition>
+  <section class="editSidebar-section p-4 d-flex flex-column">
+    <div class="text-subtitle-1 ma-3">
+      <p>
+        wybrany element:
+        <br />
+        {{ getElementToEdit }}
+      </p>
+    </div>
     <v-fade-transition>
       <shapeEdit transition="fade-transition" />
     </v-fade-transition>
@@ -11,13 +15,16 @@
 
 <script>
 import shapeEdit from "@/components/sidebarContent/shapeEdit.vue";
-import selectedItemInfo from "@/components/sidebarContent/selectedItemInfo.vue";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "Sidebar",
   components: {
     shapeEdit,
-    selectedItemInfo,
+  },
+  computed: {
+    ...mapGetters(["getElementToEdit"]),
   },
 };
 </script>
@@ -32,12 +39,6 @@ export default {
   top: 50px;
   bottom: 0;
   right: 0;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
   overflow: auto;
-  .divider {
-    margin: 10px 0;
-  }
 }
 </style>

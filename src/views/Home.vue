@@ -1,9 +1,9 @@
 <template>
   <div class="home" :class="{ 'dark-theme': getDarkMode }" id="theme">
     <Header />
-    <div class="main-container" @dblclick.self="disactivateAllElements">
+    <div class="main-container d-flex" @dblclick.self="disactivateAllElements">
       <toolsSidebar v-show="isProjectActive" />
-      <div v-show="!isProjectActive" class="icon-container">
+      <div v-show="!isProjectActive" class="icon-container mx-auto">
         <img :src="require('@/assets/img/new_file.svg')" alt="nowy projekt" />
       </div>
       <workplace v-show="isProjectActive" />
@@ -96,142 +96,16 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import "@/assets/scss/darkTheme.scss";
+
 .main-container {
   outline: none;
-  display: flex;
+  background: #b7b7b7;
   height: 100vh;
   .icon-container {
-    margin: auto;
     width: 50%;
     margin-top: 100px;
     max-width: 500px;
-    svg {
-      margin: auto;
-      display: flex;
-    }
-  }
-}
-#theme.dark-theme {
-  background: #232735;
-  ::v-deep .header-container {
-    background: #2c2f3b;
-    button,
-    p {
-      color: #acacac;
-    }
-    button:hover,
-    p:hover {
-      background: #3a3c48;
-    }
-  }
-  ::v-deep .tools-section {
-    background: #2c2f3b;
-    button,
-    i {
-      color: #acacac;
-    }
-    .button-container:hover {
-      background: #3a3c48;
-    }
-  }
-  ::v-deep .editSidebar-section {
-    background: #2c2f3b;
-    button,
-    i,
-    p {
-      color: #acacac;
-    }
-    p:hover,
-    .horizontal-positioning:hover,
-    .align-text-button:hover {
-      background: #3a3c48;
-    }
-    .active {
-      background: #394157;
-    }
-  }
-
-  ::v-deep .project-modal {
-    background: #2c2f3b;
-    button,
-    i,
-    p {
-      color: #acacac;
-    }
-    .v-input__slot {
-      background: #2c2f3b !important;
-      .v-label,
-      #input-9 {
-        color: #acacac;
-      }
-    }
-
-    button {
-      background: #2c2f3b;
-      &.isActive {
-        background: #394157 !important;
-      }
-    }
-  }
-  ::v-deep .row {
-    border: none;
-    .v-expansion-panel-header,
-    .v-expansion-panel-content {
-      background: #2c2f3b;
-    }
-  }
-  ::v-deep .input-style {
-    background: #4f525d;
-    color: #acacac;
-    &::placeholder {
-      color: #acacac;
-    }
-  }
-  ::v-deep .dropdown .v-input__slot {
-    background: #4f525d;
-    .v-list-item__title,
-    .v-select__selection {
-      color: #acacac;
-    }
-  }
-  ::v-deep .v-list {
-    background: #4f525d;
-    .v-list-item__title {
-      color: #acacac;
-    }
-  }
-  ::v-deep .v-color-picker {
-    background: #2c2f3b;
-    .v-list-item__title,
-    span,
-    input {
-      color: #acacac;
-    }
-  }
-  ::v-deep select {
-    background: #4f525d;
-    color: #acacac;
-  }
-  ::v-deep .color-generator {
-    background: #2c2f3b;
-    .v-color-picker__controls,
-    .v-input--radio-group--column,
-    .slider .v-input__control,
-    .v-application--wrap {
-      background: #2c2f3b;
-    }
-
-    .selected-color,
-    .v-label,
-    .mdi-radiobox-blank {
-      color: #acacac;
-    }
-  }
-  ::v-deep .v-input__control {
-    .v-label,
-    textarea {
-      color: #acacac;
-    }
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <div class="main-container">
+  <div class="main-container d-block ml-3">
     <div class="color-container">
-      <div class="color-button">
+      <div class="d-flex justify-space-between">
         <v-btn
           class="button"
           color="secondary"
@@ -15,7 +15,7 @@
       <v-fade-transition>
         <v-color-picker
           v-show="modalIsOpened"
-          class="color-picker"
+          class="color-picker pa-1"
           show-swatches
           mode="hexa"
           v-model="color"
@@ -81,17 +81,11 @@ export default {
   overflow: auto;
 }
 .main-container {
-  display: block;
   width: 100%;
-  margin-left: 10px;
   .color-container {
-    .color-button {
-      display: flex;
-      justify-content: space-between;
-      .button {
-        width: 100%;
-        height: 16px;
-      }
+    .button {
+      width: 100%;
+      height: 16px;
     }
   }
   .color-picker {
@@ -101,7 +95,6 @@ export default {
     bottom: 12px;
     width: 316px;
     max-width: 310px !important;
-    padding: 5px;
     box-shadow: $mainShadow;
   }
 }

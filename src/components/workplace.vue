@@ -77,8 +77,5 @@ export default {
   box-shadow: $mainShadow;
   margin: 80px 60px;
   position: fixed;
-  p {
-    font-size: 16px;
-  }
 }
 </style>

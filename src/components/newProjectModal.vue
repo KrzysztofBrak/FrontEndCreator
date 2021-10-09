@@ -1,7 +1,7 @@
 <template>
   <section class="new-project-modal">
     <div class="overlay" @click.self="closeModal">
-      <div class="project-modal">
+      <div class="project-modal my-0 mx-auto pa-7">
         <v-text-field
           label="Nazwa projektu"
           :rules="[() => !!projectName || 'Pole jest wymagane']"
@@ -10,11 +10,13 @@
           autofocus
           v-model="projectName"
         ></v-text-field>
-        <div class="buttons-container">
+        <div
+          class="buttons-container d-flex flex-column justify-space-between my-5"
+        >
           <v-btn
             v-for="btn in buttons"
             :key="btn.icon"
-            class="button"
+            class="button my-2"
             :class="[{ isActive: btn.isActive }]"
             block
             @click="setWorkplaceWidth(btn)"
@@ -31,18 +33,18 @@
             </div>
           </v-btn>
         </div>
-        <div v-show="showModalQuestion" class="question-container">
+        <div v-show="showModalQuestion" class="red--text">
           Jesteś pewien że chcesz nadpisać utworzony projekt?
         </div>
         <v-btn
           block
-          class="button-modal"
+          class="my-4"
           @click="createProject"
           v-on:keyup.enter="createProject"
           >UTWÓRZ
         </v-btn>
         <v-btn
-          class="button-modal"
+          class="my-4"
           block
           @click="closeModal"
           v-on:keyup.Escape="closeModal"
@@ -94,8 +96,8 @@ export default {
   }),
 
   mounted() {
-    window.addEventListener("keyup", (event) => {
-      event.keyCode === 13 && this.createProject();
+    window.addEventListener("keyup", (e) => {
+      e.keyCode === 13 && this.createProject();
     });
   },
 
@@ -195,8 +197,7 @@ export default {
 <style scoped lang="scss">
 .new-project-modal {
   ::v-deep .v-input {
-    margin-top: 15px;
-    margin-bottom: 40px;
+    margin: 15px 0 40px 0;
     .v-input__slot {
       border-width: 0 0 2px 0;
       background: $containerBackground !important;
@@ -223,47 +224,31 @@ export default {
       max-width: 450px;
       background: $containerBackground;
       box-shadow: $mainShadow;
-      margin: 0px auto;
-      padding: 30px;
-      .question-container {
-        color: red;
+    }
+  }
+  .button {
+    height: 100px !important;
+    ::v-deep .v-btn__content {
+      justify-content: space-between;
+      display: flex;
+      .v-icon {
+        margin-left: 30px;
       }
-      .button-modal {
-        margin: 15px 0;
+      .btn-content-container {
+        width: 50%;
+      }
+      input {
+        font-size: 0.875rem;
+        max-width: 122px;
+        outline: none;
       }
     }
   }
-  .buttons-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 20px 0;
-    .button {
-      margin: 10px 0;
-      height: 100px;
-      ::v-deep .v-btn__content {
-        justify-content: space-between;
-        display: flex;
-        .v-icon {
-          margin-left: 30px;
-        }
-        .btn-content-container {
-          width: 50%;
-        }
-        input {
-          font-size: 14px;
-          max-width: 122px;
-        }
-      }
-    }
-    .button.isActive {
-      background-color: #bebebe !important;
-    }
+  .button.isActive {
+    background-color: #bebebe !important;
   }
 }
-input {
-  outline: none;
-}
+
 ::v-deep .v-messages__message {
   color: red;
 }

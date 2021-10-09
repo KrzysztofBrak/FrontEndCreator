@@ -1,13 +1,13 @@
 <template>
-  <div class="align-text-container">
+  <div class="align-text-container mb-7 d-flex justify-space-between">
     <div
       v-for="(btnSection, index) in buttonsSections"
       :key="index"
-      class="icon-section"
+      class="icon-section d-flex"
     >
       <div
         v-for="button in btnSection"
-        class="align-text-button"
+        class="align-text-button pa-2"
         :class="{ active: button.isActive, 'hide-icon': button.hideIcon }"
         :key="button.alt"
         @click="activateButton(button, index)"
@@ -132,28 +132,21 @@ export default {
 
 <style scoped lang="scss">
 .align-text-container {
-  margin: 0 0 30px 0;
-  display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-  .icon-section {
-    display: flex;
-    .align-text-button {
-      padding: 9px;
-      cursor: pointer;
-      &:hover {
-        background: $hoverColor;
-      }
-      &.active {
-        background: rgb(158, 158, 158);
-      }
-      .v-icon.rotate {
-        transform: rotate(90deg);
-      }
+  .align-text-button {
+    cursor: pointer;
+    &:hover {
+      background: $hoverColor;
     }
-    .hide-icon {
-      display: none;
+    &.active {
+      background: rgb(158, 158, 158);
     }
+    .v-icon.rotate {
+      transform: rotate(90deg);
+    }
+  }
+  .hide-icon {
+    display: none;
   }
 }
 </style>

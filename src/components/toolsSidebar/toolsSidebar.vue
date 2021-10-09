@@ -1,14 +1,12 @@
 <template>
   <section class="tools-section">
-    <div class="top-tools-section">
-      <div
-        class="button-container"
-        v-for="button in buttons"
-        :key="button.alt"
-        @click="btnClick(button.alt)"
-      >
-        <v-icon medium>{{ button.img }}</v-icon>
-      </div>
+    <div
+      class="button-container pa-3"
+      v-for="button in buttons"
+      :key="button.alt"
+      @click="btnClick(button.alt)"
+    >
+      <v-icon medium>{{ button.img }}</v-icon>
     </div>
   </section>
 </template>
@@ -229,7 +227,6 @@ export default {
   top: 50px;
   bottom: 0;
   .button-container {
-    padding: 10px;
     cursor: pointer;
     i {
       width: 100%;

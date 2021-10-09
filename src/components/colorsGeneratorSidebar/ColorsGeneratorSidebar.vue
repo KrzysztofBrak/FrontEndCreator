@@ -1,7 +1,9 @@
 <template>
   <section>
     <div class="overlay" @click.self="setColorsGeneratorModal(false)">
-      <div class="color-generator">
+      <div
+        class="color-generator justify-space-between pa-4 d-flex flex-column"
+      >
         <v-app class="background">
           <v-color-picker
             class="color-picker"
@@ -10,7 +12,7 @@
             hide-mode-switch
             v-model="color"
           ></v-color-picker>
-          <div class="selected-color">{{ HEXColors[0] }}</div>
+          <div class="mx-auto mt-0 mb-5 text-h6">{{ HEXColors[0] }}</div>
           <v-radio-group v-model="radioGroup" class="background">
             <v-radio
               v-for="item in radioButtons"
@@ -28,13 +30,13 @@
             :disabled="radioGroup !== 'Analogicznie'"
           ></v-slider>
         </v-app>
-        <div class="colors-container">
+        <div class="colors-container d-flex text-center">
           <div
             v-for="(color, index) in HEXColors"
             :key="index"
             v-clipboard:copy="color"
             v-clipboard:success="() => (snackbar = true)"
-            class="color"
+            class="color text-h6"
             :style="{
               background: firstOption[index],
               color: invertColorName(color),
@@ -64,7 +66,7 @@ export default {
       get() {
         return this.b;
       },
-      set: _.throttle(function (v) {
+      set: _.throttle(function(v) {
         this.colorRGBHEX = v;
       }, 200),
     },
@@ -322,26 +324,14 @@ export default {
   background: $containerBackground;
   box-shadow: $mainShadow;
   position: fixed;
-  justify-content: space-between;
   top: 50px;
   bottom: 0;
   right: 0;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
   overflow: auto;
-  .selected-color {
-    margin: 0 auto 20px auto;
-    font-size: 20px;
-  }
-  .button-modal {
-    margin: 10px 0;
-  }
   .slider {
     width: 96%;
   }
   .colors-container {
-    display: flex;
     position: relative;
     width: 108%;
     right: 15px;
@@ -349,10 +339,6 @@ export default {
     .color {
       width: 100%;
       height: 20vh;
-      font-size: 20px;
-      font-weight: 600;
-      font-family: system-ui;
-      text-align: center;
       cursor: pointer;
     }
   }
