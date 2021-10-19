@@ -1,5 +1,5 @@
 <template>
-  <section class="editSidebar-section p-4 d-flex flex-column">
+  <section class="edit-sidebar-section p-4 d-flex flex-column">
     <div class="text-subtitle-1 ma-3">
       <p>
         wybrany element:
@@ -15,7 +15,6 @@
 
 <script>
 import shapeEdit from "@/components/sidebarContent/shapeEdit.vue";
-
 import { mapGetters } from "vuex";
 
 export default {
@@ -30,7 +29,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.editSidebar-section {
+.edit-sidebar-section {
   height: 100%;
   width: 300px;
   background: $containerBackground;

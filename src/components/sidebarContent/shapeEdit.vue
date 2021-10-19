@@ -95,9 +95,12 @@
     ></v-textarea>
     <div
       v-if="getElementToEdit.includes('item') && selectedItem.type === 'img'"
-      class="file-input-container d-flex mt-3"
+      class="d-flex mt-3"
     >
-      <p @click="$refs.fileInput.$refs.input.click()" class="mt-5 mx-3">
+      <p
+        @click="$refs.fileInput.$refs.input.click()"
+        class="file-input-container mt-5 mx-3"
+      >
         Dodaj grafikę
       </p>
       <v-file-input
@@ -183,12 +186,11 @@ export default {
 }
 
 .dropdown {
+  @extend .input-style;
   background: $containerBackground;
-  width: 100%;
-  outline: none;
 }
 
-.file-input-container p {
+.file-input-container {
   cursor: pointer;
 }
 
@@ -196,16 +198,20 @@ export default {
   width: 300px;
   border-bottom: 1px solid #c7c7c7;
   margin-left: -15px;
+
   .v-expansion-panels {
     border-radius: 0px;
+
     .v-expansion-panel {
       &::before {
         box-shadow: none;
       }
+
       .v-expansion-panel-header,
       .v-expansion-panel-content {
         background: $containerBackground;
       }
+
       .v-application--wrap {
         min-height: 0 !important;
       }

@@ -1,7 +1,7 @@
 <template>
   <section class="tools-section">
     <div
-      class="button-container pa-3"
+      class="tools-section-buttons pa-3"
       v-for="button in buttons"
       :key="button.alt"
       @click="btnClick(button.alt)"
@@ -226,25 +226,29 @@ export default {
   position: fixed;
   top: 50px;
   bottom: 0;
-  .button-container {
+
+  #{&}-buttons {
     cursor: pointer;
+
     i {
       width: 100%;
     }
+
     &:hover {
       background: $hoverColor;
     }
   }
 }
-::v-deep .v-input {
-  max-width: 150px;
-  .v-input__slot {
-    background: $containerBackground !important;
-    border-width: 0 0 2px 0;
-    border-style: solid;
-    border-radius: 0;
-    border-color: rgba(0, 0, 0, 0.12);
-    box-shadow: none !important;
-  }
-}
+// ::v-deep .v-input {
+// max-width: 150px;
+
+// .v-input__slot {
+//   background: $containerBackground !important;
+//   border-width: 0 0 2px 0;
+//   border-style: solid;
+//   border-radius: 0;
+//   border-color: rgba(0, 0, 0, 0.12);
+//   box-shadow: none !important;
+// }
+// }
 </style>

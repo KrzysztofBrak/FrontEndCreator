@@ -1,9 +1,9 @@
 <template>
-  <div class="home" :class="{ 'dark-theme': getDarkMode }" id="theme">
+  <div :class="{ 'dark-theme': getDarkMode }" id="theme">
     <Header />
     <div class="main-container d-flex" @dblclick.self="disactivateAllElements">
       <toolsSidebar v-show="isProjectActive" />
-      <div v-show="!isProjectActive" class="icon-container mx-auto">
+      <div v-show="!isProjectActive" class="main-container-icons mx-auto">
         <img :src="require('@/assets/img/new_file.svg')" alt="nowy projekt" />
       </div>
       <workplace v-show="isProjectActive" />
@@ -102,7 +102,8 @@ export default {
   outline: none;
   background: #b7b7b7;
   height: 100vh;
-  .icon-container {
+
+  #{&}-icon {
     width: 50%;
     margin-top: 100px;
     max-width: 500px;

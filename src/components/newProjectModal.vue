@@ -1,7 +1,7 @@
 <template>
   <section class="new-project-modal">
-    <div class="overlay" @click.self="closeModal">
-      <div class="project-modal my-0 mx-auto pa-7">
+    <div class="new-project-modal-overlay" @click.self="closeModal">
+      <div class="new-project-modal-container my-0 mx-auto pa-7">
         <v-text-field
           label="Nazwa projektu"
           :rules="[() => !!projectName || 'Pole jest wymagane']"
@@ -196,18 +196,7 @@ export default {
 
 <style scoped lang="scss">
 .new-project-modal {
-  ::v-deep .v-input {
-    margin: 15px 0 40px 0;
-    .v-input__slot {
-      border-width: 0 0 2px 0;
-      background: $containerBackground !important;
-      border-style: solid;
-      border-radius: 0;
-      border-color: rgba(0, 0, 0, 0.12);
-      box-shadow: none !important;
-    }
-  }
-  .overlay {
+  #{&}-overlay {
     position: fixed;
     z-index: 1;
     padding-top: 100px;
@@ -217,35 +206,55 @@ export default {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
-    .project-modal {
-      position: relative;
-      z-index: 2;
-      height: fit-content;
-      max-width: 450px;
-      background: $containerBackground;
-      box-shadow: $mainShadow;
+  }
+
+  #{&}-container {
+    position: relative;
+    z-index: 2;
+    height: fit-content;
+    max-width: 450px;
+    background: $containerBackground;
+    box-shadow: $mainShadow;
+  }
+
+  ::v-deep .v-input {
+    margin: 15px 0 40px 0;
+
+    &__slot {
+      border-width: 0 0 2px 0;
+      background: $containerBackground !important;
+      border-style: solid;
+      border-radius: 0;
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: none !important;
     }
   }
+
   .button {
     height: 100px !important;
+
     ::v-deep .v-btn__content {
       justify-content: space-between;
       display: flex;
+
       .v-icon {
         margin-left: 30px;
       }
+
       .btn-content-container {
         width: 50%;
       }
+
       input {
         font-size: 0.875rem;
         max-width: 122px;
         outline: none;
       }
     }
-  }
-  .button.isActive {
-    background-color: #bebebe !important;
+
+    &.isActive {
+      background-color: #bebebe !important;
+    }
   }
 }
 

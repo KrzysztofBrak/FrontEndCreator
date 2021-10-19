@@ -1,21 +1,19 @@
 <template>
-  <div class="main-container d-block ml-3">
-    <div class="color-container">
-      <div class="d-flex justify-space-between">
-        <v-btn
-          class="button"
-          color="secondary"
-          @click="modalIsOpened = !modalIsOpened"
-          :style="{ background: color }"
-        >
-        </v-btn>
-      </div>
+  <div class="color-picker d-block ml-3">
+    <div class="d-flex justify-space-between">
+      <v-btn
+        class="color-picker-btn"
+        color="secondary"
+        @click="modalIsOpened = !modalIsOpened"
+        :style="{ background: color }"
+      >
+      </v-btn>
     </div>
     <v-app>
       <v-fade-transition>
         <v-color-picker
           v-show="modalIsOpened"
-          class="color-picker pa-1"
+          class="color-picker-picker pa-1"
           show-swatches
           mode="hexa"
           v-model="color"
@@ -25,7 +23,7 @@
     </v-app>
     <div
       v-show="modalIsOpened === true"
-      class="overlay"
+      class="color-picker-overlay"
       @click.self="modalIsOpened = false"
     ></div>
   </div>
@@ -70,25 +68,15 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.overlay {
-  position: fixed;
-  z-index: 22;
-  padding-top: 100px;
-  left: 0;
-  top: 0;
+.color-picker {
   width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-.main-container {
-  width: 100%;
-  .color-container {
-    .button {
-      width: 100%;
-      height: 16px;
-    }
+
+  #{&}-btn {
+    width: 100%;
+    height: 16px;
   }
-  .color-picker {
+
+  #{&}-picker {
     z-index: 23;
     position: fixed;
     right: 6px;
@@ -97,7 +85,19 @@ export default {
     max-width: 310px !important;
     box-shadow: $mainShadow;
   }
+
+  #{&}-overlay {
+    position: fixed;
+    z-index: 22;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
 }
+
 ::v-deep .v-application--wrap {
   min-height: fit-content !important;
 }

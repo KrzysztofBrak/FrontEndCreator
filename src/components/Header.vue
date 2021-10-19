@@ -1,6 +1,6 @@
 <template>
   <section class="header-section">
-    <div class="header-container px-5 d-flex justify-space-between">
+    <div class="header-section-container px-5 d-flex justify-space-between">
       <div class="my-auto mx-0">
         <div class="site-title d-flex text-h5 font-weight-bold">
           Frontend <span class="text-subtitle-1 font-weight-bold">Creator</span>
@@ -121,12 +121,15 @@ export default {
   background: $containerBackground;
   height: 50px;
   z-index: 21;
-  .header-container {
+
+  #{&}-container {
     height: 100%;
+
     .site-title {
       color: $mainFontColor;
       position: relative;
       bottom: 5px;
+
       span {
         -webkit-text-fill-color: transparent;
         background: -webkit-linear-gradient(
@@ -134,19 +137,22 @@ export default {
           rgba(29, 26, 219, 1),
           rgba(253, 29, 29, 1) 53%
         );
+        -webkit-background-clip: text;
         position: relative;
         top: 17px;
         right: 25px;
-        -webkit-background-clip: text;
       }
     }
+
     .menu-container *:hover {
       background: $hoverColor;
       cursor: pointer;
     }
+
     .hidden-input {
       display: none;
     }
+
     p {
       margin: 0;
       padding: 5px 20px;

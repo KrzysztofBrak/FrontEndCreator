@@ -318,6 +318,7 @@ export default {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
+
 .color-generator {
   z-index: 1;
   width: 400px;
@@ -328,40 +329,50 @@ export default {
   bottom: 0;
   right: 0;
   overflow: auto;
+
   .slider {
     width: 96%;
   }
+
   .colors-container {
     position: relative;
     width: 108%;
     right: 15px;
     bottom: -15px;
+
     .color {
       width: 100%;
       height: 20vh;
       cursor: pointer;
     }
   }
+
   .background {
     background: $containerBackground;
   }
 }
+
 ::v-deep .v-application--wrap {
   min-height: 0 !important;
+
   .v-input--selection-controls {
     margin-top: 0;
   }
+
   .v-color-picker__controls {
     background: $containerBackground;
   }
+
   .v-color-picker__alpha,
   .v-color-picker__edit {
     display: none;
   }
+
   .v-color-picker__hue {
     margin-bottom: 5px;
   }
 }
+
 ::v-deep .v-snack__wrapper {
   margin-top: 33px;
   background-color: #44a544 !important;

@@ -1,12 +1,12 @@
 <template>
   <section
-    class="childItem-section"
+    class="child-item"
     :class="{ activeItem: item.isActive }"
     @dblclick="setWorkplaceActive(false)"
   >
     <v-fab-transition>
       <v-btn
-        class="item-btn"
+        class="child-item-btn"
         v-show="item.isActive"
         color="rgb(230, 71, 119)"
         dark
@@ -20,11 +20,15 @@
       </v-btn>
     </v-fab-transition>
 
-    <div v-if="item.type === 'text'" class="flex-item" :style="item.childStyle">
+    <div
+      v-if="item.type === 'text'"
+      class="child-item-flex"
+      :style="item.childStyle"
+    >
       <p>{{ item.content }}</p>
     </div>
 
-    <div v-else-if="item.type === 'img'" class="flex-item">
+    <div v-else-if="item.type === 'img'" class="child-item-flex">
       <img :src="item.content" :style="item.style" alt="img" />
     </div>
 
@@ -61,19 +65,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.childItem-section {
+.child-item {
   height: 100%;
   display: flex;
   position: relative;
+
   &.activeItem {
     box-shadow: 0px 0px 10px 0px rgb(230, 71, 119);
     transition: 0.3s;
     z-index: 1;
   }
-  .item-btn {
-    right: 160px;
-  }
-  .flex-item {
+
+  #{&}-flex {
     display: flex;
     width: 100%;
   }

@@ -6,7 +6,7 @@
   >
     <v-fab-transition>
       <v-btn
-        class="column-btn"
+        class="column-section-btn"
         v-show="column.isActive"
         color="rgb(135, 230, 71)"
         dark
@@ -120,18 +120,21 @@ export default {
 .column-section {
   height: 100%;
   display: flex;
+
   &.activeSection {
     box-shadow: 0px 0px 10px 0px rgb(135, 230, 71);
     transition: 0.3s;
     z-index: 1;
   }
-}
-.column-btn {
-  right: 85px;
-}
-.item-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+
+  #{&}-btn {
+    right: 85px;
+  }
+
+  #{&}-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 }
 </style>

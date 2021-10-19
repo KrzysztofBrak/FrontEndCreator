@@ -116,14 +116,17 @@ export default {
   padding: 0px;
   transition: 0.3s;
   position: relative;
+
   &.activeSection {
     box-shadow: 0px 0px 10px 0px rgb(71, 135, 230);
     transition: 0.3s;
     z-index: 1;
   }
+
   .columns-container {
     height: 100%;
     display: flex;
+
     .column {
       height: 100%;
       width: 100%;
