@@ -15,7 +15,7 @@
         :key="button.alt"
         @click="activateButton(button, index)"
       >
-        <v-icon :class="{ rotate: isColumnActive && button.isRotating }">{{
+        <!-- <v-icon :class="{ rotate: isColumnActive && button.isRotating }">{{ -->
           button.img
         }}</v-icon>
       </div>

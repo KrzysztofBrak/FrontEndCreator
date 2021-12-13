@@ -122,7 +122,7 @@ export default {
   height: 50px;
   z-index: 21;
 
-  #{&}-container {
+  &-container {
     height: 100%;
 
     .site-title {

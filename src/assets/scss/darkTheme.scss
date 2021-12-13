@@ -1,73 +1,73 @@
 #theme.dark-theme {
     .main-container {
-      background-color: #232735;
+      background-color: $darkWorkplaceColor;
     }
 
-    ::v-deep .header-container {
-      background-color: #2c2f3b;
+    ::v-deep .header-section-container {
+      background-color: $darkPanelsBackground;
 
       button,
       p {
-        color: #acacac;
+        color: $darkFontColor;
       }
 
       button:hover,
       p:hover {
-        background: #3a3c48;
+        background: $darkHoverColor;
       }
     }
 
     ::v-deep .tools-section {
-      background-color: #2c2f3b;
+      background-color: $darkPanelsBackground;
 
       i {
-        color: #acacac;
+        color: $darkFontColor;
       }
 
       .button-container:hover {
-        background: #3a3c48;
+        background: $darkHoverColor;
       }
     }
 
-    ::v-deep .editSidebar-section {
-      background-color: #2c2f3b;
+    ::v-deep .edit-sidebar-section {
+      background-color: $darkPanelsBackground;
 
       button,
       i,
       p {
-        color: #acacac;
+        color: $darkFontColor;
       }
 
       .horizontal-positioning:hover,
       .align-text-button:hover {
-        background: #3a3c48;
+        background: $darkHoverColor;
       }
 
       .active {
-        background: #394157;
+        background: $darkActiveBtnColor;
       }
     }
 
-    ::v-deep .project-modal {
-      background: #2c2f3b;
+    ::v-deep .new-project-modal-container {
+      background: $darkPanelsBackground;
 
       button {
-        color: #acacac;
+        color: $darkFontColor;
       }
       .v-input__slot {
-        background: #2c2f3b !important;
+        background: $darkPanelsBackground !important;
 
         .v-label,
         #input-9 {
-          color: #acacac;
+          color: $darkFontColor;
         }
       }
 
       button {
-        background: #2c2f3b;
+        background: $darkPanelsBackground;
 
         &.isActive {
-          background: #394157 !important;
+          background: $darkActiveBtnColor !important;
         }
       }
     }
@@ -77,56 +77,56 @@
 
       .v-expansion-panel-header,
       .v-expansion-panel-content {
-        background: #2c2f3b;
+        background: $darkPanelsBackground;
       }
     }
 
     ::v-deep .input-style {
-      color: #acacac;
+      color: $darkFontColor;
 
       &::placeholder {
-        color: #acacac;
+        color: $darkFontColor;
       }
     }
 
     ::v-deep .dropdown .v-input__slot {
       .v-list-item__title,
       .v-select__selection {
-        color: #acacac;
+        color: $darkFontColor;
       }
     }
 
     ::v-deep .v-list {
-      background: #2c2f3b;
+      background: $darkPanelsBackground;
       &-item__title {
-        color: #acacac;
+        color: $darkFontColor;
       }
     }
 
     ::v-deep .v-color-picker {
-      background: #2c2f3b;
+      background: $darkPanelsBackground;
 
       span,
       input {
-        color: #acacac;
+        color: $darkFontColor;
       }
     }
 
     ::v-deep select {
-      background: #2c2f3b;
-      color: #acacac;
+      background: $darkPanelsBackground;
+      color: $darkFontColor;
     }
 
     ::v-deep .color-generator {
-      background: #2c2f3b;
+      background: $darkPanelsBackground;
 
       .v-color-picker__controls,
       .v-input--radio-group--column,
       .slider .v-input__control,
       .v-application--wrap,
       .mdi-radiobox-blank {
-        background: #2c2f3b;
-        color: #acacac;
+        background: $darkPanelsBackground;
+        color: $darkFontColor;
       }
     }
   }
